@@ -34,62 +34,6 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ( $datos["asesoriasActivas"] as $asesoria ): ?>
-                <tr id="asesoria_<?php echo $asesoria->id_asesoria ?>">
-                    <th scope="row"><?php echo $asesoria->id_asesoria ?></th>
-                    <td><?php echo $asesoria->titulo_as ?></td>
-                    <td><?php 
-                        echo ($asesoria->nombre_as) ? "Nombre: ".$asesoria->nombre_as."<br>" : "";
-                        echo ($asesoria->dni_as) ? "DNI: ".$asesoria->dni_as."<br>" : "";
-                        echo ($asesoria->telefono_as) ? "teléfono: ".$asesoria->telefono_as."<br>" : "";
-                        echo ($asesoria->email_as) ? "email: ".$asesoria->email_as."<br>" : "";
-                    ?></td>
-                    <td><?php echo $asesoria->descripcion_as ?></td>
-                    <td><?php echo $asesoria->domicilio_as ?></td>
-                    <td>
-                        <?php if($asesoria->id_estado == 1): ?>
-                            <strong class="text-success"><?php echo $asesoria->estado ?></strong>
-                        <?php elseif($asesoria->id_estado == 2): ?>
-                            <strong class="text-warning"><?php echo $asesoria->estado ?></strong>
-                        <?php endif ?>
-                    </td>
-
-                    <td class="text-nowrap">
-    <?php if (tienePrivilegios($datos['usuarioSesion']->id_rol,[100,200,300]) || $asesoria->acciones[0]->id_profesor == $datos['usuarioSesion']->id_profesor): ?>
-                        <a class="btn btn-outline-warning btn-sm" href="<?php echo RUTA_URL ?>/asesorias/ver_asesoria/<?php echo $asesoria->id_asesoria ?>">
-                            <i class="bi-pencil-square"></i>
-                        </a>
-    <?php endif ?>
-
-    <?php if (tienePrivilegios($datos['usuarioSesion']->id_rol,[300])): ?>
-                        <a 
-                            onclick="del_asesoria_modal(<?php echo $asesoria->id_asesoria ?>)" 
-                            data-bs-toggle="modal" data-bs-target="#modalDelAsesoria" 
-                            class="btn btn-outline-danger btn-sm"
-                        >
-                            <i class="bi-trash"></i>
-                        </a>
-    <?php endif ?>
-                    </td>
-
-                </tr>
-                <tr id="acciones_<?php echo $asesoria->id_asesoria ?>">
-                    <td></td>
-                    <td colspan="6">
-                        <ul>
-                            <?php foreach($asesoria->acciones as $accion): ?>
-                                <li>
-                                    <strong>Fecha: </strong> <?php echo  formatoFecha($accion->fecha_reg) ?>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <strong>Creada por: </strong> <?php echo  $accion->nombre_completo ?>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <strong>Acción: </strong> <?php echo  $accion->accion ?>
-                                </li>
-                            <?php endforeach ?>
-                        </ul>
-                    </td>
-                </tr>
-            <?php endforeach ?>
         </tbody>
     </table>
 

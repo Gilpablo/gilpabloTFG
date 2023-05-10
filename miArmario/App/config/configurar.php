@@ -10,7 +10,7 @@
 define('RUTA_APP', dirname(dirname(__FILE__)));
 
 // Ruta url, Ejemplo: http://localhost/atletismo
-define('RUTA_URL', 'http://localhost/miArmario');
+define('RUTA_URL', 'http://localhost/gilpabloTFG/miArmario');
 
 define('NOMBRE_SITIO', 'Mi Armario');
 
