@@ -12,10 +12,8 @@
     <link rel="stylesheet" href="<?php echo RUTA_URL?>/css/estilos.css">
     <title><?php echo NOMBRE_SITIO ?></title>
 </head>
-<body style="background-image: url(<?php echo RUTA_URL?>/img/fondo_miArmario.png)">
+<body style="background-image: url(<?php echo RUTA_URL?>/img/fondo_miArmario.png);">
 
-
-    <!-- <img src="<?php echo RUTA_URL?>/img/fondo_miArmario.png"  class="d-inline-block align-text-top">    -->
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-danger fixed-top">
         <div class="container-fluid">

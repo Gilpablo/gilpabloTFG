@@ -13,7 +13,9 @@
     <title><?php echo NOMBRE_SITIO ?></title>
     
 </head>
-<body>
+<body style="background-image: url(<?php echo RUTA_URL?>/img/fondo_miArmario.png);">
+
+
 
 
     
