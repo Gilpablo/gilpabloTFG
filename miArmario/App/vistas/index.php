@@ -4,9 +4,9 @@
 
 <div class="container">
 
-    <img src="<?php echo RUTA_URL?>/img/fondoLogin.png" alt="">
+    
 
-    <h1 class="h3 mb-3 fw-normal">Log In</h1>
+    <h1 class="h3 m-3 fw-normal">Log In</h1>
 
     <form method="post" class="card-body">
         <div class="form-floating mb-3">
@@ -26,6 +26,8 @@
             ERROR DE LOGIN !!!
         </div>
     <?php endif ?>
+
+    <!-- <img src="<?php echo RUTA_URL?>/img/fondoLogin.png" alt=""> -->
 </div>
 
 

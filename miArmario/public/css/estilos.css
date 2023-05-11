@@ -3,18 +3,5 @@ body {
   background-size: cover;
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.center-image {
-  width: 80%; /* cambia el valor para aumentar o disminuir el tamaño de la imagen */
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-}
 
 
