@@ -2,9 +2,9 @@
         <br><br>
         <footer class="text-center text-lg-start bg-light text-muted fixed-bottom">
             <div class="text-center p-2" style="background-color: rgba(0, 0, 0, 0.05);">
-                © 2022 Copyright:
+                © 2023 Copyright:
                 <a class="text-reset fw-bold" target="_blank" href="https://cpifpbajoaragon.com/">
-                    CPIFP Bajo Aragón
+                    Mi Armario
                 </a>
             </div>
         </footer>

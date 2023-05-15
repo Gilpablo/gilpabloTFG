@@ -3,14 +3,18 @@
 class Inicio extends Controlador{
 
     public function __construct(){
+        Sesion::iniciarSesion($this->datos);
 
-
+        $this->asesoriaModelo = $this->modelo('AsesoriaModelo');
     }
 
     public function index(){
+        if ($_SERVER['REQUEST_METHOD']=='POST') {
         
-        
-
-        $this->vista("index",$this->datos);
+            $datos=$_POST;
+            print_r($datos);
+        }else {
+            $this->vista("index", $this ->datos);
+        }
     }
 }
