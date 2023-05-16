@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-05-2023 a las 23:05:49
+-- Tiempo de generación: 17-05-2023 a las 00:05:46
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -122,7 +122,9 @@ CREATE TABLE `prenda` (
 
 INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `id_subcategoria`, `id_usuario`) VALUES
 (1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', 1, 2),
-(2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', 2, 2);
+(2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', 2, 2),
+(3, 'Tacones Rojos Altos', NULL, 4, 2),
+(4, 'Zapatillas Deporte', NULL, 5, 2);
 
 -- --------------------------------------------------------
 
@@ -160,9 +162,11 @@ CREATE TABLE `subcategoria` (
 --
 
 INSERT INTO `subcategoria` (`id`, `nombre`, `id_categoria`) VALUES
-(0, 'Chaquetas', 1),
 (1, 'Camisetas', 1),
-(2, 'Pantalones', 1);
+(2, 'Pantalones', 1),
+(3, 'Chaquetas', 1),
+(4, 'Tacones', 2),
+(5, 'Zapatillas', 2);
 
 -- --------------------------------------------------------
 
