@@ -30,6 +30,8 @@ class Zapato extends Controlador{
         //     $asesoria->acciones = $this->asesoriaModelo->getAccionesAsesoria($asesoria->id_asesoria);
         // }
 
+        $this->datos['zapatos'] = $this->zapatoModelo->getZapatos($this->datos['usuarioSesion']->id);
+
         $this->vista("zapatos/index",$this->datos);
     }
 

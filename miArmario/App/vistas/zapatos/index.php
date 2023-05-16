@@ -17,6 +17,7 @@
             <li class="breadcrumb-item active" aria-current="page">Asesorias</li>
         </ol>
     </nav> -->
+    <?php print_r($datos['zapatos']); ?>
 
     <div class="row">
         <div class="col-12">

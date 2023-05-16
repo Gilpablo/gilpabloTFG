@@ -112,16 +112,17 @@ CREATE TABLE `prenda` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) DEFAULT NULL,
   `descripcion` varchar(500) DEFAULT NULL,
-  `id_subcategoria` int(11) DEFAULT NULL
+  `id_subcategoria` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `prenda`
 --
 
-INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `id_subcategoria`) VALUES
-(1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', 1),
-(2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', 2);
+INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `id_subcategoria`, `id_usuario`) VALUES
+(1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', 1, 2),
+(2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -224,7 +225,8 @@ ALTER TABLE `historialuso`
 --
 ALTER TABLE `prenda`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_subcategoria` (`id_subcategoria`);
+  ADD KEY `id_subcategoria` (`id_subcategoria`),
+  ADD KEY `id_usuario` (`id_usuario`);
 
 --
 -- Indices de la tabla `rol`
@@ -274,7 +276,8 @@ ALTER TABLE `historialuso`
 -- Filtros para la tabla `prenda`
 --
 ALTER TABLE `prenda`
-  ADD CONSTRAINT `prenda_ibfk_1` FOREIGN KEY (`id_subcategoria`) REFERENCES `subcategoria` (`id`);
+  ADD CONSTRAINT `prenda_ibfk_1` FOREIGN KEY (`id_subcategoria`) REFERENCES `subcategoria` (`id`),
+  ADD CONSTRAINT `prenda_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
 
 --
 -- Filtros para la tabla `subcategoria`
