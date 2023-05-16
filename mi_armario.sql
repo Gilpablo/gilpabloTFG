@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-04-2023 a las 14:15:41
--- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 8.1.6
+-- Tiempo de generación: 16-05-2023 a las 23:05:49
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,14 +30,14 @@ SET time_zone = "+00:00";
 CREATE TABLE `categoria` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `categoria`
 --
 
 INSERT INTO `categoria` (`id`, `nombre`) VALUES
-(1, 'Ropa'),
+(1, 'Prendas'),
 (2, 'Zapatos'),
 (3, 'Complementos');
 
@@ -52,7 +52,7 @@ CREATE TABLE `conjunto` (
   `nombre` varchar(100) DEFAULT NULL,
   `descripcion` varchar(500) DEFAULT NULL,
   `id_usuario` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `conjunto`
@@ -71,7 +71,7 @@ INSERT INTO `conjunto` (`id`, `nombre`, `descripcion`, `id_usuario`) VALUES
 CREATE TABLE `conjunto_prenda` (
   `id_conjunto` int(11) NOT NULL,
   `id_prenda` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `conjunto_prenda`
@@ -92,7 +92,7 @@ CREATE TABLE `historialuso` (
   `id_usuario` int(11) DEFAULT NULL,
   `id_conjunto` int(11) DEFAULT NULL,
   `fecha` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `historialuso`
@@ -113,7 +113,7 @@ CREATE TABLE `prenda` (
   `nombre` varchar(100) DEFAULT NULL,
   `descripcion` varchar(500) DEFAULT NULL,
   `id_subcategoria` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `prenda`
@@ -132,7 +132,7 @@ INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `id_subcategoria`) VALUES
 CREATE TABLE `rol` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `rol`
@@ -152,7 +152,7 @@ CREATE TABLE `subcategoria` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) DEFAULT NULL,
   `id_categoria` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `subcategoria`
@@ -172,18 +172,20 @@ INSERT INTO `subcategoria` (`id`, `nombre`, `id_categoria`) VALUES
 CREATE TABLE `usuario` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) DEFAULT NULL,
+  `apellidos` varchar(50) NOT NULL,
   `correo` varchar(100) DEFAULT NULL,
-  `contraseña` varchar(100) DEFAULT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(100) DEFAULT NULL,
   `id_rol` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nombre`, `correo`, `contraseña`, `id_rol`) VALUES
-(1, 'Juan Perez', 'juan@example.com', 'contraseña123', 1),
-(2, 'María García', 'maria@example.com', 'clave456', 2);
+INSERT INTO `usuario` (`id`, `nombre`, `apellidos`, `correo`, `username`, `password`, `id_rol`) VALUES
+(1, 'Juan', 'Perez', 'juan@example.com', 'juan', '1234', 1),
+(2, 'Gil Pablo', 'Blanco Pérez', 'gilpablo@example.com', 'gilpablo', '1234', 2);
 
 --
 -- Índices para tablas volcadas
