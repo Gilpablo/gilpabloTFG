@@ -1,6 +1,6 @@
 <?php
 
-class AsesoriaModelo {
+class RopaModelo {
     private $db;
 
     public function __construct(){

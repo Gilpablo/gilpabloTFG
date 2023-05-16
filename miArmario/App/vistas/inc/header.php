@@ -15,28 +15,28 @@
 <body style="background-image: url(<?php echo RUTA_URL?>/img/fondo_miArmario.png);">
 
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-danger fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color:#545454;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="<?php echo RUTA_URL ?>/..">INICIO</a>
+            <a class="navbar-brand" href="<?php echo RUTA_URL ?>/">INICIO</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="<?php echo RUTA_URL ?>">Ropa</a>
+                        <a class="nav-link" href="<?php echo RUTA_URL ?>/ropa">Ropas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo RUTA_URL ?>/asesorias/filtro">Zapatos</a>
+                        <a class="nav-link" href="<?php echo RUTA_URL ?>/zapato">Zapatos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo RUTA_URL ?>/asesorias/filtro">Complementos</a>
+                        <a class="nav-link" href="<?php echo RUTA_URL ?>/complemento">Complementos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo RUTA_URL ?>/asesorias/filtro">Conjuntos</a>
+                        <a class="nav-link" href="<?php echo RUTA_URL ?>/conjunto">Conjuntos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo RUTA_URL ?>/asesorias/filtro">Historial de Uso</a>
+                        <a class="nav-link" href="<?php echo RUTA_URL ?>/historialUso">Historial de Uso</a>
                     </li>
                 </ul>
                 
