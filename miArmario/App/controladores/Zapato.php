@@ -29,6 +29,8 @@ class Zapato extends Controlador{
         // foreach($this->datos["asesorias"] as $asesoria){
         //     $asesoria->acciones = $this->asesoriaModelo->getAccionesAsesoria($asesoria->id_asesoria);
         // }
+        
+        $this->datos['zapatos'] = $this->zapatoModelo->getZapatos($this->datos['usuarioSesion']->id);
 
         $this->vista("zapatos/index",$this->datos);
     }
