@@ -38,6 +38,58 @@ class Login extends Controlador{
         }
     }
 
+
+    public function add_usuario($error=''){
+
+        //trim(quita los espacios de delante y detras)
+        if ($_SERVER['REQUEST_METHOD']=='POST') {
+            $this->datos['nuevoUsuario']=$_POST;
+            
+            
+            // $usuarioSesion = $this->loginModelo->loginUsuario($this->datos);
+            // print_r($usuarioSesion); exit();
+            
+            // if (isset($usuarioSesion)&& !empty($usuarioSesion) &&  $this->loginModelo->addUsuario($this->datos['nuevoUsuario'])) {
+            //     Sesion::crearSesion($usuarioSesion);
+                
+            //     redireccionar('/inicio');
+
+            // }else{
+                
+            //     redireccionar('/login/index/error_1');
+            // }
+            if ($this->loginModelo->addUsuario($this->datos['nuevoUsuario'])) {
+
+                redireccionar('/login/index/creado');
+
+            }else{
+                
+                redireccionar('/login/index/error_1');
+            }
+            
+            
+        }else {
+
+            if (Sesion::sesionCreada()) {
+
+                $usuarioSesion = $this->loginModelo->loginUsuario($this->datos);
+
+                if($usuarioSesion->id == 1){
+                    $this->datos['error'] = $error;
+
+                    $this->vista('add_usuario', $this->datos);
+                }else {
+                    redireccionar('/');
+                }
+                
+            }
+
+            
+
+            
+        }
+    }
+    
     public function logout(){
         
         Sesion::cerrarSesion();

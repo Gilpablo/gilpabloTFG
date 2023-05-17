@@ -24,19 +24,39 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo RUTA_URL ?>/ropa">Ropas</a>
+                        <?php if (isset($datos['menuActivo']) && $datos['menuActivo'] == 'ropa' ): ?>
+                            <a class="nav-link active" href="<?php echo RUTA_URL ?>/ropa">Ropas</a>
+                        <?php else: ?>
+                            <a class="nav-link" href="<?php echo RUTA_URL ?>/ropa">Ropas</a>
+                        <?php endif ?>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo RUTA_URL ?>/zapato">Zapatos</a>
+                        <?php if (isset($datos['menuActivo']) && $datos['menuActivo'] == 'zapato' ): ?>
+                            <a class="nav-link active" href="<?php echo RUTA_URL ?>/zapato">Zapatos</a>
+                        <?php else: ?>
+                            <a class="nav-link" href="<?php echo RUTA_URL ?>/zapato">Zapatos</a>
+                        <?php endif ?>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo RUTA_URL ?>/complemento">Complementos</a>
+                    <?php if (isset($datos['menuActivo']) && $datos['menuActivo'] == 'complemento' ): ?>
+                            <a class="nav-link active" href="<?php echo RUTA_URL ?>/complemento">Complementos</a>
+                        <?php else: ?>
+                            <a class="nav-link" href="<?php echo RUTA_URL ?>/complemento">Complementos</a>
+                        <?php endif ?>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo RUTA_URL ?>/conjunto">Conjuntos</a>
+                    <?php if (isset($datos['menuActivo']) && $datos['menuActivo'] == 'conjunto' ): ?>
+                            <a class="nav-link active" href="<?php echo RUTA_URL ?>/conjunto">Conjuntos</a>
+                        <?php else: ?>
+                            <a class="nav-link" href="<?php echo RUTA_URL ?>/conjunto">Conjuntos</a>
+                        <?php endif ?>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo RUTA_URL ?>/historialUso">Historial de Uso</a>
+                    <?php if (isset($datos['menuActivo']) && $datos['menuActivo'] == 'historialUso' ): ?>
+                            <a class="nav-link active" href="<?php echo RUTA_URL ?>/historialUso">Historial de Uso</a>
+                        <?php else: ?>
+                            <a class="nav-link" href="<?php echo RUTA_URL ?>/historialUso">Historial de Uso</a>
+                        <?php endif ?>
                     </li>
                 </ul>
                 

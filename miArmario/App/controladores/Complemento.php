@@ -7,7 +7,7 @@ class Complemento extends Controlador{
         
         $this->complementoModelo = $this->modelo('ComplementoModelo');
 
-        // $this->datos["menuActivo"] = "asesorias";
+        $this->datos["menuActivo"] = "complemento";
 
         
         
