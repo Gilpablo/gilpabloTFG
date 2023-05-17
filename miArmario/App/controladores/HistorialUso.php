@@ -1,13 +1,13 @@
 <?php
 
-class Conjunto extends Controlador{
+class HistorialUso extends Controlador{
 
     public function __construct(){
         Sesion::iniciarSesion($this->datos);
         
-        $this->conjuntoModelo = $this->modelo('ConjuntoModelo');
+        $this->historialUsoModelo = $this->modelo('HistorialUsoModelo');
 
-        $this->datos["menuActivo"] = "conjunto";
+        $this->datos["menuActivo"] = "historialUso";
 
         
         
@@ -30,7 +30,7 @@ class Conjunto extends Controlador{
         //     $asesoria->acciones = $this->asesoriaModelo->getAccionesAsesoria($asesoria->id_asesoria);
         // }
 
-        $this->vista("conjuntos/index",$this->datos);
+        $this->vista("historialUsos/index",$this->datos);
     }
 
     public function filtro(){

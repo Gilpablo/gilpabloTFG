@@ -5,6 +5,8 @@ class Inicio extends Controlador{
     public function __construct(){
         Sesion::iniciarSesion($this->datos);
 
+        
+
     }
 
     public function index(){

@@ -24,8 +24,13 @@
         <div class="alert alert-danger" role="alert">
             ERROR DE LOGIN !!!
         </div>
+    <?php elseif ($datos['error'] == 'creado') :?>
+        <div class="alert alert-success" role="alert">
+            USUARIO CREADO CORRECTAMENTE !!!
+        </div>
     <?php endif ?>
 
+    <a class="btn btn-primary me-md-4" href="<?php echo RUTA_URL ?>/login/add_usuario">Crear cuenta</a>
     <img src="<?php echo RUTA_URL?>/img/fondoLogin.png" alt="">
 </div>
 

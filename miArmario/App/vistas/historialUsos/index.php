@@ -20,7 +20,7 @@
 
     <div class="row">
         <div class="col-12">
-            <h1 class="mb-3 text-primary text-center">ZAPATOS</h1>
+            <h1 class="mb-3 text-primary text-center">HISTORIAL DE USO</h1>
         </div>
     
         <div class="col-12 col-md-6 col-lg-4">

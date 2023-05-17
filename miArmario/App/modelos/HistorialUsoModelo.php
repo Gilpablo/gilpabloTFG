@@ -1,6 +1,6 @@
 <?php
 
-class ZapatoModelo {
+class HistorialUsoModelo {
     private $db;
 
     public function __construct(){
