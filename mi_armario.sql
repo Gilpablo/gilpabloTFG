@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-05-2023 a las 00:05:46
+-- Tiempo de generación: 18-05-2023 a las 00:00:12
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `categoria` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(50) DEFAULT NULL
+  `nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -49,9 +49,9 @@ INSERT INTO `categoria` (`id`, `nombre`) VALUES
 
 CREATE TABLE `conjunto` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(100) DEFAULT NULL,
+  `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(500) DEFAULT NULL,
-  `id_usuario` int(11) DEFAULT NULL
+  `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -59,7 +59,7 @@ CREATE TABLE `conjunto` (
 --
 
 INSERT INTO `conjunto` (`id`, `nombre`, `descripcion`, `id_usuario`) VALUES
-(1, 'Conjunto de Verano', 'Conjunto para días calurosos', 1),
+(1, 'Conjunto de Verano', 'Conjunto para días calurosos', 2),
 (2, 'Conjunto de Invierno', 'Conjunto para días fríos', 2);
 
 -- --------------------------------------------------------
@@ -69,6 +69,7 @@ INSERT INTO `conjunto` (`id`, `nombre`, `descripcion`, `id_usuario`) VALUES
 --
 
 CREATE TABLE `conjunto_prenda` (
+  `id` int(11) NOT NULL,
   `id_conjunto` int(11) NOT NULL,
   `id_prenda` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -77,9 +78,9 @@ CREATE TABLE `conjunto_prenda` (
 -- Volcado de datos para la tabla `conjunto_prenda`
 --
 
-INSERT INTO `conjunto_prenda` (`id_conjunto`, `id_prenda`) VALUES
-(1, 1),
-(2, 2);
+INSERT INTO `conjunto_prenda` (`id`, `id_conjunto`, `id_prenda`) VALUES
+(1, 1, 1),
+(2, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -89,9 +90,9 @@ INSERT INTO `conjunto_prenda` (`id_conjunto`, `id_prenda`) VALUES
 
 CREATE TABLE `historialuso` (
   `id` int(11) NOT NULL,
-  `id_usuario` int(11) DEFAULT NULL,
-  `id_conjunto` int(11) DEFAULT NULL,
-  `fecha` date DEFAULT NULL
+  `id_usuario` int(11) NOT NULL,
+  `id_conjunto` int(11) NOT NULL,
+  `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -99,7 +100,7 @@ CREATE TABLE `historialuso` (
 --
 
 INSERT INTO `historialuso` (`id`, `id_usuario`, `id_conjunto`, `fecha`) VALUES
-(1, 1, 1, '2022-07-15'),
+(1, 2, 1, '2022-07-15'),
 (2, 2, 2, '2022-12-20');
 
 -- --------------------------------------------------------
@@ -110,7 +111,7 @@ INSERT INTO `historialuso` (`id`, `id_usuario`, `id_conjunto`, `fecha`) VALUES
 
 CREATE TABLE `prenda` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(100) DEFAULT NULL,
+  `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(500) DEFAULT NULL,
   `id_subcategoria` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL
@@ -121,10 +122,8 @@ CREATE TABLE `prenda` (
 --
 
 INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `id_subcategoria`, `id_usuario`) VALUES
-(1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', 1, 2),
-(2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', 2, 2),
-(3, 'Tacones Rojos Altos', NULL, 4, 2),
-(4, 'Zapatillas Deporte', NULL, 5, 2);
+(1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', 1, 0),
+(2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -134,7 +133,7 @@ INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `id_subcategoria`, `id_usua
 
 CREATE TABLE `rol` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(50) DEFAULT NULL
+  `nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -153,8 +152,8 @@ INSERT INTO `rol` (`id`, `nombre`) VALUES
 
 CREATE TABLE `subcategoria` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(50) DEFAULT NULL,
-  `id_categoria` int(11) DEFAULT NULL
+  `nombre` varchar(50) NOT NULL,
+  `id_categoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -162,11 +161,9 @@ CREATE TABLE `subcategoria` (
 --
 
 INSERT INTO `subcategoria` (`id`, `nombre`, `id_categoria`) VALUES
-(1, 'Camisetas', 1),
-(2, 'Pantalones', 1),
-(3, 'Chaquetas', 1),
-(4, 'Tacones', 2),
-(5, 'Zapatillas', 2);
+(1, 'Chaquetas', 1),
+(2, 'Camisetas', 1),
+(3, 'Pantalones', 1);
 
 -- --------------------------------------------------------
 
@@ -176,12 +173,12 @@ INSERT INTO `subcategoria` (`id`, `nombre`, `id_categoria`) VALUES
 
 CREATE TABLE `usuario` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(50) DEFAULT NULL,
+  `nombre` varchar(50) NOT NULL,
   `apellidos` varchar(50) NOT NULL,
-  `correo` varchar(100) DEFAULT NULL,
+  `correo` varchar(100) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `password` varchar(100) DEFAULT NULL,
-  `id_rol` int(11) DEFAULT NULL
+  `password` varchar(100) NOT NULL,
+  `id_rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -189,8 +186,10 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nombre`, `apellidos`, `correo`, `username`, `password`, `id_rol`) VALUES
-(1, 'Juan', 'Perez', 'juan@example.com', 'juan', '1234', 1),
-(2, 'Gil Pablo', 'Blanco Pérez', 'gilpablo@example.com', 'gilpablo', '1234', 2);
+(1, 'Juan', 'Perez', 'juan@example.com', 'juan', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 1),
+(2, 'Gil Pablo', 'Blanco Pérez', 'gilpablo@example.com', 'gilpablo', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 2),
+(4, 'Laura', 'Espinosa Bosque', 'laura@example.com', 'laura', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 2),
+(6, 'Diego', 'Blanco Pérez', 'diego@example.com', 'diego', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 2);
 
 --
 -- Índices para tablas volcadas
@@ -207,30 +206,31 @@ ALTER TABLE `categoria`
 --
 ALTER TABLE `conjunto`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_usuario` (`id_usuario`);
+  ADD KEY `fk_conjunto` (`id_usuario`);
 
 --
 -- Indices de la tabla `conjunto_prenda`
 --
 ALTER TABLE `conjunto_prenda`
-  ADD PRIMARY KEY (`id_conjunto`,`id_prenda`),
-  ADD KEY `id_prenda` (`id_prenda`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_conjunto_prenda1` (`id_conjunto`),
+  ADD KEY `fk_conjunto_prenda2` (`id_prenda`);
 
 --
 -- Indices de la tabla `historialuso`
 --
 ALTER TABLE `historialuso`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_usuario` (`id_usuario`),
-  ADD KEY `id_conjunto` (`id_conjunto`);
+  ADD KEY `fk_historialuso1` (`id_usuario`),
+  ADD KEY `fk_historialuso2` (`id_conjunto`);
 
 --
 -- Indices de la tabla `prenda`
 --
 ALTER TABLE `prenda`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_subcategoria` (`id_subcategoria`),
-  ADD KEY `id_usuario` (`id_usuario`);
+  ADD KEY `fk_prenda1` (`id_subcategoria`) USING BTREE,
+  ADD KEY `fk_prenda2` (`id_usuario`);
 
 --
 -- Indices de la tabla `rol`
@@ -243,14 +243,66 @@ ALTER TABLE `rol`
 --
 ALTER TABLE `subcategoria`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_categoria` (`id_categoria`);
+  ADD KEY `fk_subcategoria` (`id_categoria`);
 
 --
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_rol` (`id_rol`);
+  ADD KEY `fk_usuario` (`id_rol`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `categoria`
+--
+ALTER TABLE `categoria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `conjunto`
+--
+ALTER TABLE `conjunto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `conjunto_prenda`
+--
+ALTER TABLE `conjunto_prenda`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `historialuso`
+--
+ALTER TABLE `historialuso`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `prenda`
+--
+ALTER TABLE `prenda`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `rol`
+--
+ALTER TABLE `rol`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `subcategoria`
+--
+ALTER TABLE `subcategoria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas
@@ -260,40 +312,39 @@ ALTER TABLE `usuario`
 -- Filtros para la tabla `conjunto`
 --
 ALTER TABLE `conjunto`
-  ADD CONSTRAINT `conjunto_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `fk_conjunto` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `conjunto_prenda`
 --
 ALTER TABLE `conjunto_prenda`
-  ADD CONSTRAINT `conjunto_prenda_ibfk_1` FOREIGN KEY (`id_conjunto`) REFERENCES `conjunto` (`id`),
-  ADD CONSTRAINT `conjunto_prenda_ibfk_2` FOREIGN KEY (`id_prenda`) REFERENCES `prenda` (`id`);
+  ADD CONSTRAINT `fk_conjunto_prenda1` FOREIGN KEY (`id_conjunto`) REFERENCES `conjunto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_conjunto_prenda2` FOREIGN KEY (`id_prenda`) REFERENCES `prenda` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `historialuso`
 --
 ALTER TABLE `historialuso`
-  ADD CONSTRAINT `historialuso_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`),
-  ADD CONSTRAINT `historialuso_ibfk_2` FOREIGN KEY (`id_conjunto`) REFERENCES `conjunto` (`id`);
+  ADD CONSTRAINT `fk_historialuso1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_historialuso2` FOREIGN KEY (`id_conjunto`) REFERENCES `conjunto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `prenda`
 --
 ALTER TABLE `prenda`
-  ADD CONSTRAINT `prenda_ibfk_1` FOREIGN KEY (`id_subcategoria`) REFERENCES `subcategoria` (`id`),
-  ADD CONSTRAINT `prenda_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `fk_prenda` FOREIGN KEY (`id_subcategoria`) REFERENCES `subcategoria` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `subcategoria`
 --
 ALTER TABLE `subcategoria`
-  ADD CONSTRAINT `subcategoria_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`);
+  ADD CONSTRAINT `fk_subcategoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id`);
+  ADD CONSTRAINT `fk_usuario` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -7,7 +7,7 @@ class Ropa extends Controlador{
         
         $this->ropaModelo = $this->modelo('RopaModelo');
 
-        // $this->datos["menuActivo"] = "asesorias";
+        $this->datos["menuActivo"] = "ropa";
 
         
         
