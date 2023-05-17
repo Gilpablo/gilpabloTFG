@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
@@ -26,81 +27,74 @@ SET time_zone = "+00:00";
 --
 -- Estructura de tabla para la tabla `categoria`
 --
+=======
+create schema mi_armario;
+use mi_armario;
+>>>>>>> Stashed changes
+
+
+--
+-- Estructura de tabla para la tabla `rol`
+--
+
+CREATE TABLE `rol` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  constraint pk_rol primary key(id)
+);
+
+INSERT INTO `rol` (`nombre`) VALUES
+('Administrador'),
+('Usuario');
+
+
+--
+-- Estructura de tabla para la tabla `usuario`
+--
+
+CREATE TABLE `usuario` (
+	  `id` int(11) NOT NULL AUTO_INCREMENT,
+	  `nombre` varchar(50) NOT NULL,
+	  `apellidos` varchar(50) NOT NULL,
+	  `correo` varchar(100) NOT NULL,
+	  `username` varchar(50) NOT NULL,
+	  `password` varchar(100) NOT NULL unique,
+	  `id_rol` int(11) NOT NULL,
+	  constraint pk_usuario primary key(id),
+	  constraint fk_usuario foreign key(id_rol) references rol(id) on delete cascade on update cascade
+) ;
+
+INSERT INTO `usuario` (`nombre`, `apellidos`, `correo`, `username`, `password`, `id_rol`) VALUES
+('Juan', 'Perez', 'juan@example.com', 'juan', '1234', 1),
+('Gil Pablo', 'Blanco Pérez', 'gilpablo@example.com', 'gilpablo', '1234', 2);
+
+
 
 CREATE TABLE `categoria` (
-  `id` int(11) NOT NULL,
-  `nombre` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  constraint pk_categoria primary key(id)
+);
 
---
--- Volcado de datos para la tabla `categoria`
---
-
-INSERT INTO `categoria` (`id`, `nombre`) VALUES
-(1, 'Prendas'),
-(2, 'Zapatos'),
-(3, 'Complementos');
+INSERT INTO `categoria` (`nombre`) VALUES
+('Prendas'),
+('Zapatos'),
+('Complementos');
 
 -- --------------------------------------------------------
 
---
--- Estructura de tabla para la tabla `conjunto`
---
+CREATE TABLE `subcategoria` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  `id_categoria` int(11) NOT NULL,
+  constraint pk_subcategoria primary key(id),
+  constraint fk_subcategoria foreign key(id_categoria) references categoria(id) on delete cascade on update cascade
+);
+INSERT INTO `subcategoria` (`nombre`, `id_categoria`) VALUES
+('Chaquetas', 1),
+('Camisetas', 1),
+('Pantalones', 1);
 
-CREATE TABLE `conjunto` (
-  `id` int(11) NOT NULL,
-  `nombre` varchar(100) DEFAULT NULL,
-  `descripcion` varchar(500) DEFAULT NULL,
-  `id_usuario` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `conjunto`
---
-
-INSERT INTO `conjunto` (`id`, `nombre`, `descripcion`, `id_usuario`) VALUES
-(1, 'Conjunto de Verano', 'Conjunto para días calurosos', 1),
-(2, 'Conjunto de Invierno', 'Conjunto para días fríos', 2);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `conjunto_prenda`
---
-
-CREATE TABLE `conjunto_prenda` (
-  `id_conjunto` int(11) NOT NULL,
-  `id_prenda` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `conjunto_prenda`
---
-
-INSERT INTO `conjunto_prenda` (`id_conjunto`, `id_prenda`) VALUES
-(1, 1),
-(2, 2);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `historialuso`
---
-
-CREATE TABLE `historialuso` (
-  `id` int(11) NOT NULL,
-  `id_usuario` int(11) DEFAULT NULL,
-  `id_conjunto` int(11) DEFAULT NULL,
-  `fecha` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `historialuso`
---
-
-INSERT INTO `historialuso` (`id`, `id_usuario`, `id_conjunto`, `fecha`) VALUES
-(1, 1, 1, '2022-07-15'),
-(2, 2, 2, '2022-12-20');
 
 -- --------------------------------------------------------
 
@@ -109,17 +103,25 @@ INSERT INTO `historialuso` (`id`, `id_usuario`, `id_conjunto`, `fecha`) VALUES
 --
 
 CREATE TABLE `prenda` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
   `descripcion` varchar(500) DEFAULT NULL,
+<<<<<<< Updated upstream
   `id_subcategoria` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+=======
+  `id_subcategoria` int(11) DEFAULT NULL,
+  constraint pk_prenda primary key(id),
+  constraint fk_prenda foreign key(id_subcategoria) references subcategoria(id) on delete cascade on update cascade
+);
+>>>>>>> Stashed changes
 
---
--- Volcado de datos para la tabla `prenda`
---
+INSERT INTO `prenda` (`nombre`, `descripcion`, `id_subcategoria`) VALUES
+('Camiseta Manga Corta', 'Camiseta de manga corta para verano', 1),
+('Pantalón Vaquero', 'Pantalón vaquero para uso diario', 2);
 
+<<<<<<< Updated upstream
 INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `id_subcategoria`, `id_usuario`) VALUES
 (1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', 1, 2),
 (2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', 2, 2),
@@ -127,50 +129,59 @@ INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `id_subcategoria`, `id_usua
 (4, 'Zapatillas Deporte', NULL, 5, 2);
 
 -- --------------------------------------------------------
+=======
+>>>>>>> Stashed changes
 
+-- ----------------------------------------------------------------
 --
--- Estructura de tabla para la tabla `rol`
---
-
-CREATE TABLE `rol` (
-  `id` int(11) NOT NULL,
-  `nombre` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `rol`
+-- Estructura de tabla para la tabla `conjunto`
 --
 
-INSERT INTO `rol` (`id`, `nombre`) VALUES
-(1, 'Administrador'),
-(2, 'Usuario');
+CREATE TABLE `conjunto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `descripcion` varchar(500) DEFAULT NULL,
+  `id_usuario` int(11) DEFAULT NULL,
+  constraint pk_conjunto primary key(id),
+  constraint fk_conjunto foreign key(id_usuario) references usuario(id) on delete cascade on update cascade
+);
+
+INSERT INTO `conjunto` (`nombre`, `descripcion`, `id_usuario`) VALUES
+('Conjunto de Verano', 'Conjunto para días calurosos', 2),
+('Conjunto de Invierno', 'Conjunto para días fríos', 2);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `subcategoria`
+-- Estructura de tabla para la tabla `conjunto_prenda`
 --
 
-CREATE TABLE `subcategoria` (
-  `id` int(11) NOT NULL,
-  `nombre` varchar(50) DEFAULT NULL,
-  `id_categoria` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `conjunto_prenda` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_conjunto` int(11) NOT NULL,
+  `id_prenda` int(11) NOT NULL,
+  constraint pk_conjunto_prenda primary key(id),
+  constraint fk_conjunto_prenda1 foreign key(id_conjunto) references conjunto(id) on delete cascade on update cascade,
+  constraint fk_conjunto_prenda2 foreign key(id_prenda) references prenda(id) on delete cascade on update cascade
+);
 
---
--- Volcado de datos para la tabla `subcategoria`
---
-
+<<<<<<< Updated upstream
 INSERT INTO `subcategoria` (`id`, `nombre`, `id_categoria`) VALUES
 (1, 'Camisetas', 1),
 (2, 'Pantalones', 1),
 (3, 'Chaquetas', 1),
 (4, 'Tacones', 2),
 (5, 'Zapatillas', 2);
+=======
+INSERT INTO `conjunto_prenda` (`id_conjunto`, `id_prenda`) VALUES
+(1, 1),
+(2, 2);
+>>>>>>> Stashed changes
 
 -- --------------------------------------------------------
 
 --
+<<<<<<< Updated upstream
 -- Estructura de tabla para la tabla `usuario`
 --
 
@@ -254,48 +265,35 @@ ALTER TABLE `usuario`
 
 --
 -- Restricciones para tablas volcadas
+=======
+-- Estructura de tabla para la tabla `historialuso`
+>>>>>>> Stashed changes
 --
 
---
--- Filtros para la tabla `conjunto`
---
-ALTER TABLE `conjunto`
-  ADD CONSTRAINT `conjunto_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
+CREATE TABLE `historialuso` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(11) NOT NULL,
+  `id_conjunto` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  constraint pk_historialuso primary key(id),
+  constraint fk_historialuso1 foreign key(id_usuario) references usuario(id) on delete cascade on update cascade,
+  constraint fk_historialuso2 foreign key(id_conjunto) references conjunto(id) on delete cascade on update cascade
+);
 
---
--- Filtros para la tabla `conjunto_prenda`
---
-ALTER TABLE `conjunto_prenda`
-  ADD CONSTRAINT `conjunto_prenda_ibfk_1` FOREIGN KEY (`id_conjunto`) REFERENCES `conjunto` (`id`),
-  ADD CONSTRAINT `conjunto_prenda_ibfk_2` FOREIGN KEY (`id_prenda`) REFERENCES `prenda` (`id`);
+INSERT INTO `historialuso` (`id_usuario`, `id_conjunto`, `fecha`) VALUES
+(2, 1, '2022-07-15'),
+(2, 2, '2022-12-20');
 
---
--- Filtros para la tabla `historialuso`
---
-ALTER TABLE `historialuso`
-  ADD CONSTRAINT `historialuso_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`),
-  ADD CONSTRAINT `historialuso_ibfk_2` FOREIGN KEY (`id_conjunto`) REFERENCES `conjunto` (`id`);
 
+<<<<<<< Updated upstream
 --
 -- Filtros para la tabla `prenda`
 --
 ALTER TABLE `prenda`
   ADD CONSTRAINT `prenda_ibfk_1` FOREIGN KEY (`id_subcategoria`) REFERENCES `subcategoria` (`id`),
   ADD CONSTRAINT `prenda_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
+=======
+>>>>>>> Stashed changes
 
---
--- Filtros para la tabla `subcategoria`
---
-ALTER TABLE `subcategoria`
-  ADD CONSTRAINT `subcategoria_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`);
 
---
--- Filtros para la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id`);
-COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
