@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-05-2023 a las 00:00:12
+-- Tiempo de generación: 18-05-2023 a las 23:51:52
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -122,8 +122,11 @@ CREATE TABLE `prenda` (
 --
 
 INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `id_subcategoria`, `id_usuario`) VALUES
-(1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', 1, 0),
-(2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', 2, 0);
+(1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', 1, 2),
+(2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', 2, 2),
+(3, 'Zapatillas Running Pro', 'Zapatillas azules running Pro perfectas para largos recorridos', 4, 2),
+(4, 'Zapatos Traje', 'Zapatos de traje negros', 5, 2),
+(5, 'Sandalias rojas', 'Sandalias rojas perfectas para ir por la playa en verano', 6, 2);
 
 -- --------------------------------------------------------
 
@@ -163,7 +166,10 @@ CREATE TABLE `subcategoria` (
 INSERT INTO `subcategoria` (`id`, `nombre`, `id_categoria`) VALUES
 (1, 'Chaquetas', 1),
 (2, 'Camisetas', 1),
-(3, 'Pantalones', 1);
+(3, 'Pantalones', 1),
+(4, 'Zapatillas', 2),
+(5, 'Zapatos', 2),
+(6, 'Sandalias', 2);
 
 -- --------------------------------------------------------
 
@@ -229,7 +235,7 @@ ALTER TABLE `historialuso`
 --
 ALTER TABLE `prenda`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_prenda1` (`id_subcategoria`) USING BTREE,
+  ADD KEY `fk_prenda1` (`id_subcategoria`),
   ADD KEY `fk_prenda2` (`id_usuario`);
 
 --
@@ -284,7 +290,7 @@ ALTER TABLE `historialuso`
 -- AUTO_INCREMENT de la tabla `prenda`
 --
 ALTER TABLE `prenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -296,7 +302,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `subcategoria`
 --
 ALTER TABLE `subcategoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
@@ -332,7 +338,8 @@ ALTER TABLE `historialuso`
 -- Filtros para la tabla `prenda`
 --
 ALTER TABLE `prenda`
-  ADD CONSTRAINT `fk_prenda` FOREIGN KEY (`id_subcategoria`) REFERENCES `subcategoria` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_prenda` FOREIGN KEY (`id_subcategoria`) REFERENCES `subcategoria` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_prenda2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `subcategoria`

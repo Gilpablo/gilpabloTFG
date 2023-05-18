@@ -29,9 +29,13 @@ class Zapato extends Controlador{
         // foreach($this->datos["asesorias"] as $asesoria){
         //     $asesoria->acciones = $this->asesoriaModelo->getAccionesAsesoria($asesoria->id_asesoria);
         // }
-        // print_r($this->datos['usuarioSesion']->id); exit();
         
-        $this->datos['zapatos'] = $this->zapatoModelo->getZapatos($this->datos['usuarioSesion']->id);
+        
+        $this->datos['zapatosPrenda'] = $this->zapatoModelo->getZapatos($this->datos['usuarioSesion']->id);
+
+        // print_r($this->datos['zapatosPrenda']->id_subcategoria); exit();
+
+        $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
 
         $this->vista("zapatos/index",$this->datos);
     }
