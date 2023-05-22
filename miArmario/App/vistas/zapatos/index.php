@@ -23,12 +23,29 @@
         <div class="col-12">
             <h1 class="mb-3 text-primary text-center">ZAPATOS</h1>
         </div>
-        
+        <!-- <a class="btn btn-outline-success btn-sm"  data-bs-toggle="modal" data-bs-target="#addZapato">
+                  <i class="bi-eye"></i>
+                </a> -->
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <form class="input-group">
+                    <div class="input-group-append">
+                        <a class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#addZapato">Añadir Zapato</a>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Buscar...">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Buscar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <?php foreach ($datos['zapatosPrenda'] as $zapatosPrenda) : ?>
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card my-3">
         
-                    <img src="<?php echo RUTA_URL?>/img_prendas/<?php echo $zapatosPrenda->imagen?>" class="card-image-top" alt="thumbnail">
+                    <img src="<?php echo RUTA_URL?>/img_prendas/<?php echo $zapatosPrenda->imagen
+                    ?>" class="card-image-top" alt="thumbnail">
         
                     <div class="card-body">
                         <h3 class="card-title"><a href="#" class="text-secondary"><?php echo $zapatosPrenda->nombre ?></a></h3>
@@ -46,18 +63,49 @@
                 </div>
             </div>
         <?php endforeach ?>
+
         
-        <!-- <div class="col-12 col-md-6 col-lg-4">
-            <div class="card my-3">
-    
-                <img src="https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg" class="card-image-top" alt="thumbnail">
-    
-                <div class="card-body">
-                    <h3 class="card-title"><a href="#" class="text-secondary">titulo prenda 1</a></h3>
-                    <a href="#" class="btn btn-primary">Read More</a>
+        
+        <div class="modal fade" id="addZapato" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalDelAsesoriaLabel">
+                            AÑADIR ZAPATO
+                        </h5>
+                    </div>
+                    
+                    <form method="post">
+
+                        <div class="modal-body">
+                                
+                            <select name="subcategoriaZapato" id="subcategoriaZapato">
+                                <option value="0">Elige subcategoria...</option>
+                                <?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) : ?>
+                                    <option value="<?php echo $zapatosSubcategoria->id?>"><?php echo $zapatosSubcategoria->nombre?></option>
+                                <?php endforeach?> 
+                            </select>
+
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" 
+                                data-bs-dismiss="modal">Cancelar
+                            </button>
+                            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">
+                                Añadir
+                            </button>
+                            <input type="hidden" id="id_asesoria" name="id_asesoria">
+                        </div>
+                    </form>
+
                 </div>
             </div>
-        </div> -->
+        </div>
+
+
+        
             
     </div>
 </div>

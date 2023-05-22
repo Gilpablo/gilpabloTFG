@@ -40,6 +40,8 @@ class Zapato extends Controlador{
         $this->vista("zapatos/index",$this->datos);
     }
 
+    
+
     public function filtro(){
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $datos = $_GET;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-05-2023 a las 23:51:52
+-- Tiempo de generación: 22-05-2023 a las 23:47:58
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -113,6 +113,7 @@ CREATE TABLE `prenda` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(500) DEFAULT NULL,
+  `imagen` varchar(100) NOT NULL,
   `id_subcategoria` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -121,12 +122,12 @@ CREATE TABLE `prenda` (
 -- Volcado de datos para la tabla `prenda`
 --
 
-INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `id_subcategoria`, `id_usuario`) VALUES
-(1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', 1, 2),
-(2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', 2, 2),
-(3, 'Zapatillas Running Pro', 'Zapatillas azules running Pro perfectas para largos recorridos', 4, 2),
-(4, 'Zapatos Traje', 'Zapatos de traje negros', 5, 2),
-(5, 'Sandalias rojas', 'Sandalias rojas perfectas para ir por la playa en verano', 6, 2);
+INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `imagen`, `id_subcategoria`, `id_usuario`) VALUES
+(1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', '', 1, 2),
+(2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', '', 2, 2),
+(3, 'Zapatillas Running Pro', 'Zapatillas azules running Pro perfectas para largos recorridos', 'zapatillasAdidasRunningAzules.png', 4, 2),
+(4, 'Zapatos Traje', 'Zapatos de traje negros', 'zapatosNegros.png', 5, 2),
+(5, 'Sandalias rojas', 'Sandalias rojas perfectas para ir por la playa en verano', 'chanclasRojasAdidas.png', 6, 2);
 
 -- --------------------------------------------------------
 
