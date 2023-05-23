@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-05-2023 a las 23:47:58
+-- Tiempo de generación: 23-05-2023 a las 21:36:21
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -65,22 +65,21 @@ INSERT INTO `conjunto` (`id`, `nombre`, `descripcion`, `id_usuario`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `conjunto_prenda`
+-- Estructura de tabla para la tabla `conjuntos_temporadas`
 --
 
-CREATE TABLE `conjunto_prenda` (
-  `id` int(11) NOT NULL,
+CREATE TABLE `conjuntos_temporadas` (
   `id_conjunto` int(11) NOT NULL,
-  `id_prenda` int(11) NOT NULL
+  `id_temporada` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `conjunto_prenda`
+-- Volcado de datos para la tabla `conjuntos_temporadas`
 --
 
-INSERT INTO `conjunto_prenda` (`id`, `id_conjunto`, `id_prenda`) VALUES
-(1, 1, 1),
-(2, 2, 2);
+INSERT INTO `conjuntos_temporadas` (`id_conjunto`, `id_temporada`) VALUES
+(1, 1),
+(2, 2);
 
 -- --------------------------------------------------------
 
@@ -113,6 +112,9 @@ CREATE TABLE `prenda` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(500) DEFAULT NULL,
+  `talla` varchar(10) NOT NULL,
+  `color` varchar(30) NOT NULL,
+  `marca` varchar(30) NOT NULL,
   `imagen` varchar(100) NOT NULL,
   `id_subcategoria` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL
@@ -122,12 +124,56 @@ CREATE TABLE `prenda` (
 -- Volcado de datos para la tabla `prenda`
 --
 
-INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `imagen`, `id_subcategoria`, `id_usuario`) VALUES
-(1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', '', 1, 2),
-(2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', '', 2, 2),
-(3, 'Zapatillas Running Pro', 'Zapatillas azules running Pro perfectas para largos recorridos', 'zapatillasAdidasRunningAzules.png', 4, 2),
-(4, 'Zapatos Traje', 'Zapatos de traje negros', 'zapatosNegros.png', 5, 2),
-(5, 'Sandalias rojas', 'Sandalias rojas perfectas para ir por la playa en verano', 'chanclasRojasAdidas.png', 6, 2);
+INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `talla`, `color`, `marca`, `imagen`, `id_subcategoria`, `id_usuario`) VALUES
+(1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', '', '', '', '', 1, 2),
+(2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', '', '', '', '', 2, 2),
+(3, 'Zapatillas Running Pro', 'Zapatillas azules running Pro perfectas para largos recorridos', '', '', '', 'zapatillasAdidasRunningAzules.png', 4, 2),
+(4, 'Zapatos Traje', 'Zapatos de traje negros', '', '', '', 'zapatosNegros.png', 5, 2),
+(5, 'Sandalias rojas', 'Sandalias rojas perfectas para ir por la playa en verano', '', '', '', 'chanclasRojasAdidas.png', 6, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `prendas_conjuntos`
+--
+
+CREATE TABLE `prendas_conjuntos` (
+  `id_prenda` int(11) NOT NULL,
+  `id_conjunto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `prendas_conjuntos`
+--
+
+INSERT INTO `prendas_conjuntos` (`id_prenda`, `id_conjunto`) VALUES
+(1, 1),
+(2, 2),
+(4, 2),
+(5, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `prendas_temporadas`
+--
+
+CREATE TABLE `prendas_temporadas` (
+  `id_prenda` int(11) NOT NULL,
+  `id_temporada` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `prendas_temporadas`
+--
+
+INSERT INTO `prendas_temporadas` (`id_prenda`, `id_temporada`) VALUES
+(1, 4),
+(2, 2),
+(2, 3),
+(3, 4),
+(4, 4),
+(5, 1);
 
 -- --------------------------------------------------------
 
@@ -175,6 +221,27 @@ INSERT INTO `subcategoria` (`id`, `nombre`, `id_categoria`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `temporada`
+--
+
+CREATE TABLE `temporada` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `temporada`
+--
+
+INSERT INTO `temporada` (`id`, `nombre`) VALUES
+(1, 'verano'),
+(2, 'invierno'),
+(3, 'primavera/otono'),
+(4, 'todo');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuario`
 --
 
@@ -216,12 +283,11 @@ ALTER TABLE `conjunto`
   ADD KEY `fk_conjunto` (`id_usuario`);
 
 --
--- Indices de la tabla `conjunto_prenda`
+-- Indices de la tabla `conjuntos_temporadas`
 --
-ALTER TABLE `conjunto_prenda`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_conjunto_prenda1` (`id_conjunto`),
-  ADD KEY `fk_conjunto_prenda2` (`id_prenda`);
+ALTER TABLE `conjuntos_temporadas`
+  ADD PRIMARY KEY (`id_conjunto`,`id_temporada`),
+  ADD KEY `id_temporada` (`id_temporada`);
 
 --
 -- Indices de la tabla `historialuso`
@@ -240,6 +306,20 @@ ALTER TABLE `prenda`
   ADD KEY `fk_prenda2` (`id_usuario`);
 
 --
+-- Indices de la tabla `prendas_conjuntos`
+--
+ALTER TABLE `prendas_conjuntos`
+  ADD PRIMARY KEY (`id_prenda`,`id_conjunto`),
+  ADD KEY `id_conjunto` (`id_conjunto`);
+
+--
+-- Indices de la tabla `prendas_temporadas`
+--
+ALTER TABLE `prendas_temporadas`
+  ADD PRIMARY KEY (`id_prenda`,`id_temporada`),
+  ADD KEY `id_temporada` (`id_temporada`);
+
+--
 -- Indices de la tabla `rol`
 --
 ALTER TABLE `rol`
@@ -251,6 +331,12 @@ ALTER TABLE `rol`
 ALTER TABLE `subcategoria`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_subcategoria` (`id_categoria`);
+
+--
+-- Indices de la tabla `temporada`
+--
+ALTER TABLE `temporada`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `usuario`
@@ -273,12 +359,6 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `conjunto`
 --
 ALTER TABLE `conjunto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `conjunto_prenda`
---
-ALTER TABLE `conjunto_prenda`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
@@ -306,6 +386,12 @@ ALTER TABLE `subcategoria`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT de la tabla `temporada`
+--
+ALTER TABLE `temporada`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
@@ -322,11 +408,11 @@ ALTER TABLE `conjunto`
   ADD CONSTRAINT `fk_conjunto` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `conjunto_prenda`
+-- Filtros para la tabla `conjuntos_temporadas`
 --
-ALTER TABLE `conjunto_prenda`
-  ADD CONSTRAINT `fk_conjunto_prenda1` FOREIGN KEY (`id_conjunto`) REFERENCES `conjunto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_conjunto_prenda2` FOREIGN KEY (`id_prenda`) REFERENCES `prenda` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `conjuntos_temporadas`
+  ADD CONSTRAINT `conjuntos_temporadas_ibfk_1` FOREIGN KEY (`id_conjunto`) REFERENCES `conjunto` (`id`),
+  ADD CONSTRAINT `conjuntos_temporadas_ibfk_2` FOREIGN KEY (`id_temporada`) REFERENCES `temporada` (`id`);
 
 --
 -- Filtros para la tabla `historialuso`
@@ -341,6 +427,20 @@ ALTER TABLE `historialuso`
 ALTER TABLE `prenda`
   ADD CONSTRAINT `fk_prenda` FOREIGN KEY (`id_subcategoria`) REFERENCES `subcategoria` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_prenda2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `prendas_conjuntos`
+--
+ALTER TABLE `prendas_conjuntos`
+  ADD CONSTRAINT `prendas_conjuntos_ibfk_1` FOREIGN KEY (`id_prenda`) REFERENCES `prenda` (`id`),
+  ADD CONSTRAINT `prendas_conjuntos_ibfk_2` FOREIGN KEY (`id_conjunto`) REFERENCES `conjunto` (`id`);
+
+--
+-- Filtros para la tabla `prendas_temporadas`
+--
+ALTER TABLE `prendas_temporadas`
+  ADD CONSTRAINT `prendas_temporadas_ibfk_1` FOREIGN KEY (`id_prenda`) REFERENCES `prenda` (`id`),
+  ADD CONSTRAINT `prendas_temporadas_ibfk_2` FOREIGN KEY (`id_temporada`) REFERENCES `temporada` (`id`);
 
 --
 -- Filtros para la tabla `subcategoria`

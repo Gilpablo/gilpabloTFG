@@ -78,15 +78,49 @@
                     <form method="post">
 
                         <div class="modal-body">
-                                
-                            <select name="subcategoriaZapato" id="subcategoriaZapato">
-                                <option value="0">Elige subcategoria...</option>
-                                <?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) : ?>
-                                    <option value="<?php echo $zapatosSubcategoria->id?>"><?php echo $zapatosSubcategoria->nombre?></option>
-                                <?php endforeach?> 
-                            </select>
 
+                            <div class="container">
 
+                                <div class="row">
+
+                                    <div class="col-12">
+                                        <select name="subcategoriaZapato" id="subcategoriaZapato">
+                                            <option value="0">Elige subcategoria...</option>
+                                            <?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) : ?>
+                                                <option value="<?php echo $zapatosSubcategoria->id?>"><?php echo $zapatosSubcategoria->nombre?></option>
+                                            <?php endforeach?> 
+                                        </select>
+                                    </div>
+
+                                    <div class="col-6">
+                                        
+                                    </div>
+                                    <div class="col-6">
+
+                                    </div>
+                                    <div class="col-6">
+
+                                    </div>
+                                    <div class="col-6">
+
+                                    </div>
+                                    <div class="col-6">
+
+                                    </div>
+                                    <div class="col-6">
+
+                                    </div>
+                                    <div class="col-6">
+
+                                    </div>
+                                    <div class="col-6">
+
+                                    </div>
+                                    <div class="col-6">
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="modal-footer">
