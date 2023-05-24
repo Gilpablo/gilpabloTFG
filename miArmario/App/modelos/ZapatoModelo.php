@@ -32,4 +32,12 @@ class ZapatoModelo {
         return $this->db->registros(); 
  
     }
+
+    public function getTemporadas(){
+
+        $this->db->query("SELECT * FROM temporada;");
+ 
+        return $this->db->registros(); 
+
+    }
 }

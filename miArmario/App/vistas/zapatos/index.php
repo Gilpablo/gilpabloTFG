@@ -75,7 +75,7 @@
                         </h5>
                     </div>
                     
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
 
                         <div class="modal-body">
 
@@ -92,32 +92,57 @@
                                         </select>
                                     </div>
 
+                                        <div class="col-6">
+                                            <label for="nombre">Nombre</label>
+                                            <input type="text" class="form-control" name="nombreZapato" id="nombreZapato" placeholder="Ingresa el nombre">
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="talla">Talla</label>
+                                            <input type="text" class="form-control" name="tallaZapato" id="tallaZapato" placeholder="Ingresa la talla">
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="color">Color</label>
+                                            <input type="text" class="form-control" name="colorZapato" id="colorZapato" placeholder="Ingresa el color">
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="marca">Marca</label>
+                                            <input type="text" class="form-control" name="marcaZapato" id="marcaZapato" placeholder="Ingresa la marca">
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="descripcion">Descripcion</label>
+                                            <input type="text" class="form-control" name="descripcionZapato" id="descripcionZapato" placeholder="Descripcion...">
+                                        </div>
+
                                     <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="checkboxes">Elige temporada o temporadas:</label>
+                                            <?php foreach ($datos["temporadas"] as $temporada) : ?>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="temporada-<?php echo $temporada->id ?>" name="temporadas[]" value="<?php echo $temporada->id ?>">
+                                                    <label class="form-check-label" for="temporada-<?php echo $temporada->id ?>"><?php echo $temporada->nombre ?></label>
+                                                </div>
+                                            <?php endforeach ?>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="checkboxes">Elige subcategoria:</label>
+                                            <?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) : ?>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="zapatosSubcategoria-<?php echo $zapatosSubcategoria->id ?>" name="zapatosSubcategorias[]" value="<?php echo $zapatosSubcategoria->id ?>">
+                                                    <label class="form-check-label" for="zapatosSubcategoria-<?php echo $zapatosSubcategoria->id ?>"><?php echo $zapatosSubcategoria->nombre ?></label>
+                                                </div>
+                                            <?php endforeach ?>
+                                        </div>
+
+                                    </div>
+                                    
+                                    
+                                    <div class="col-12">
+                                        <label for="imagen">Cargar imagen</label>
+                                        <input type="file" class="form-control-file" name="imagenZapato" id="imagenZapato">
                                         
-                                    </div>
-                                    <div class="col-6">
-
-                                    </div>
-                                    <div class="col-6">
-
-                                    </div>
-                                    <div class="col-6">
-
-                                    </div>
-                                    <div class="col-6">
-
-                                    </div>
-                                    <div class="col-6">
-
-                                    </div>
-                                    <div class="col-6">
-
-                                    </div>
-                                    <div class="col-6">
-
-                                    </div>
-                                    <div class="col-6">
-
                                     </div>
                                 </div>
                             </div>
@@ -130,7 +155,6 @@
                             <button type="submit" class="btn btn-success" data-bs-dismiss="modal">
                                 Añadir
                             </button>
-                            <input type="hidden" id="id_asesoria" name="id_asesoria">
                         </div>
                     </form>
 

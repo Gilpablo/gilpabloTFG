@@ -29,15 +29,24 @@ class Zapato extends Controlador{
         // foreach($this->datos["asesorias"] as $asesoria){
         //     $asesoria->acciones = $this->asesoriaModelo->getAccionesAsesoria($asesoria->id_asesoria);
         // }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $nuevoZapato = $_POST;
+            echo "hola";
+            print_r($nuevoZapato); exit();
+
+        }else{
+            
+            $this->datos['zapatosPrenda'] = $this->zapatoModelo->getZapatos($this->datos['usuarioSesion']->id);
         
+            // print_r($this->datos['zapatosPrenda']->id_subcategoria); exit();
         
-        $this->datos['zapatosPrenda'] = $this->zapatoModelo->getZapatos($this->datos['usuarioSesion']->id);
-
-        // print_r($this->datos['zapatosPrenda']->id_subcategoria); exit();
-
-        $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
-
-        $this->vista("zapatos/index",$this->datos);
+            $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
+            $this->datos['temporadas'] = $this->zapatoModelo->getTemporadas();
+        
+            $this->vista("zapatos/index",$this->datos);
+        
+        }
+        
     }
 
     
