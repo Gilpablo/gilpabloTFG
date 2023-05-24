@@ -70,7 +70,7 @@
             <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalDelAsesoriaLabel">
+                        <h5 class="modal-title" id="modaladdZapatoLabel">
                             AÑADIR ZAPATO
                         </h5>
                     </div>
@@ -82,15 +82,6 @@
                             <div class="container">
 
                                 <div class="row">
-
-                                    <div class="col-12">
-                                        <select name="subcategoriaZapato" id="subcategoriaZapato">
-                                            <option value="0">Elige subcategoria...</option>
-                                            <?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) : ?>
-                                                <option value="<?php echo $zapatosSubcategoria->id?>"><?php echo $zapatosSubcategoria->nombre?></option>
-                                            <?php endforeach?> 
-                                        </select>
-                                    </div>
 
                                         <div class="col-6">
                                             <label for="nombre">Nombre</label>
@@ -126,15 +117,12 @@
 
                                     </div>
                                     <div class="col-6">
-                                        <div class="form-group">
-                                            <label for="checkboxes">Elige subcategoria:</label>
+                                        <select name="subcategoriaZapato" id="subcategoriaZapato">
+                                            <option value="0">Elige subcategoria...</option>
                                             <?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) : ?>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="zapatosSubcategoria-<?php echo $zapatosSubcategoria->id ?>" name="zapatosSubcategorias[]" value="<?php echo $zapatosSubcategoria->id ?>">
-                                                    <label class="form-check-label" for="zapatosSubcategoria-<?php echo $zapatosSubcategoria->id ?>"><?php echo $zapatosSubcategoria->nombre ?></label>
-                                                </div>
-                                            <?php endforeach ?>
-                                        </div>
+                                                <option value="<?php echo $zapatosSubcategoria->id?>"><?php echo $zapatosSubcategoria->nombre?></option>
+                                            <?php endforeach?> 
+                                        </select>
 
                                     </div>
                                     
