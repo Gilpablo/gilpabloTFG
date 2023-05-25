@@ -30,9 +30,34 @@ class Zapato extends Controlador{
         //     $asesoria->acciones = $this->asesoriaModelo->getAccionesAsesoria($asesoria->id_asesoria);
         // }
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
             $nuevoZapato = $_POST;
-            echo "hola";
-            print_r($nuevoZapato); exit();
+
+            $nombreArchivo = $_FILES['imagenZapato']['name'];
+            $ubicacionTemporal = $_FILES['imagenZapato']['tmp_name'];
+
+            // Obtener el nombre del archivo sin la extensión
+            $nombreImg = pathinfo($nombreArchivo, PATHINFO_FILENAME);
+
+            // // Mover el archivo a una ubicación deseada
+            $rutaDestino = RUTA_URL. "/img_prendas/" . $nombreImg . ".png";
+            if ($this->zapatoModelo->addZapatos($nuevoZapato, $nombreImg, $this->datos['usuarioSesion']->id)) {
+                if (move_uploaded_file($ubicacionTemporal, $rutaDestino)) {
+                    
+                    echo "todoo bieeen!!"; 
+                    // redireccionar('/ropa');
+                    
+                } else {
+                    echo "Error al mover el archivo a la ubicación deseada.";
+                }
+            }else {
+                echo "errrrrooorrrr"; 
+            }
+
+            
+            // echo "holi";
+            // print_r($nuevoZapato); 
+            exit();
 
         }else{
             

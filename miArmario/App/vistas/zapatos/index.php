@@ -17,7 +17,7 @@
             <li class="breadcrumb-item active" aria-current="page">Asesorias</li>
         </ol>
     </nav> -->
-    <?php print_r($datos['zapatosSubcategoria']); ?> 
+    <?php echo RUTA_APP; ?> 
 
     <div class="row">
         <div class="col-12">
@@ -45,7 +45,7 @@
                 <div class="card my-3">
         
                     <img src="<?php echo RUTA_URL?>/img_prendas/<?php echo $zapatosPrenda->imagen
-                    ?>" class="card-image-top" alt="thumbnail">
+                    ?>.png" class="card-image-top" alt="thumbnail">
         
                     <div class="card-body">
                         <h3 class="card-title"><a href="#" class="text-secondary"><?php echo $zapatosPrenda->nombre ?></a></h3>
@@ -128,7 +128,7 @@
                                     
                                     
                                     <div class="col-12">
-                                        <label for="imagen">Cargar imagen</label>
+                                        <label for="imagenZapato">Cargar imagen</label>
                                         <input type="file" class="form-control-file" name="imagenZapato" id="imagenZapato">
                                         
                                     </div>
