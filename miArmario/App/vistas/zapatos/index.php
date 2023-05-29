@@ -17,7 +17,21 @@
             <li class="breadcrumb-item active" aria-current="page">Asesorias</li>
         </ol>
     </nav> -->
-    <?php echo RUTA_APP; ?> 
+    <!-- <?php echo RUTA_PUBLIC; ?>  -->
+
+    <?php if (isset($datos['error']) && $datos['error'] == 'error_1' ): ?>
+        <div class="alert alert-danger" role="alert">
+            ERROR AL GUARDAR LOS DATOS !!!
+        </div>
+    <?php elseif ($datos['error'] == 'error_2') :?>
+        <div class="alert alert-success" role="alert">
+        ERROR AL GUARDAR LA IMAGEN !!!
+        </div>
+    <?php elseif ($datos['error'] == 'creado') :?>
+        <div class="alert alert-success" role="alert">
+            GUARDADO CORRECTAMENTE !!!
+        </div>
+    <?php endif ?>
 
     <div class="row">
         <div class="col-12">
@@ -40,11 +54,27 @@
             </div>
         </div>
 
-        <?php foreach ($datos['zapatosPrenda'] as $zapatosPrenda) : ?>
+        
+
+        <?php 
+
+        $totalElementos = count($datos['zapatosPrenda']);
+        $elementosPorPagina = 9;
+        $totalPaginas = ceil($totalElementos / $elementosPorPagina);
+
+        $paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+        
+        $indiceInicial = ($paginaActual - 1) * $elementosPorPagina;
+        $indiceFinal = $indiceInicial + $elementosPorPagina - 1;
+        
+        for ($i = $indiceInicial; $i <= $indiceFinal && $i < $totalElementos; $i++) {
+            $zapatosPrenda = $datos['zapatosPrenda'][$i]; ?>
+            
+            
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card my-3">
         
-                    <img src="<?php echo RUTA_URL?>/img_prendas/<?php echo $zapatosPrenda->imagen
+                    <img src="<?php echo RUTA_URL?>/img_prendas/<?php echo $zapatosPrenda->id.$zapatosPrenda->imagen
                     ?>.png" class="card-image-top" alt="thumbnail">
         
                     <div class="card-body">
@@ -62,7 +92,50 @@
                     </div>
                 </div>
             </div>
-        <?php endforeach ?>
+        <?php } ?>
+        
+        <div class="paginacion">
+            <?php
+            for ($i = 1; $i <= $totalPaginas; $i++) { ?>
+                <a href="?pagina=<?php echo $i; ?>" 
+                    <?php if ($i == $paginaActual){
+                        echo 'class="active"';
+                        } ?>>
+                        <?php echo $i; ?>
+                </a>
+            <?php } ?>
+        </div>
+        
+
+
+
+        
+        
+
+<!-- 
+        <?php foreach ($datos['zapatosPrenda'] as $zapatosPrenda) : ?>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card my-3">
+        
+                    <img src="<?php echo RUTA_URL?>/img_prendas/<?php echo $zapatosPrenda->id.$zapatosPrenda->imagen
+                    ?>.png" class="card-image-top" alt="thumbnail">
+        
+                    <div class="card-body">
+                        <h3 class="card-title"><a href="#" class="text-secondary"><?php echo $zapatosPrenda->nombre ?></a></h3>
+                        <p class="card-text"><?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) {
+                                    if ($zapatosPrenda->id_subcategoria == $zapatosSubcategoria->id) {
+                                        echo "<h5>".$zapatosSubcategoria->nombre."</h5>";
+                                    }
+                                }
+                                echo $zapatosPrenda->descripcion;
+                            ?>
+
+                        </p>
+                        <a href="#" class="btn btn-primary"></a>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach ?> -->
 
         
         
@@ -154,6 +227,7 @@
         
             
     </div>
+    
 </div>
 
 

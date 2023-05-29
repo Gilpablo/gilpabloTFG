@@ -23,7 +23,7 @@ class Zapato extends Controlador{
         // }
     }
 
-    public function index(){
+    public function index($error=''){
 
         // $this->datos["asesorias"] = $this->asesoriaModelo->getAsesorias();
         // foreach($this->datos["asesorias"] as $asesoria){
@@ -39,28 +39,32 @@ class Zapato extends Controlador{
             // Obtener el nombre del archivo sin la extensión
             $nombreImg = pathinfo($nombreArchivo, PATHINFO_FILENAME);
 
-            // // Mover el archivo a una ubicación deseada
-            $rutaDestino = RUTA_URL. "/img_prendas/" . $nombreImg . ".png";
             if ($this->zapatoModelo->addZapatos($nuevoZapato, $nombreImg, $this->datos['usuarioSesion']->id)) {
+
+                $idUltimaPrenda = $this->zapatoModelo->ultimoIdPrenda()->id;
+                // Mover el archivo a una ubicación deseada
+                $rutaDestino = RUTA_PUBLIC. "/img_prendas/". $idUltimaPrenda.$nombreImg . ".png";
                 if (move_uploaded_file($ubicacionTemporal, $rutaDestino)) {
                     
-                    echo "todoo bieeen!!"; 
-                    // redireccionar('/ropa');
+                     
+                    redireccionar('/zapato/creado');
                     
                 } else {
-                    echo "Error al mover el archivo a la ubicación deseada.";
+                    redireccionar('/zapato/error_2');
                 }
             }else {
-                echo "errrrrooorrrr"; 
+                redireccionar('/zapato/creado/error_1');
             }
 
             
             // echo "holi";
             // print_r($nuevoZapato); 
-            exit();
+            // exit();
 
         }else{
             
+            $this->datos['error'] = $error;
+
             $this->datos['zapatosPrenda'] = $this->zapatoModelo->getZapatos($this->datos['usuarioSesion']->id);
         
             // print_r($this->datos['zapatosPrenda']->id_subcategoria); exit();

@@ -4,4 +4,27 @@ body {
 }
 
 
+.paginacion {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
+.paginacion a {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 5px;
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #545454;
+  border-radius: 5px;
+}
+
+.paginacion a:hover {
+  background-color: #333333;
+}
+
+.paginacion a.active {
+  background-color: #000000;
+  font-weight: bold;
+}

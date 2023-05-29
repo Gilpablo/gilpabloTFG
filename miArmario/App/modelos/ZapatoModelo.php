@@ -21,9 +21,16 @@ class ZapatoModelo {
  
     } 
 
+    public function ultimoIdPrenda(){
+
+        $this->db->query("SELECT id FROM prenda ORDER BY id DESC LIMIT 1;");
+        
+        return $this->db->registro();
+
+    }
+
 
     public function addZapatos($datos, $img, $id_usuario){ 
-  
 
         $this->db->query("INSERT INTO prenda (nombre, descripcion, talla, color, marca, imagen, fecha_insercion, id_subcategoria , id_usuario) 
                             VALUES (:nombre_za, :descripcion_za, :talla_za, :color_za, :marca_za, :imagen_za, NOW(), :id_subcategoria_za, :id_usuario_za)");

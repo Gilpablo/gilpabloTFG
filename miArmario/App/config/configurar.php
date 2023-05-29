@@ -8,6 +8,7 @@
 
 // Ruta de la aplicacion	
 define('RUTA_APP', dirname(dirname(__FILE__)));
+define('RUTA_PUBLIC', dirname(dirname(dirname(__FILE__))).'\public');
 
 // Ruta url, Ejemplo: http://localhost/atletismo
 define('RUTA_URL', 'http://localhost/gilpabloTFG/miArmario');
