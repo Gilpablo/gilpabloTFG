@@ -47,12 +47,54 @@
                                 <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addZapato">Añadir Zapato</a>
                             </div>
                             <input type="text" class="form-control" name="busqueda" placeholder="Buscar...">
+                            <div class="form-group">
+                                <label for="subcategoria">Subcategoría:</label>
+                                <select class="form-control" name="subcategoria" id="subcategoria">
+                                    <option value="">Seleccione una subcategoría</option>
+                                    <option value="subcategoria1">Subcategoría 1</option>
+                                    <option value="subcategoria2">Subcategoría 2</option>
+                                    <!-- Otras opciones de subcategorías -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="marca">Marca:</label>
+                                <select class="form-control" name="marca" id="marca">
+                                    <option value="">Seleccione una marca</option>
+                                    <option value="marca1">Marca 1</option>
+                                    <option value="marca2">Marca 2</option>
+                                    <!-- Otras opciones de marcas -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="talla">Talla:</label>
+                                <select class="form-control" name="talla" id="talla">
+                                    <option value="">Seleccione una talla</option>
+                                    <option value="talla1">Talla 1</option>
+                                    <option value="talla2">Talla 2</option>
+                                    <!-- Otras opciones de tallas -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="color">Color:</label>
+                                <select class="form-control" name="color" id="color">
+                                    <option value="">Seleccione un color</option>
+                                    <option value="color1">Color 1</option>
+                                    <option value="color2">Color 2</option>
+                                    <!-- Otras opciones de colores -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="fecha_insercion">Fecha de Inserción:</label>
+                                <input type="date" class="form-control" name="fecha_insercion" id="fecha_insercion">
+                            </div>
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">Buscar</button>
                             </div>
                         </form>
                     </div>
                 </div>
+
+
 
 
         

@@ -57,7 +57,7 @@ class Zapato extends Controlador{
                 redireccionar('/zapato/creado/error_1');
             }
 
-        }elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        }elseif (isset($_GET['busqueda'])) {
             
             
             // Obtener los datos de los zapatos
@@ -92,31 +92,31 @@ class Zapato extends Controlador{
             }
 
 
-            if (isset($_GET['busqueda'])) {
-                $busqueda = $_GET['busqueda'];
+            // if (isset($_GET['busqueda'])) {
+            //     $busqueda = $_GET['busqueda'];
 
-                $productos = $this->zapatoModelo->getZapatos($this->datos['usuarioSesion']->id);
+            //     $productos = $this->zapatoModelo->getZapatos($this->datos['usuarioSesion']->id);
                 
-                // llamamos consulta y comprobamos
-                if ($this->zapatoModelo->buscarZapatos($busqueda)) {
-                    # code...
-                }
+            //     // llamamos consulta y comprobamos
+            //     if ($this->zapatoModelo->buscarZapatos($busqueda)) {
+            //         # code...
+            //     }
                 
-                // Filtrar el array por coincidencia en nombre o descripción
-                $resultados = array_filter($productos, function($producto) use ($busqueda) {
-                    return strpos(strtolower($producto['nombre']), strtolower($busqueda)) !== false ||
-                        strpos(strtolower($producto['descripcion']), strtolower($busqueda)) !== false;
-                });
+            //     // Filtrar el array por coincidencia en nombre o descripción
+            //     $resultados = array_filter($productos, function($producto) use ($busqueda) {
+            //         return strpos(strtolower($producto['nombre']), strtolower($busqueda)) !== false ||
+            //             strpos(strtolower($producto['descripcion']), strtolower($busqueda)) !== false;
+            //     });
                 
-                // Mostrar los resultados de la búsqueda
-                if (!empty($resultados)) {
-                    foreach ($resultados as $producto) {
-                        echo '<p>' . $producto['nombre'] . ': ' . $producto['descripcion'] . '</p>';
-                    }
-                } else {
-                    echo 'No se encontraron resultados.';
-                }
-            }
+            //     // Mostrar los resultados de la búsqueda
+            //     if (!empty($resultados)) {
+            //         foreach ($resultados as $producto) {
+            //             echo '<p>' . $producto['nombre'] . ': ' . $producto['descripcion'] . '</p>';
+            //         }
+            //     } else {
+            //         echo 'No se encontraron resultados.';
+            //     }
+            // }
 
         }else{
             
