@@ -40,19 +40,20 @@
         <!-- <a class="btn btn-outline-success btn-sm"  data-bs-toggle="modal" data-bs-target="#addZapato">
                   <i class="bi-eye"></i>
                 </a> -->
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <form class="input-group">
-                    <div class="input-group-append">
-                        <a class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#addZapato">Añadir Zapato</a>
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <form class="input-group" method="GET" action="">
+                            <div class="input-group-append">
+                                <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addZapato">Añadir Zapato</a>
+                            </div>
+                            <input type="text" class="form-control" name="busqueda" placeholder="Buscar...">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">Buscar</button>
+                            </div>
+                        </form>
                     </div>
-                    <input type="text" class="form-control" placeholder="Buscar...">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">Buscar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+                </div>
+
 
         
 
