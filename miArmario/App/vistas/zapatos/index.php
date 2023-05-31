@@ -1,6 +1,7 @@
 <?php require_once RUTA_APP.'/vistas/inc/header.php' ?>
 
 <?php 
+    print_r($datos['zapatosSubcategoria']);
     // print_r($datos['filtro']);
     // if (!isset($datos['filtro']['estado'])){
     //     $datos['filtro']['estado'] = array_column($datos['estados'], 'id_estado');
@@ -37,62 +38,34 @@
         <div class="col-12">
             <h1 class="mb-3 text-primary text-center">ZAPATOS</h1>
         </div>
-        <!-- <a class="btn btn-outline-success btn-sm"  data-bs-toggle="modal" data-bs-target="#addZapato">
-                  <i class="bi-eye"></i>
-                </a> -->
-                <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                        <form class="input-group" method="GET" action="">
-                            <div class="input-group-append">
-                                <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addZapato">Añadir Zapato</a>
-                            </div>
-                            <input type="text" class="form-control" name="busqueda" placeholder="Buscar...">
-                            <div class="form-group">
-                                <label for="subcategoria">Subcategoría:</label>
-                                <select class="form-control" name="subcategoria" id="subcategoria">
-                                    <option value="">Seleccione una subcategoría</option>
-                                    <option value="subcategoria1">Subcategoría 1</option>
-                                    <option value="subcategoria2">Subcategoría 2</option>
-                                    <!-- Otras opciones de subcategorías -->
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="marca">Marca:</label>
-                                <select class="form-control" name="marca" id="marca">
-                                    <option value="">Seleccione una marca</option>
-                                    <option value="marca1">Marca 1</option>
-                                    <option value="marca2">Marca 2</option>
-                                    <!-- Otras opciones de marcas -->
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="talla">Talla:</label>
-                                <select class="form-control" name="talla" id="talla">
-                                    <option value="">Seleccione una talla</option>
-                                    <option value="talla1">Talla 1</option>
-                                    <option value="talla2">Talla 2</option>
-                                    <!-- Otras opciones de tallas -->
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="color">Color:</label>
-                                <select class="form-control" name="color" id="color">
-                                    <option value="">Seleccione un color</option>
-                                    <option value="color1">Color 1</option>
-                                    <option value="color2">Color 2</option>
-                                    <!-- Otras opciones de colores -->
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="fecha_insercion">Fecha de Inserción:</label>
-                                <input type="date" class="form-control" name="fecha_insercion" id="fecha_insercion">
-                            </div>
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">Buscar</button>
-                            </div>
-                        </form>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <form class="input-group" method="GET" action="">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addZapato">Añadir Zapato</button>
+                        </div>
+                        <input type="text" class="form-control" name="busqueda" placeholder="Buscar...">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Buscar</button>
+                        </div>
                     </div>
-                </div>
+                    
+                    <div class="col-12">
+                        <span>Elige subcategoria...</span>
+                        <?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) : ?>
+                            <div class="form-check" style="display: none;">
+                                <input class="form-check-input" type="checkbox" id="temporada-<?php echo $zapatosSubcategoria->id ?>" name="zapatosSubcategorias[]" value="<?php echo $zapatosSubcategoria->id ?>">
+                                <label class="form-check-label" for="temporada-<?php echo $zapatosSubcategoria->id ?>"><?php echo $zapatosSubcategoria->nombre ?></label>
+                            </div>    
+                        <?php endforeach?>
+                    </div>
+                    
+                </form>
+
+            </div>
+        </div>
 
 
 
@@ -149,37 +122,6 @@
             <?php } ?>
         </div>
         
-
-
-
-        
-        
-
-<!-- 
-        <?php foreach ($datos['zapatosPrenda'] as $zapatosPrenda) : ?>
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card my-3">
-        
-                    <img src="<?php echo RUTA_URL?>/img_prendas/<?php echo $zapatosPrenda->id.$zapatosPrenda->imagen
-                    ?>.png" class="card-image-top" alt="thumbnail">
-        
-                    <div class="card-body">
-                        <h3 class="card-title"><a href="#" class="text-secondary"><?php echo $zapatosPrenda->nombre ?></a></h3>
-                        <p class="card-text"><?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) {
-                                    if ($zapatosPrenda->id_subcategoria == $zapatosSubcategoria->id) {
-                                        echo "<h5>".$zapatosSubcategoria->nombre."</h5>";
-                                    }
-                                }
-                                echo $zapatosPrenda->descripcion;
-                            ?>
-
-                        </p>
-                        <a href="#" class="btn btn-primary"></a>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach ?> -->
-
         
         
         <div class="modal fade" id="addZapato" tabindex="-1">
