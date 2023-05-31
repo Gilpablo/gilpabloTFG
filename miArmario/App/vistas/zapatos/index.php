@@ -1,7 +1,7 @@
 <?php require_once RUTA_APP.'/vistas/inc/header.php' ?>
 
 <?php 
-    print_r($datos['zapatosSubcategoria']);
+    // print_r($datos['zapatosSubcategoria']);
     // print_r($datos['filtro']);
     // if (!isset($datos['filtro']['estado'])){
     //     $datos['filtro']['estado'] = array_column($datos['estados'], 'id_estado');
@@ -52,14 +52,20 @@
                         </div>
                     </div>
                     
-                    <div class="col-12">
-                        <span>Elige subcategoria...</span>
-                        <?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) : ?>
-                            <div class="form-check" style="display: none;">
-                                <input class="form-check-input" type="checkbox" id="temporada-<?php echo $zapatosSubcategoria->id ?>" name="zapatosSubcategorias[]" value="<?php echo $zapatosSubcategoria->id ?>">
-                                <label class="form-check-label" for="temporada-<?php echo $zapatosSubcategoria->id ?>"><?php echo $zapatosSubcategoria->nombre ?></label>
-                            </div>    
-                        <?php endforeach?>
+                    <div class="form-group">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Elige subcategoria...
+                            </button>
+                            <div class="dropdown-menu" id="subcat" style="display: none;">
+                                <?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) : ?>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="<?php echo $zapatosSubcategoria->id ?>" name="zapatosSubcategorias[]" value="<?php echo $zapatosSubcategoria->id ?>">
+                                        <label class="form-check-label" for="<?php echo $zapatosSubcategoria->id ?>"><?php echo $zapatosSubcategoria->nombre ?></label>
+                                    </div>    
+                                <?php endforeach?>
+                            </div>
+                        </div>
                     </div>
                     
                 </form>
@@ -68,7 +74,20 @@
         </div>
 
 
+        <script>
+            var subcat = document.getElementById("subcat");
+            var dropdownButton = document.getElementById("dropdownMenuButton");
 
+            dropdownButton.addEventListener('click', function() {
+                if (subcat.style.display === 'block') {
+                    subcat.style.display = 'none';
+                } else {
+                    subcat.style.display = 'block';
+                }
+            });
+
+            
+        </script>
 
         
 

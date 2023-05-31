@@ -64,32 +64,38 @@ class Zapato extends Controlador{
             $zapatos = $this->zapatoModelo->getZapatos($this->datos['usuarioSesion']->id);
 
             // Obtener los parámetros del filtro
-            $marca = isset($_GET['marca']) ? $_GET['marca'] : '';
-            $talla = isset($_GET['talla']) ? $_GET['talla'] : '';
-            $color = isset($_GET['color']) ? $_GET['color'] : '';
-            $fechaInsercion = isset($_GET['fechaInsercion']) ? $_GET['fechaInsercion'] : '';
-            $subcategoria = isset($_GET['subcategoria']) ? $_GET['subcategoria'] : '';
+            // $marca = isset($_GET['marca']) ? $_GET['marca'] : '';
+            // $talla = isset($_GET['talla']) ? $_GET['talla'] : '';
+            // $color = isset($_GET['color']) ? $_GET['color'] : '';
+            // $fechaInsercion = isset($_GET['fechaInsercion']) ? $_GET['fechaInsercion'] : '';
 
+            $subcategoria = isset($_GET['zapatosSubcategorias']) ? $_GET['zapatosSubcategorias'] : '';
 
-            // Filtrar los zapatos según los parámetros del filtro
-            $resultados = array_filter($zapatos, function($zapato) use ($marca, $talla, $color, $fechaInsercion, $subcategoria) {
-                $marcaMatch = empty($marca) || strtolower($zapato['marca']) == strtolower($marca);
-                $tallaMatch = empty($talla) || $zapato['talla'] == strtolower($talla);
-                $colorMatch = empty($color) || strtolower($zapato['color']) == strtolower($color);
-                $fechaInsercionMatch = empty($fechaInsercion) || strtolower($zapato['fechaInsercion']) == strtolower($fechaInsercion);
-                $subcategoriaMatch = empty($color) || strtolower($zapato['subcategoria']) == strtolower($subcategoria);
-                
-                return $marcaMatch && $tallaMatch && $colorMatch && $fechaInsercionMatch && $subcategoriaMatch;
-            });
+            $resultados = array();
 
-            // Mostrar los resultados de la búsqueda
-            if (!empty($resultados)) {
-                foreach ($resultados as $zapato) {
-                    echo '<p>' . $zapato['subcategoria'] . ': ' . $zapato['marca'] . ', Talla: ' . $zapato['talla'] . ', Color: ' . $zapato['color'] . ', Fecha de inserción: ' . $zapato['fecha_insercion'] . '</p>';
+            if (!empty($subcategoria)) {
+                foreach ($zapatos as $zapato) {
+                    if (in_array($zapato->id_subcategoria, (array)$subcategoria)) {
+                        $resultados[] = $zapato;
+                    }
                 }
             } else {
-                echo 'No se encontraron resultados.';
+                $resultados = $zapatos;
             }
+
+
+            $this->datos['error'] = $error;
+
+            $this->datos['zapatosPrenda'] = $resultados;
+        
+            // print_r($this->datos['zapatosPrenda']->id_subcategoria); exit();
+        
+            $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
+            $this->datos['temporadas'] = $this->zapatoModelo->getTemporadas();
+
+            $this->vista("zapatos/index",$this->datos);
+
+            
 
 
             // if (isset($_GET['busqueda'])) {
