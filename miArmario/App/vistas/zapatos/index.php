@@ -46,7 +46,7 @@
                         <div class="input-group-prepend">
                             <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addZapato">Añadir Zapato</button>
                         </div>
-                        <input type="text" class="form-control" name="busqueda" placeholder="Buscar...">
+                        <input type="text" class="form-control" id="busqueda" name="busqueda" placeholder="Buscar...">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="submit">Buscar</button>
                         </div>
@@ -75,6 +75,7 @@
 
 
         <script>
+
             var subcat = document.getElementById("subcat");
             var dropdownButton = document.getElementById("dropdownMenuButton");
 
@@ -86,6 +87,24 @@
                 }
             });
 
+            // var arrayDatos = <?php echo json_encode($datos["zapatosPrenda"])?>;
+
+            // console.log(arrayDatos);
+
+            // function buscar() {
+            //     var buscado = document.getElementById('busqueda');
+            //     var filtroBusqueda = buscado.value.toLowerCase();
+            //     var resultados = [];
+
+            //     for (var i = 0; i < arrayDatos.length; i++) {
+            //         var datos = arrayDatos[i].toLowerCase();
+            //         if (datos.includes(filtroBusqueda)) {
+            //             resultados.push(arrayDatos[i]);
+            //         }
+            //     }
+
+            //     console.log(resultados);
+            // }
             
         </script>
 
@@ -94,7 +113,7 @@
         <?php 
 
         $totalElementos = count($datos['zapatosPrenda']);
-        $elementosPorPagina = 9;
+        $elementosPorPagina = 1;
         $totalPaginas = ceil($totalElementos / $elementosPorPagina);
 
         $paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
@@ -233,6 +252,8 @@
     </div>
     
 </div>
+
+
 
 
 

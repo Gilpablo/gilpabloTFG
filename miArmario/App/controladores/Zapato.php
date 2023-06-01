@@ -57,7 +57,7 @@ class Zapato extends Controlador{
                 redireccionar('/zapato/creado/error_1');
             }
 
-        }elseif (isset($_GET['busqueda'])) {
+        }elseif (isset($_GET['zapatosSubcategorias'])) {
             
             
             // Obtener los datos de los zapatos
@@ -98,31 +98,23 @@ class Zapato extends Controlador{
             
 
 
-            // if (isset($_GET['busqueda'])) {
-            //     $busqueda = $_GET['busqueda'];
+        }elseif (isset($_GET['busqueda'])) {
+            
+            $busqueda = $_GET['busqueda'];
+            
+            $this->datos['error'] = $error;
 
-            //     $productos = $this->zapatoModelo->getZapatos($this->datos['usuarioSesion']->id);
-                
-            //     // llamamos consulta y comprobamos
-            //     if ($this->zapatoModelo->buscarZapatos($busqueda)) {
-            //         # code...
-            //     }
-                
-            //     // Filtrar el array por coincidencia en nombre o descripción
-            //     $resultados = array_filter($productos, function($producto) use ($busqueda) {
-            //         return strpos(strtolower($producto['nombre']), strtolower($busqueda)) !== false ||
-            //             strpos(strtolower($producto['descripcion']), strtolower($busqueda)) !== false;
-            //     });
-                
-            //     // Mostrar los resultados de la búsqueda
-            //     if (!empty($resultados)) {
-            //         foreach ($resultados as $producto) {
-            //             echo '<p>' . $producto['nombre'] . ': ' . $producto['descripcion'] . '</p>';
-            //         }
-            //     } else {
-            //         echo 'No se encontraron resultados.';
-            //     }
-            // }
+            $this->datos['zapatosPrenda'] = $this->zapatoModelo->buscarZapatos($busqueda, $this->datos['usuarioSesion']->id);
+        
+            // print_r($this->datos['zapatosPrenda']); exit();
+        
+            $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
+            $this->datos['temporadas'] = $this->zapatoModelo->getTemporadas();
+
+            $this->vista("zapatos/index",$this->datos);
+            
+          
+            
 
         }else{
             
@@ -130,7 +122,7 @@ class Zapato extends Controlador{
 
             $this->datos['zapatosPrenda'] = $this->zapatoModelo->getZapatos($this->datos['usuarioSesion']->id);
         
-            // print_r($this->datos['zapatosPrenda']->id_subcategoria); exit();
+            // print_r($this->datos['zapatosPrenda']); exit();
         
             $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
             $this->datos['temporadas'] = $this->zapatoModelo->getTemporadas();

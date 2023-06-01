@@ -89,4 +89,16 @@ class ZapatoModelo {
 
     }
 
+    public function buscarZapatos($palabra, $id_usuario){
+
+        $this->db->query("SELECT * FROM prenda WHERE id_usuario = :id_usuario_za 
+                            AND nombre LIKE '%" . $palabra . "%' OR descripcion LIKE '%" . $palabra . "%' 
+                                OR talla LIKE '%" . $palabra . "%' OR color LIKE '%" . $palabra . "%' 
+                                    OR marca LIKE '%" . $palabra . "%' OR imagen LIKE '%" . $palabra . "%';");
+    
+        $this->db->bind(':id_usuario_za',trim($id_usuario));
+
+        return $this->db->registros(); 
+    }
+
 }
