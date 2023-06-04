@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-05-2023 a las 21:36:21
+-- Tiempo de generación: 05-06-2023 a las 00:18:30
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -116,6 +116,7 @@ CREATE TABLE `prenda` (
   `color` varchar(30) NOT NULL,
   `marca` varchar(30) NOT NULL,
   `imagen` varchar(100) NOT NULL,
+  `fecha_insercion` date DEFAULT NULL,
   `id_subcategoria` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -124,12 +125,14 @@ CREATE TABLE `prenda` (
 -- Volcado de datos para la tabla `prenda`
 --
 
-INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `talla`, `color`, `marca`, `imagen`, `id_subcategoria`, `id_usuario`) VALUES
-(1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', '', '', '', '', 1, 2),
-(2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', '', '', '', '', 2, 2),
-(3, 'Zapatillas Running Pro', 'Zapatillas azules running Pro perfectas para largos recorridos', '', '', '', 'zapatillasAdidasRunningAzules.png', 4, 2),
-(4, 'Zapatos Traje', 'Zapatos de traje negros', '', '', '', 'zapatosNegros.png', 5, 2),
-(5, 'Sandalias rojas', 'Sandalias rojas perfectas para ir por la playa en verano', '', '', '', 'chanclasRojasAdidas.png', 6, 2);
+INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `talla`, `color`, `marca`, `imagen`, `fecha_insercion`, `id_subcategoria`, `id_usuario`) VALUES
+(1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', '', '', '', '', NULL, 1, 2),
+(2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', '', '', '', '', NULL, 2, 2),
+(3, 'Zapatillas Running Pro', 'Zapatillas azules running Pro perfectas para largos recorridos', '', '', '', 'zapatillasAdidasRunningAzules', NULL, 4, 2),
+(4, 'Zapatos Traje', 'Zapatos de traje negros', '', '', '', 'zapatosNegros', NULL, 5, 2),
+(5, 'Sandalias rojas', 'Sandalias rojas perfectas para ir por la playa en verano', '', '', '', 'chanclasRojasAdidas', NULL, 6, 2),
+(7, 'Chanclas Nike', 'Chanclas Nike negras pa veranito', '41', 'negro', 'nike', 'chanclaNikeNengra', '2023-05-29', 6, 2),
+(9, 'air force', 'air force nike blancas', '41', 'blanco', 'nike', 'Nike-air-force-1', '2023-05-29', 4, 2);
 
 -- --------------------------------------------------------
 
@@ -173,7 +176,9 @@ INSERT INTO `prendas_temporadas` (`id_prenda`, `id_temporada`) VALUES
 (2, 3),
 (3, 4),
 (4, 4),
-(5, 1);
+(5, 1),
+(7, 1),
+(9, 4);
 
 -- --------------------------------------------------------
 
@@ -371,7 +376,7 @@ ALTER TABLE `historialuso`
 -- AUTO_INCREMENT de la tabla `prenda`
 --
 ALTER TABLE `prenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
