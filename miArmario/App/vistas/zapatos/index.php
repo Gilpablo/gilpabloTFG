@@ -50,6 +50,9 @@
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="submit">Buscar</button>
                         </div>
+                        <div class="input-group-append">
+                            <a href="<?php echo RUTA_URL ?>/zapato" class="btn btn-warning btn-lg" ><i class="bi bi-arrow-repeat"></i></a>
+                        </div>
                     </div>
                     
                     <div class="form-group">
@@ -77,7 +80,7 @@
         <?php 
 
         $totalElementos = count($datos['zapatosPrenda']);
-        $elementosPorPagina = 1;
+        $elementosPorPagina = 3;
         $totalPaginas = ceil($totalElementos / $elementosPorPagina);
 
         $paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
@@ -241,26 +244,6 @@
         }
     });
 
-
-    
-    // var arrayDatos = <?php echo json_encode($datos["zapatosPrenda"])?>;
-
-    // console.log(arrayDatos);
-
-    // function buscar() {
-    //     var buscado = document.getElementById('busqueda');
-    //     var filtroBusqueda = buscado.value.toLowerCase();
-    //     var resultados = [];
-
-    //     for (var i = 0; i < arrayDatos.length; i++) {
-    //         var datos = arrayDatos[i].toLowerCase();
-    //         if (datos.includes(filtroBusqueda)) {
-    //             resultados.push(arrayDatos[i]);
-    //         }
-    //     }
-
-    //     console.log(resultados);
-    // }
     
 </script>
 

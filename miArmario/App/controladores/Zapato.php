@@ -98,26 +98,14 @@ class Zapato extends Controlador{
             
 
 
-        } elseif (isset($_GET['busqueda'])) {
+        } elseif (isset($_GET['busqueda']) && !empty($_GET['busqueda'])) {
             $busqueda = $_GET['busqueda'];
+
             
             $this->datos['error'] = $error;
-        
-            $zapatos = $this->datos['zapatosPrenda']; // Obtener el array existente
-        
-            $resultados = array();
-        
-            foreach ($zapatos as $zapato) {
-                // Aplicar la lógica de búsqueda al array existente
-                // Por ejemplo, si deseas buscar por nombre del zapato:
-                if (strpos($zapato->nombre, $busqueda) !== false) {
-                    $resultados[] = $zapato;
-                }
-                // Puedes agregar más condiciones de búsqueda según tus necesidades
-            }
-        
-            $this->datos['zapatosPrenda'] = $resultados;
             
+            $this->datos['zapatosPrenda'] = $this->zapatoModelo->buscarZapatos($busqueda, $this->datos['usuarioSesion']->id);
+
             $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
             $this->datos['temporadas'] = $this->zapatoModelo->getTemporadas();
         
