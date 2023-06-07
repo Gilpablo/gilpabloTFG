@@ -57,7 +57,7 @@
                     
                     <div class="form-group">
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropSubcat" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Elige subcategoria...
                             </button>
                             <div class="dropdown-menu" id="subcat" style="display: none;">
@@ -65,6 +65,21 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="<?php echo $zapatosSubcategoria->id ?>" name="zapatosSubcategorias[]" value="<?php echo $zapatosSubcategoria->id ?>">
                                         <label class="form-check-label" for="<?php echo $zapatosSubcategoria->id ?>"><?php echo $zapatosSubcategoria->nombre ?></label>
+                                    </div>    
+                                <?php endforeach?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropTemp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Elige temporada...
+                            </button>
+                            <div class="dropdown-menu" id="temp" style="display: none;">
+                                <?php foreach ($datos['temporadas'] as $temporada) : ?>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="<?php echo $temporada->id ?>" name="zapatosTemporadas[]" value="<?php echo $temporada->id ?>">
+                                        <label class="form-check-label" for="<?php echo $temporada->id ?>"><?php echo $temporada->nombre ?></label>
                                     </div>    
                                 <?php endforeach?>
                             </div>
@@ -234,13 +249,24 @@
 <script>
 
     var subcat = document.getElementById("subcat");
-    var dropdownButton = document.getElementById("dropdownMenuButton");
+    var dropSubcat = document.getElementById("dropSubcat");
 
-    dropdownButton.addEventListener('click', function() {
+    dropSubcat.addEventListener('click', function() {
         if (subcat.style.display === 'block') {
             subcat.style.display = 'none';
         } else {
             subcat.style.display = 'block';
+        }
+    });
+
+    var temp = document.getElementById("temp");
+    var dropTemp = document.getElementById("dropTemp");
+
+    dropTemp.addEventListener('click', function() {
+        if (temp.style.display === 'block') {
+            temp.style.display = 'none';
+        } else {
+            temp.style.display = 'block';
         }
     });
 

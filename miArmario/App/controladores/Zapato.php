@@ -57,7 +57,7 @@ class Zapato extends Controlador{
                 redireccionar('/zapato/creado/error_1');
             }
 
-        }elseif (isset($_GET['zapatosSubcategorias'])) {
+        }elseif (isset($_GET['zapatosSubcategorias']) || isset($_GET['zapatosTemporadas'] )) {
             
             
             // Obtener los datos de los zapatos
@@ -70,6 +70,7 @@ class Zapato extends Controlador{
             // $fechaInsercion = isset($_GET['fechaInsercion']) ? $_GET['fechaInsercion'] : '';
 
             $subcategoria = isset($_GET['zapatosSubcategorias']) ? $_GET['zapatosSubcategorias'] : '';
+            $temporada = isset($_GET['zapatosTemporadas']) ? $_GET['zapatosTemporadas'] : '';
 
             $resultados = array();
 
