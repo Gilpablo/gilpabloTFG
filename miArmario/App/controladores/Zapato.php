@@ -57,7 +57,7 @@ class Zapato extends Controlador{
                 redireccionar('/zapato/creado/error_1');
             }
 
-        }elseif (isset($_GET['zapatosSubcategorias']) || isset($_GET['zapatosTemporadas'] )) {
+        }elseif (isset($_GET['filtros'])) {
             
             
             // Obtener los datos de los zapatos
@@ -69,14 +69,14 @@ class Zapato extends Controlador{
             // $color = isset($_GET['color']) ? $_GET['color'] : '';
             // $fechaInsercion = isset($_GET['fechaInsercion']) ? $_GET['fechaInsercion'] : '';
 
-            $subcategoria = isset($_GET['zapatosSubcategorias']) ? $_GET['zapatosSubcategorias'] : '';
-            $temporada = isset($_GET['zapatosTemporadas']) ? $_GET['zapatosTemporadas'] : '';
+            $filtro = isset($_GET['filtros']) ? $_GET['filtros'] : '';
+            // print_r($filtro); exit();
 
             $resultados = array();
 
-            if (!empty($subcategoria)) {
+            if (!empty($filtro)) {
                 foreach ($zapatos as $zapato) {
-                    if (in_array($zapato->id_subcategoria, (array)$subcategoria)) {
+                    if (in_array($zapato->id_subcategoria, (array)$filtro)) {
                         $resultados[] = $zapato;
                     }
                 }
@@ -99,18 +99,18 @@ class Zapato extends Controlador{
             
 
 
-        } elseif (isset($_GET['busqueda']) && !empty($_GET['busqueda'])) {
-            $busqueda = $_GET['busqueda'];
+        // } elseif (isset($_GET['busqueda']) && !empty($_GET['busqueda'])) {
+        //     $busqueda = $_GET['busqueda'];
 
             
-            $this->datos['error'] = $error;
+        //     $this->datos['error'] = $error;
             
-            $this->datos['zapatosPrenda'] = $this->zapatoModelo->buscarZapatos($busqueda, $this->datos['usuarioSesion']->id);
+        //     $this->datos['zapatosPrenda'] = $this->zapatoModelo->buscarZapatos($busqueda, $this->datos['usuarioSesion']->id);
 
-            $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
-            $this->datos['temporadas'] = $this->zapatoModelo->getTemporadas();
+        //     $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
+        //     $this->datos['temporadas'] = $this->zapatoModelo->getTemporadas();
         
-            $this->vista("zapatos/index", $this->datos);     
+        //     $this->vista("zapatos/index", $this->datos);     
           
             
 

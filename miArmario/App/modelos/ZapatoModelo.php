@@ -95,13 +95,29 @@ class ZapatoModelo {
                             INNER JOIN subcategoria S ON P.id_subcategoria = S.id 
                                 INNER JOIN categoria C ON S.id_categoria = C.id 
                                     WHERE P.id_usuario = :id_usuario_za AND C.nombre = 'zapatos' 
-                                        AND (P.nombre LIKE '%" . $palabra . "%' OR P.descripcion LIKE '%" . $palabra . "%' 
-                                                    OR P.talla LIKE '%" . $palabra . "%' OR P.color LIKE '%" . $palabra . "%' 
-                                                        OR P.marca LIKE '%" . $palabra . "%' OR P.imagen LIKE '%" . $palabra . "%');");
-    
-        $this->db->bind(':id_usuario_za',trim($id_usuario));
+                                        AND (P.nombre LIKE :palabra OR P.descripcion LIKE :palabra 
+                                            OR P.talla LIKE :palabra OR P.color LIKE :palabra 
+                                                OR P.marca LIKE :palabra OR P.imagen LIKE :palabra);");
 
+        $this->db->bind(':id_usuario_za', trim($id_usuario));
+        $this->db->bind(':palabra', '%' . $palabra . '%');
+
+        return $this->db->registros();
+    }
+
+    public function getZapatosTemp($datos, $id_usuario){ 
+
+        print_r($datos); exit();
+  
+        $this->db->query("SELECT P.* FROM prenda P 
+                            INNER JOIN subcategoria S ON P.id_subcategoria = S.id 
+                                INNER JOIN categoria C ON S.id_categoria = C.id 
+                                    WHERE P.id_usuario = :id_usuario_za AND C.nombre = 'zapatos';"); 
+ 
+        $this->db->bind(':id_usuario_za',$id_usuario); 
+ 
         return $this->db->registros(); 
+ 
     }
 
 }

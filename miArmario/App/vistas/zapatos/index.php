@@ -48,13 +48,14 @@
                         </div>
                         <input type="text" class="form-control" id="busqueda" name="busqueda" placeholder="Buscar...">
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Buscar</button>
+                            <button class="btn btn-primary" type="button" onclick="realizarBusqueda()">Buscar</button>
                         </div>
                         <div class="input-group-append">
                             <a href="<?php echo RUTA_URL ?>/zapato" class="btn btn-warning btn-lg" ><i class="bi bi-arrow-repeat"></i></a>
                         </div>
                     </div>
-                    
+                    <input type="hidden" id="resultados" name="resultados" value="">
+
                     <div class="form-group">
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropSubcat" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -63,14 +64,15 @@
                             <div class="dropdown-menu" id="subcat" style="display: none;">
                                 <?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) : ?>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="<?php echo $zapatosSubcategoria->id ?>" name="zapatosSubcategorias[]" value="<?php echo $zapatosSubcategoria->id ?>">
+                                        <input class="form-check-input" type="checkbox" id="<?php echo $zapatosSubcategoria->id ?>" name="filtros[]" value="<?php echo $zapatosSubcategoria->id ?>">
                                         <label class="form-check-label" for="<?php echo $zapatosSubcategoria->id ?>"><?php echo $zapatosSubcategoria->nombre ?></label>
                                     </div>    
                                 <?php endforeach?>
+                                <button class="btn btn-primary" type="submit">Filtrar</button>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropTemp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Elige temporada...
@@ -78,13 +80,14 @@
                             <div class="dropdown-menu" id="temp" style="display: none;">
                                 <?php foreach ($datos['temporadas'] as $temporada) : ?>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="<?php echo $temporada->id ?>" name="zapatosTemporadas[]" value="<?php echo $temporada->id ?>">
+                                        <input class="form-check-input" type="checkbox" id="<?php echo $temporada->id ?>" name="filtros[]" value="<?php echo $temporada->id ?>">
                                         <label class="form-check-label" for="<?php echo $temporada->id ?>"><?php echo $temporada->nombre ?></label>
                                     </div>    
                                 <?php endforeach?>
+                                <button class="btn btn-primary" name="temp" type="submit">Filtrar</button>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     
                 </form>
 
@@ -93,6 +96,11 @@
 
 
         <?php 
+
+        if (!empty($_GET['resultados'])) {
+            $datos['zapatosPrenda'] = json_decode($_GET['resultados']);
+        }
+
 
         $totalElementos = count($datos['zapatosPrenda']);
         $elementosPorPagina = 3;
@@ -270,7 +278,33 @@
         }
     });
 
-    
+    function realizarBusqueda() {
+        
+        // Obtener el valor de búsqueda
+        var busqueda = document.getElementById('busqueda').value;
+
+        // Obtener los datos de zapatos desde PHP y convertirlos en un array JavaScript
+        var arrayDatos = <?php echo json_encode($datos["zapatosPrenda"]); ?>;
+        
+        // Realizar la lógica de búsqueda
+        var resultados = arrayDatos.filter(function(zapato) {
+            // Aplicar los criterios de búsqueda
+            return zapato.nombre.toLowerCase().includes(busqueda.toLowerCase())
+                || zapato.descripcion.toLowerCase().includes(busqueda.toLowerCase())
+                || zapato.talla.toLowerCase().includes(busqueda.toLowerCase())
+                || zapato.color.toLowerCase().includes(busqueda.toLowerCase())
+                || zapato.marca.toLowerCase().includes(busqueda.toLowerCase())
+                || zapato.imagen.toLowerCase().includes(busqueda.toLowerCase());
+        });
+        
+        // Actualizar el campo oculto con los resultados de búsqueda
+        document.getElementById('resultados').value = JSON.stringify(resultados);
+        
+        // Enviar el formulario para actualizar el array $datos["zapatosPrenda"]
+        document.forms[0].submit();
+    }
+
+
 </script>
 
 <?php require_once RUTA_APP.'/vistas/inc/footer.php' ?>
