@@ -120,4 +120,15 @@ class ZapatoModelo {
  
     }
 
+    public function getZapatoSolo($id_usuario, $id_zapato){
+
+        $this->db->query("SELECT * FROM prenda WHERE id_usuario = :id_usuario_za AND id = :id_zapato_za;"); 
+ 
+        $this->db->bind(':id_usuario_za',$id_usuario); 
+        $this->db->bind(':id_zapato_za',$id_zapato); 
+ 
+        return $this->db->registro(); 
+
+    }
+
 }

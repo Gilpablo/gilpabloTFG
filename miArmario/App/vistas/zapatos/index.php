@@ -12,13 +12,12 @@
 
 <div class="container">
 
-    <!-- <nav aria-label="breadcrumb">
+    <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?php echo RUTA_URL ?>">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Asesorias</li>
+            <li class="breadcrumb-item"><a href="<?php echo RUTA_URL ?>">Inicio</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Zapatos</li>
         </ol>
-    </nav> -->
-    <!-- <?php echo RUTA_PUBLIC; ?>  -->
+    </nav>
 
     <?php if (isset($datos['error']) && $datos['error'] == 'error_1' ): ?>
         <div class="alert alert-danger" role="alert">
@@ -42,19 +41,19 @@
         <div class="row justify-content-center">
             <div class="col-lg-6">
                 <form class="input-group" method="GET" action="">
-                    <div class="input-group">
+                    <div class="input-group pb-2">
                         <div class="input-group-prepend">
-                            <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addZapato">Añadir Zapato</button>
+                            <button class="btn btn-success btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#addZapato">Añadir Zapato</button>
                         </div>
                         <input type="text" class="form-control" id="busqueda" name="busqueda" placeholder="Buscar...">
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" onclick="realizarBusqueda()">Buscar</button>
+                            <button class="btn btn-primary btn-lg" type="submit" >Buscar</button>
                         </div>
                         <div class="input-group-append">
                             <a href="<?php echo RUTA_URL ?>/zapato" class="btn btn-warning btn-lg" ><i class="bi bi-arrow-repeat"></i></a>
                         </div>
                     </div>
-                    <input type="hidden" id="resultados" name="resultados" value="">
+                    <!-- <input type="hidden" id="resultados" name="resultados" value=""> -->
 
                     <div class="form-group">
                         <div class="dropdown">
@@ -64,7 +63,8 @@
                             <div class="dropdown-menu" id="subcat" style="display: none;">
                                 <?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) : ?>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="<?php echo $zapatosSubcategoria->id ?>" name="filtros[]" value="<?php echo $zapatosSubcategoria->id ?>">
+                                        <input class="form-check-input" type="checkbox" id="<?php echo $zapatosSubcategoria->id ?>" value="<?php echo $zapatosSubcategoria->id ?>" 
+                                        name="filtros[]" <?php if (isset($_GET['filtros']) && in_array($zapatosSubcategoria->id, $_GET['filtros'])) { echo 'checked'; } ?>>
                                         <label class="form-check-label" for="<?php echo $zapatosSubcategoria->id ?>"><?php echo $zapatosSubcategoria->nombre ?></label>
                                     </div>    
                                 <?php endforeach?>
@@ -72,6 +72,7 @@
                             </div>
                         </div>
                     </div>
+
                     <!-- <div class="form-group">
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropTemp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -97,9 +98,9 @@
 
         <?php 
 
-        if (!empty($_GET['resultados'])) {
-            $datos['zapatosPrenda'] = json_decode($_GET['resultados']);
-        }
+        // if (!empty($_GET['resultados'])) {
+        //     $datos['zapatosPrenda'] = json_decode($_GET['resultados']);
+        // }
 
 
         $totalElementos = count($datos['zapatosPrenda']);
@@ -115,48 +116,46 @@
             $zapatosPrenda = $datos['zapatosPrenda'][$i]; ?>
             
             
-            
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card my-3">
-        
-                    <img src="<?php echo RUTA_URL?>/img_prendas/<?php echo $zapatosPrenda->id.$zapatosPrenda->imagen
-                    ?>.png" class="card-image-top" alt="thumbnail">
-        
-                    <div class="card-body">
-                        <h3 class="card-title"><a href="#" class="text-secondary"><?php echo $zapatosPrenda->nombre ?></a></h3>
-                        <p class="card-text"><?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) {
+            <div class="col-12 col-md-6 col-lg-4 pt-5">
+                <a href="<?php echo RUTA_URL ?>/zapato/verZapato/<?php echo $zapatosPrenda->id ?>" style="text-decoration: none;">
+                    <div class="card my-3" style="background-color: #545454;">
+                        <img id="imgPrendas" style="height: 400px;" src="<?php echo RUTA_URL?>/img_prendas/<?php echo $zapatosPrenda->id.$zapatosPrenda->imagen ?>.png" class="card-image-top" alt="thumbnail">
+                        <div class="card-body">
+                            <h4 class="card-title" style="color: #A6A6A6;"><?php echo $zapatosPrenda->nombre ?></h4>
+                            <p class="card-text">
+                                <h5 style="color: #EDD0BA;"><?php echo $zapatosPrenda->marca?></h5>
+                                <?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) {
                                     if ($zapatosPrenda->id_subcategoria == $zapatosSubcategoria->id) {
-                                        echo "<h5>".$zapatosSubcategoria->nombre."</h5>";
+                                        echo "<h6 style='color: #F6F0EB;'>".$zapatosSubcategoria->nombre."</h6>";
                                     }
-                                }
-                                echo $zapatosPrenda->descripcion;
-                            ?>
-
-                        </p>
-                        <a href="#" class="btn btn-primary"></a>
+                                } ?>
+                            </p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
+
+
         <?php } ?>
         
-        <div class="paginacion">
-            <?php
-            for ($i = 1; $i <= $totalPaginas; $i++) {
-                // Construir los parámetros de la URL
-                $parametrosURL = $_GET; // Obtener los parámetros actuales
-                $parametrosURL['pagina'] = $i; // Agregar el parámetro de la página
-                
-                $url = '?' . http_build_query($parametrosURL); // Construir la URL con los parámetros
-                
-                // Generar el enlace de paginación
-                ?>
-                <a href="<?php echo $url; ?>" <?php if ($i == $paginaActual) { echo 'class="active"'; } ?>>
-                    <?php echo $i; ?>
-                </a>
-                <?php
-            }
+        <?php if ($totalPaginas > 1) { // Agregar esta condición para mostrar la paginación solo si hay más de una página
             ?>
-        </div>
+            <div class="paginacion">
+                <?php for ($i = 1; $i <= $totalPaginas; $i++) {
+                    // Construir los parámetros de la URL
+                    $parametrosURL = $_GET; // Obtener los parámetros actuales
+                    $parametrosURL['pagina'] = $i; // Agregar el parámetro de la página
+
+                    $url = '?' . http_build_query($parametrosURL); // Construir la URL con los parámetros
+
+                    // Generar el enlace de paginación
+                    ?>
+                    <a href="<?php echo $url; ?>" <?php if ($i == $paginaActual) { echo 'class="active"'; } ?>>
+                        <?php echo $i; ?>
+                    </a>
+                <?php } ?>
+            </div>
+        <?php } ?>
 
         
         
@@ -267,42 +266,42 @@
         }
     });
 
-    var temp = document.getElementById("temp");
-    var dropTemp = document.getElementById("dropTemp");
+    // var temp = document.getElementById("temp");
+    // var dropTemp = document.getElementById("dropTemp");
 
-    dropTemp.addEventListener('click', function() {
-        if (temp.style.display === 'block') {
-            temp.style.display = 'none';
-        } else {
-            temp.style.display = 'block';
-        }
-    });
+    // dropTemp.addEventListener('click', function() {
+    //     if (temp.style.display === 'block') {
+    //         temp.style.display = 'none';
+    //     } else {
+    //         temp.style.display = 'block';
+    //     }
+    // });
 
-    function realizarBusqueda() {
+    // function realizarBusqueda() {
         
-        // Obtener el valor de búsqueda
-        var busqueda = document.getElementById('busqueda').value;
+    //     // Obtener el valor de búsqueda
+    //     var busqueda = document.getElementById('busqueda').value;
 
-        // Obtener los datos de zapatos desde PHP y convertirlos en un array JavaScript
-        var arrayDatos = <?php echo json_encode($datos["zapatosPrenda"]); ?>;
+    //     // Obtener los datos de zapatos desde PHP y convertirlos en un array JavaScript
+    //     var arrayDatos = <?php echo json_encode($datos["zapatosPrenda"]); ?>;
         
-        // Realizar la lógica de búsqueda
-        var resultados = arrayDatos.filter(function(zapato) {
-            // Aplicar los criterios de búsqueda
-            return zapato.nombre.toLowerCase().includes(busqueda.toLowerCase())
-                || zapato.descripcion.toLowerCase().includes(busqueda.toLowerCase())
-                || zapato.talla.toLowerCase().includes(busqueda.toLowerCase())
-                || zapato.color.toLowerCase().includes(busqueda.toLowerCase())
-                || zapato.marca.toLowerCase().includes(busqueda.toLowerCase())
-                || zapato.imagen.toLowerCase().includes(busqueda.toLowerCase());
-        });
+    //     // Realizar la lógica de búsqueda
+    //     var resultados = arrayDatos.filter(function(zapato) {
+    //         // Aplicar los criterios de búsqueda
+    //         return zapato.nombre.toLowerCase().includes(busqueda.toLowerCase())
+    //             || zapato.descripcion.toLowerCase().includes(busqueda.toLowerCase())
+    //             || zapato.talla.toLowerCase().includes(busqueda.toLowerCase())
+    //             || zapato.color.toLowerCase().includes(busqueda.toLowerCase())
+    //             || zapato.marca.toLowerCase().includes(busqueda.toLowerCase())
+    //             || zapato.imagen.toLowerCase().includes(busqueda.toLowerCase());
+    //     });
         
-        // Actualizar el campo oculto con los resultados de búsqueda
-        document.getElementById('resultados').value = JSON.stringify(resultados);
+    //     // Actualizar el campo oculto con los resultados de búsqueda
+    //     document.getElementById('resultados').value = JSON.stringify(resultados);
         
-        // Enviar el formulario para actualizar el array $datos["zapatosPrenda"]
-        document.forms[0].submit();
-    }
+    //     // Enviar el formulario para actualizar el array $datos["zapatosPrenda"]
+    //     document.forms[0].submit();
+    // }
 
 
 </script>

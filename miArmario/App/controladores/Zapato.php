@@ -99,18 +99,18 @@ class Zapato extends Controlador{
             
 
 
-        // } elseif (isset($_GET['busqueda']) && !empty($_GET['busqueda'])) {
-        //     $busqueda = $_GET['busqueda'];
+        } elseif (isset($_GET['busqueda']) && !empty($_GET['busqueda'])) {
+            $busqueda = $_GET['busqueda'];
 
             
-        //     $this->datos['error'] = $error;
+            $this->datos['error'] = $error;
             
-        //     $this->datos['zapatosPrenda'] = $this->zapatoModelo->buscarZapatos($busqueda, $this->datos['usuarioSesion']->id);
+            $this->datos['zapatosPrenda'] = $this->zapatoModelo->buscarZapatos($busqueda, $this->datos['usuarioSesion']->id);
 
-        //     $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
-        //     $this->datos['temporadas'] = $this->zapatoModelo->getTemporadas();
+            $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
+            $this->datos['temporadas'] = $this->zapatoModelo->getTemporadas();
         
-        //     $this->vista("zapatos/index", $this->datos);     
+            $this->vista("zapatos/index", $this->datos);     
           
             
 
@@ -131,7 +131,19 @@ class Zapato extends Controlador{
         
     }
 
+    public function verZapato($id_zapato){
+
+        
+        $this->datos['zapato'] = $this->zapatoModelo->getZapatoSolo($this->datos['usuarioSesion']->id, $id_zapato);
+        
+        // print_r($this->datos['zapatosPrenda']); exit();
     
+        $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
+        $this->datos['temporadas'] = $this->zapatoModelo->getTemporadas();
+    
+        $this->vista("zapatos/verZapato",$this->datos);
+
+    }
 
     public function filtro(){
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
