@@ -1,13 +1,10 @@
-
 <?php require_once RUTA_APP.'/vistas/inc/header.php' ?>
 
 <?php 
     $zapato = $datos["zapato"];
-    print_r($zapato); 
 ?>
 
 <div class="container">
-
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<?php echo RUTA_URL ?>">Inicio</a></li>
@@ -18,7 +15,7 @@
 
     <div class="row">
         <div class="col-6">
-            <img src="<?php echo RUTA_URL?>/img_prendas/<?php echo $zapato->id.$zapato->imagen ?>.png" alt="" class="img-fluid">
+            <img id="imagenActual" src="<?php echo RUTA_URL?>/img_prendas/<?php echo $zapato->id.$zapato->imagen ?>.png" alt="" class="img-fluid">
         </div>
         <div class="col-6">
             <form method="post" enctype="multipart/form-data">
@@ -50,39 +47,50 @@
                     <label for="checkboxes">Elige temporada o temporadas:</label>
                     <?php foreach ($datos["temporadas"] as $temporada) : ?>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="temporada-<?php echo $temporada->id ?>" name="temporadas[]" value="<?php echo $temporada->id ?>">
+                            <?php if (in_array($temporada->id, array_column($datos["temporadaZapato"], 'id_temporada'))) : ?>
+                                <input class="form-check-input" type="checkbox" id="temporada-<?php echo $temporada->id ?>" name="temporadas[]" value="<?php echo $temporada->id ?>" checked>
+                            <?php else : ?>
+                                <input class="form-check-input" type="checkbox" id="temporada-<?php echo $temporada->id ?>" name="temporadas[]" value="<?php echo $temporada->id ?>">
+                            <?php endif ?>
                             <label class="form-check-label" for="temporada-<?php echo $temporada->id ?>"><?php echo $temporada->nombre ?></label>
                         </div>
                     <?php endforeach ?>
                 </div>
-
                 <div class="form-group mb-3">
-                    <select name="subcategoriaZapato" id="subcategoriaZapato">
-                        <option value="0">Elige subcategoria...</option>
+                    <label for="subcategoriaZapato">Subcategorias:</label>
+                    <select name="subcategoriaZapato" id="subcategoriaZapato" class="form-control">
                         <?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) : ?>
-                            <option value="<?php echo $zapatosSubcategoria->id?>"><?php echo $zapatosSubcategoria->nombre?></option>
-                        <?php endforeach?> 
+                            <?php if ($zapatosSubcategoria->id == $zapato->id_subcategoria) : ?>
+                                <option value="<?php echo $zapatosSubcategoria->id ?>" selected><?php echo $zapatosSubcategoria->nombre ?></option>
+                            <?php else : ?>
+                                <option value="<?php echo $zapatosSubcategoria->id ?>"><?php echo $zapatosSubcategoria->nombre ?></option>
+                            <?php endif ?>
+                        <?php endforeach ?> 
                     </select>
-
                 </div>
-                
                 <div class="form-group mb-3">
-                    <label for="imagen">Imagen:</label>
-                    <input type="file" class="form-control-file" id="imagen" name="imagen">
+                    <input type="file" class="form-control-file hidden" id="imagen" name="imagen" style="display: none;">
+                    <button type="button" id="btnModificarImagen" class="btn btn-primary">Modificar imagen</button>
                 </div>
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </form>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
 </div>
     
 <?php require_once RUTA_APP.'/vistas/inc/footer.php' ?>
+
+<script>
+    document.getElementById('btnModificarImagen').addEventListener('click', function() {
+        document.getElementById('imagen').click();
+    });
+
+    document.getElementById('imagen').addEventListener('change', function() {
+        var file = this.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('imagenActual').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+</script>

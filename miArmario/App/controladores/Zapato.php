@@ -140,6 +140,8 @@ class Zapato extends Controlador{
     
         $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
         $this->datos['temporadas'] = $this->zapatoModelo->getTemporadas();
+        $this->datos['temporadaZapato'] = $this->zapatoModelo->getTemporadasZapato($id_zapato);
+        
     
         $this->vista("zapatos/verZapato",$this->datos);
 

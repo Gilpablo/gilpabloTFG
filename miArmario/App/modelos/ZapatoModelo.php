@@ -131,4 +131,13 @@ class ZapatoModelo {
 
     }
 
+    public function getTemporadasZapato($id_zapato){
+
+        $this->db->query("SELECT * FROM prendas_temporadas WHERE id_prenda = :id_zapato_za;"); 
+
+        $this->db->bind(':id_zapato_za',$id_zapato); 
+ 
+        return $this->db->registros(); 
+    }
+
 }
