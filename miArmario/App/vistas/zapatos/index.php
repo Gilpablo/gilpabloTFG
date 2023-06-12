@@ -24,12 +24,20 @@
             ERROR AL GUARDAR LOS DATOS !!!
         </div>
     <?php elseif ($datos['error'] == 'error_2') :?>
-        <div class="alert alert-success" role="alert">
-        ERROR AL GUARDAR LA IMAGEN !!!
+        <div class="alert alert-danger" role="alert">
+            ERROR AL GUARDAR LA IMAGEN !!!
         </div>
     <?php elseif ($datos['error'] == 'creado') :?>
         <div class="alert alert-success" role="alert">
             GUARDADO CORRECTAMENTE !!!
+        </div>
+    <?php elseif ($datos['error'] == 'error_3') :?>
+        <div class="alert alert-danger" role="alert">
+            ERROR AL BORRAR !!!
+        </div>
+    <?php elseif ($datos['error'] == 'borrado') :?>
+        <div class="alert alert-success" role="alert">
+            BORRADO CORRECTAMENTE !!!
         </div>
     <?php endif ?>
 
@@ -117,7 +125,7 @@
             
             
             <div class="col-12 col-md-6 col-lg-4 pt-5">
-                <a href="<?php echo RUTA_URL ?>/zapato/verZapato/<?php echo $zapatosPrenda->id ?>" style="text-decoration: none;">
+                <a href="<?php echo RUTA_URL ?>/zapato/ver_zapato/<?php echo $zapatosPrenda->id ?>" style="text-decoration: none;">
                     <div class="card my-3" style="background-color: #545454;">
                         <img id="imgPrendas" style="height: 400px;" src="<?php echo RUTA_URL?>/img_prendas/<?php echo $zapatosPrenda->id.$zapatosPrenda->imagen ?>.png" class="card-image-top" alt="thumbnail">
                         <div class="card-body">
@@ -178,29 +186,29 @@
                                 <div class="row">
 
                                         <div class="col-6">
-                                            <label for="nombre">Nombre</label>
+                                            <label for="nombre" style="font-weight: bold; color: #333;">Nombre</label>
                                             <input type="text" class="form-control" name="nombreZapato" id="nombreZapato" placeholder="Ingresa el nombre">
                                         </div>
                                         <div class="col-6">
-                                            <label for="talla">Talla</label>
+                                            <label for="talla" style="font-weight: bold; color: #333;">Talla</label>
                                             <input type="text" class="form-control" name="tallaZapato" id="tallaZapato" placeholder="Ingresa la talla">
                                         </div>
                                         <div class="col-6">
-                                            <label for="color">Color</label>
+                                            <label for="color" style="font-weight: bold; color: #333;">Color</label>
                                             <input type="text" class="form-control" name="colorZapato" id="colorZapato" placeholder="Ingresa el color">
                                         </div>
                                         <div class="col-6">
-                                            <label for="marca">Marca</label>
+                                            <label for="marca" style="font-weight: bold; color: #333;">Marca</label>
                                             <input type="text" class="form-control" name="marcaZapato" id="marcaZapato" placeholder="Ingresa la marca">
                                         </div>
                                         <div class="col-12">
-                                            <label for="descripcion">Descripcion</label>
+                                            <label for="descripcion" style="font-weight: bold; color: #333;">Descripcion</label>
                                             <input type="text" class="form-control" name="descripcionZapato" id="descripcionZapato" placeholder="Descripcion...">
                                         </div>
 
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="checkboxes">Elige temporada o temporadas:</label>
+                                            <label for="checkboxes" style="font-weight: bold; color: #333;">Elige temporada o temporadas:</label>
                                             <?php foreach ($datos["temporadas"] as $temporada) : ?>
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" id="temporada-<?php echo $temporada->id ?>" name="temporadas[]" value="<?php echo $temporada->id ?>">
@@ -208,23 +216,27 @@
                                                 </div>
                                             <?php endforeach ?>
                                         </div>
-
                                     </div>
-                                    <div class="col-6">
-                                        <select name="subcategoriaZapato" id="subcategoriaZapato">
-                                            <option value="0">Elige subcategoria...</option>
+
+                                    <div class="col-6 pt-1">
+                                        <select name="subcategoriaZapato" id="subcategoriaZapato" class="form-control">
+                                            <option value="0">Elige subcategoría...</option>
                                             <?php foreach ($datos['zapatosSubcategoria'] as $zapatosSubcategoria) : ?>
-                                                <option value="<?php echo $zapatosSubcategoria->id?>"><?php echo $zapatosSubcategoria->nombre?></option>
-                                            <?php endforeach?> 
+                                                <option value="<?php echo $zapatosSubcategoria->id ?>"><?php echo $zapatosSubcategoria->nombre ?></option>
+                                            <?php endforeach ?>
                                         </select>
-
                                     </div>
+
                                     
-                                    
-                                    <div class="col-12">
-                                        <label for="imagenZapato">Cargar imagen</label>
-                                        <input type="file" class="form-control-file" name="imagenZapato" id="imagenZapato">
-                                        
+                                    <div class="col-6">
+                                        <label for="imagenZapato" style="font-weight: bold; color: #333;">Cargar imagen</label>
+                                        <input type="file" class="form-control-file" name="imagenZapato" id="imagenZapato" style="border: 1px solid #ccc; padding: 5px; width: 100%;">
+                                    </div>
+
+
+                                    <div class="col-6">
+                                        <label for="fecha_insercionZapato" style="font-weight: bold; color: #333;">Fecha Adquisición</label>
+                                        <input type="date" class="form-control" id="fecha_insercionZapato" name="fecha_insercionZapato">
                                     </div>
                                 </div>
                             </div>

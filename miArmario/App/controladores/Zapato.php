@@ -54,9 +54,22 @@ class Zapato extends Controlador{
                     redireccionar('/zapato/error_2');
                 }
             }else {
-                redireccionar('/zapato/creado/error_1');
+                redireccionar('/zapato/error_1');
             }
 
+        } elseif (isset($_GET['busqueda']) && !empty($_GET['busqueda'])) {
+            $busqueda = $_GET['busqueda'];
+
+            
+            $this->datos['error'] = $error;
+            
+            $this->datos['zapatosPrenda'] = $this->zapatoModelo->buscarZapatos($busqueda, $this->datos['usuarioSesion']->id);
+
+            $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
+            $this->datos['temporadas'] = $this->zapatoModelo->getTemporadas();
+        
+            $this->vista("zapatos/index", $this->datos);     
+          
         }elseif (isset($_GET['filtros'])) {
             
             
@@ -99,19 +112,6 @@ class Zapato extends Controlador{
             
 
 
-        } elseif (isset($_GET['busqueda']) && !empty($_GET['busqueda'])) {
-            $busqueda = $_GET['busqueda'];
-
-            
-            $this->datos['error'] = $error;
-            
-            $this->datos['zapatosPrenda'] = $this->zapatoModelo->buscarZapatos($busqueda, $this->datos['usuarioSesion']->id);
-
-            $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
-            $this->datos['temporadas'] = $this->zapatoModelo->getTemporadas();
-        
-            $this->vista("zapatos/index", $this->datos);     
-          
             
 
         }else{
@@ -131,58 +131,86 @@ class Zapato extends Controlador{
         
     }
 
-    public function verZapato($id_zapato){
+    public function ver_zapato($id_zapato){
 
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $editZapato = $_POST;
+
+            $nombreArchivo = $_FILES['imagen']['name'];
+
+
+            if (!empty($nombreArchivo)) {
+                
+                $ubicacionTemporal = $_FILES['imagen']['tmp_name'];
+
+                // Obtener el nombre del archivo sin la extensión
+                $nombreImg = pathinfo($nombreArchivo, PATHINFO_FILENAME);
+
+
+                // llamamos consulta y comprabamos que devuelva bien los resultados
+                if ($this->zapatoModelo->editZapato($editZapato, $nombreImg, $this->datos['usuarioSesion']->id, $id_zapato)) {
+
+                    // Mover el archivo a una ubicación deseada
+                    $rutaDestino = RUTA_PUBLIC. "/img_prendas/". $id_zapato.$nombreImg . ".png";
+                    if (move_uploaded_file($ubicacionTemporal, $rutaDestino)) {
+                        
+                        redireccionar('/zapato/editado');
+                        
+                    } else {
+                        redireccionar('/zapato/error_2');
+                    }
+                }else {
+                    redireccionar('/zapato/error_1');
+                }
+
+            }else {
+
+                // llamamos consulta y comprabamos que devuelva bien los resultados
+                if ($this->zapatoModelo->editZapato($editZapato, $nombreImg, $this->datos['usuarioSesion']->id, $id_zapato)) {
+                    
+                    redireccionar('/zapato/editado');
+                        
+                }else {
+                    redireccionar('/zapato/error_1');
+                }
+            }
+            
+            
+
+        }else{
+            
+            $this->datos['zapato'] = $this->zapatoModelo->getZapatoSolo($this->datos['usuarioSesion']->id, $id_zapato);
+            
+            // print_r($this->datos['zapatosPrenda']); exit();
         
-        $this->datos['zapato'] = $this->zapatoModelo->getZapatoSolo($this->datos['usuarioSesion']->id, $id_zapato);
+            $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
+            $this->datos['temporadas'] = $this->zapatoModelo->getTemporadas();
+            $this->datos['temporadaZapato'] = $this->zapatoModelo->getTemporadasZapato($id_zapato);
+            
         
-        // print_r($this->datos['zapatosPrenda']); exit();
-    
-        $this->datos['zapatosSubcategoria'] = $this->zapatoModelo->getSubcategoriaZapatos();
-        $this->datos['temporadas'] = $this->zapatoModelo->getTemporadas();
-        $this->datos['temporadaZapato'] = $this->zapatoModelo->getTemporadasZapato($id_zapato);
+            $this->vista("zapatos/verZapato",$this->datos);
+        }
         
-    
-        $this->vista("zapatos/verZapato",$this->datos);
 
     }
 
-    public function filtro(){
-        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            $datos = $_GET;
+    public function borrar_zapato($id_zapato){
 
-            if (!isset($datos['fecha_ini']) || empty($datos['fecha_ini'])){     // Si fecha_ini esta vacio, le pongo la fecha de 6 meses atras
-                $datos['fecha_ini'] = hoyMenos6Meses();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            // print_r($id_zapato); exit();
+            
+            if ($this->zapatoModelo->borrarZapato($this->datos['usuarioSesion']->id, $id_zapato)){
+
+                redireccionar('/zapato/borrado');   
+            }else {
+                redireccionar('/zapato/error_3');
             }
-
-            if (!isset($datos['fecha_fin']) || empty($datos['fecha_fin'])){     // Si fecha_fin esta vacio, le pongo fecha de hoy
-                $datos['fecha_fin'] = date("Y-m-d");
-            }
-
-
-            $this->datos["estados"] = $this->asesoriaModelo->getEstados($datos);    // Cogemos todos los estados existentes
-            if (!isset($datos['buscar'])){              // con esto vemos que entramos a filtro por primera vez, los selecciono todos
-                $datos['estado'] = array_column($this->datos['estados'], 'id_estado');
-            }
-
-            if (!isset($datos['estado'])){              // Inicializo si esta vacio para que no de error
-                $datos['estado'] = [];
-            }
-
-            if(!isset($datos['buscar'])){   // Si no esta definido buscar, lo defino con la cadena vacia
-                $datos['buscar'] = '';
-            }
-
-            $this->datos["filtro"] = $datos;
-            $this->datos["asesorias"] = $this->asesoriaModelo->getAsesoriasFiltro($datos);
-            foreach($this->datos["asesorias"] as $asesoria){
-                $asesoria->acciones = $this->asesoriaModelo->getAccionesAsesoria($asesoria->id_asesoria);
-            }
-
-            $this->vista("asesorias/index",$this->datos);
         } else {
 
         }
+
     }
 
 }
