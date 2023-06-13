@@ -41,6 +41,7 @@
         </div>
     <?php endif ?>
 
+    
     <div class="row">
         <div class="col-12">
             <h1 class="mb-3 text-primary text-center">ZAPATOS</h1>

@@ -79,6 +79,7 @@
         </div>
     </div>
 
+    
     <!-- ++++++++++++++++++++++++++++++++++++++++ Modal Borrar Zapato ++++++++++++++++++ -->
 
     <div class="modal fade" id="modalBorrarZapato" tabindex="-1">

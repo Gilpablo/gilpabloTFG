@@ -1,53 +1,53 @@
 <?php require_once RUTA_APP.'/vistas/inc/header.php' ?>
 
 <?php 
-    $complemento = $datos["complemento"];
+    $conjunto = $datos["conjunto"];
 ?>
 
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<?php echo RUTA_URL ?>">Inicio</a></li>
-            <li class="breadcrumb-item"><a href="<?php echo RUTA_URL ?>/complemento">Complementos</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Ver Complemento</li>
+            <li class="breadcrumb-item"><a href="<?php echo RUTA_URL ?>/conjunto">Conjuntos</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Ver Conjunto</li>
         </ol>
     </nav>
 
     <div class="row">
         <div class="col-6">
-            <img id="imagenActual" src="<?php echo RUTA_URL?>/img_prendas/<?php echo $complemento->id.$complemento->imagen ?>.png" alt="" class="img-fluid">
+            <img id="imagenActual" src="<?php echo RUTA_URL?>/img_prendas/<?php echo $conjunto->id.$conjunto->imagen ?>.png" alt="" class="img-fluid">
         </div>
         <div class="col-6">
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group mb-3">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $complemento->nombre ?>">
+                    <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $conjunto->nombre ?>">
                 </div>
                 <div class="form-group mb-3">
                     <label for="descripcion">Descripción:</label>
-                    <textarea class="form-control" id="descripcion" name="descripcion"><?php echo $complemento->descripcion ?></textarea>
+                    <textarea class="form-control" id="descripcion" name="descripcion"><?php echo $conjunto->descripcion ?></textarea>
                 </div>
                 <div class="form-group mb-3">
                     <label for="talla">Talla:</label>
-                    <input type="text" class="form-control" id="talla" name="talla" value="<?php echo $complemento->talla ?>">
+                    <input type="text" class="form-control" id="talla" name="talla" value="<?php echo $conjunto->talla ?>">
                 </div>
                 <div class="form-group mb-3">
                     <label for="color">Color:</label>
-                    <input type="text" class="form-control" id="color" name="color" value="<?php echo $complemento->color ?>">
+                    <input type="text" class="form-control" id="color" name="color" value="<?php echo $conjunto->color ?>">
                 </div>
                 <div class="form-group mb-3">
                     <label for="marca">Marca:</label>
-                    <input type="text" class="form-control" id="marca" name="marca" value="<?php echo $complemento->marca ?>">
+                    <input type="text" class="form-control" id="marca" name="marca" value="<?php echo $conjunto->marca ?>">
                 </div>
                 <div class="form-group mb-3">
                     <label for="fecha_insercion">Fecha de inserción:</label>
-                    <input type="date" class="form-control" id="fecha_insercion" name="fecha_insercion" value="<?php echo date('Y-m-d', strtotime($complemento->fecha_insercion)) ?>">
+                    <input type="date" class="form-control" id="fecha_insercion" name="fecha_insercion" value="<?php echo date('Y-m-d', strtotime($conjunto->fecha_insercion)) ?>">
                 </div>
                 <div class="form-group mb-3">
                     <label for="checkboxes">Elige temporada o temporadas:</label>
                     <?php foreach ($datos["temporadas"] as $temporada) : ?>
                         <div class="form-check">
-                            <?php if (in_array($temporada->id, array_column($datos["temporadaComplemento"], 'id_temporada'))) : ?>
+                            <?php if (in_array($temporada->id, array_column($datos["temporadaConjunto"], 'id_temporada'))) : ?>
                                 <input class="form-check-input" type="checkbox" id="temporada-<?php echo $temporada->id ?>" name="temporadas[]" value="<?php echo $temporada->id ?>" checked>
                             <?php else : ?>
                                 <input class="form-check-input" type="checkbox" id="temporada-<?php echo $temporada->id ?>" name="temporadas[]" value="<?php echo $temporada->id ?>">
@@ -57,13 +57,13 @@
                     <?php endforeach ?>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="subcategoriaComplemento">Subcategorias:</label>
-                    <select name="subcategoriaComplemento" id="subcategoriaComplemento" class="form-control">
-                        <?php foreach ($datos['complementosSubcategoria'] as $complementosSubcategoria) : ?>
-                            <?php if ($complementosSubcategoria->id == $complemento->id_subcategoria) : ?>
-                                <option value="<?php echo $complementosSubcategoria->id ?>" selected><?php echo $complementosSubcategoria->nombre ?></option>
+                    <label for="subcategoriaConjunto">Subcategorias:</label>
+                    <select name="subcategoriaConjunto" id="subcategoriaConjunto" class="form-control">
+                        <?php foreach ($datos['conjuntosSubcategoria'] as $conjuntosSubcategoria) : ?>
+                            <?php if ($conjuntosSubcategoria->id == $conjunto->id_subcategoria) : ?>
+                                <option value="<?php echo $conjuntosSubcategoria->id ?>" selected><?php echo $conjuntosSubcategoria->nombre ?></option>
                             <?php else : ?>
-                                <option value="<?php echo $complementosSubcategoria->id ?>"><?php echo $complementosSubcategoria->nombre ?></option>
+                                <option value="<?php echo $conjuntosSubcategoria->id ?>"><?php echo $conjuntosSubcategoria->nombre ?></option>
                             <?php endif ?>
                         <?php endforeach ?> 
                     </select>
@@ -73,25 +73,25 @@
                     <button type="button" id="btnModificarImagen" class="btn btn-primary">Modificar imagen</button>
                 </div>
                 <button type="submit" class="btn btn-success">Guardar Cambios</button>
-                <button type="button" data-bs-toggle="modal" data-bs-target="#modalBorrarComplemento" class="btn btn-danger">Borrar <?php echo $complemento->nombre ?></button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#modalBorrarConjunto" class="btn btn-danger">Borrar <?php echo $conjunto->nombre ?></button>
                 
             </form>
         </div>
     </div>
 
     
-    <!-- ++++++++++++++++++++++++++++++++++++++++ Modal Borrar Complemento ++++++++++++++++++ -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++ Modal Borrar Conjunto ++++++++++++++++++ -->
 
-    <div class="modal fade" id="modalBorrarComplemento" tabindex="-1">
+    <div class="modal fade" id="modalBorrarConjunto" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalBorrarComplementoLabel">
-                        Estás seguro de que deseas borrar el complemento "<?php echo $complemento->nombre ?>"?
+                    <h5 class="modal-title" id="modalBorrarConjuntoLabel">
+                        Estás seguro de que deseas borrar el conjunto "<?php echo $conjunto->nombre ?>"?
                     </h5>
                 </div>
                 <div class="modal-footer">
-                    <form method="post" id="formBorrarComplemento" action="<?php echo RUTA_URL ?>/complemento/borrar_complemento/<?php echo $complemento->id?>">
+                    <form method="post" id="formBorrarConjunto" action="<?php echo RUTA_URL ?>/conjunto/borrar_conjunto/<?php echo $conjunto->id?>">
                         <button type="button" class="btn btn-secondary" 
                             data-bs-dismiss="modal">Cancelar
                         </button>

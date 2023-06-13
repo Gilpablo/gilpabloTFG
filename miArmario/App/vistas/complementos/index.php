@@ -40,6 +40,7 @@
             BORRADO CORRECTAMENTE !!!
         </div>
     <?php endif ?>
+    
 
     <div class="row">
         <div class="col-12">
