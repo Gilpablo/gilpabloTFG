@@ -3,7 +3,6 @@
 <?php 
     $conjunto = $datos["conjunto"];
 
-    print_r($conjunto);
 ?>
 
 <div class="container">
@@ -73,6 +72,96 @@
                     <label for="descripcion">Descripción:</label>
                     <textarea class="form-control" id="descripcion" name="descripcion"><?php echo $conjunto->descripcion ?></textarea>
                 </div>
+
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropRop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Elige ropa
+                            </button>
+                            <div class="dropdown-menu" id="rop" style="display: none;">
+                                <?php foreach ($datos['ropasSubcategorias'] as $ropasSubcat) : ?>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="<?php echo $ropasSubcat->id ?>" value="<?php echo $ropasSubcat->id ?>">
+                                        <label class="form-check-label" for="<?php echo $ropasSubcat->id ?>"><?php echo $ropasSubcat->nombre ?></label>
+                                    </div>    
+                                <?php endforeach?>
+                            </div>
+                        </div>
+                        
+                        <table id="rop-tabla" class="table table-striped">
+                            <thead class="d-none">
+                                <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Marca</th>
+                                <th scope="col">Imagen</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+                
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropZap" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Elige zapato
+                            </button>
+                            <div class="dropdown-menu" id="zap" style="display: none;">
+                                <?php foreach ($datos['zapatosSubcategorias'] as $zapatosSubcat) : ?>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="<?php echo $zapatosSubcat->id ?>" value="<?php echo $zapatosSubcat->id ?>">
+                                        <label class="form-check-label" for="<?php echo $zapatosSubcat->id ?>"><?php echo $zapatosSubcat->nombre ?></label>
+                                    </div>    
+                                <?php endforeach?>
+                            </div>
+                        </div>
+                        <table id="zap-tabla" class="table table-striped">
+                            <thead class="d-none">
+                                <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Marca</th>
+                                <th scope="col">Imagen</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropComp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Elige complemento
+                            </button>
+                            <div class="dropdown-menu" id="comp" style="display: none;">
+                                <?php foreach ($datos['complementosSubcategorias'] as $complementosSubcat) : ?>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="<?php echo $complementosSubcat->id ?>" value="<?php echo $complementosSubcat->id ?>">
+                                        <label class="form-check-label" for="<?php echo $complementosSubcat->id ?>"><?php echo $complementosSubcat->nombre ?></label>
+                                    </div>    
+                                <?php endforeach?>
+                            </div>
+                        </div>
+                        <table id="comp-tabla" class="table table-striped">
+                            <thead class="d-none">
+                                <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Marca</th>
+                                <th scope="col">Imagen</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <div class="form-group mb-3">
                     <label for="fecha_creacion">Fecha de inserción:</label>
                     <input type="date" class="form-control" id="fecha_creacion" name="fecha_creacion" value="<?php echo date('Y-m-d', strtotime($conjunto->fecha_creacion)) ?>">
@@ -151,6 +240,196 @@
         };
         reader.readAsDataURL(file);
     });
+
+
+    var rop = document.getElementById("rop");
+    var dropRop = document.getElementById("dropRop");
+
+    dropRop.addEventListener('click', function() {
+        if (rop.style.display === 'block') {
+            rop.style.display = 'none';
+        } else {
+            rop.style.display = 'block';
+        }
+    });
+
+
+    var zap = document.getElementById("zap");
+    var dropZap = document.getElementById("dropZap");
+
+    dropZap.addEventListener('click', function() {
+        if (zap.style.display === 'block') {
+            zap.style.display = 'none';
+        } else {
+            zap.style.display = 'block';
+        }
+    });
+
+
+    var comp = document.getElementById("comp");
+    var dropComp = document.getElementById("dropComp");
+
+    dropComp.addEventListener('click', function() {
+        if (comp.style.display === 'block') {
+            comp.style.display = 'none';
+        } else {
+            comp.style.display = 'block';
+        }
+    });
+
+
+    var ropCheckboxList = document.querySelectorAll('#rop input[type="checkbox"]');
+    var zapCheckboxList = document.querySelectorAll('#zap input[type="checkbox"]');
+    var compCheckboxList = document.querySelectorAll('#comp input[type="checkbox"]');
+
+    var arrayPrendas = <?php echo json_encode($datos["prendas"]); ?>;
+
+    var ropSeleccionados = [];
+    var zapSeleccionados = [];
+    var compSeleccionados = [];
+
+    ropCheckboxList.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+            var idSubcategoria = parseInt(checkbox.id);
+            ropSeleccionados.push(idSubcategoria);
+            } else {
+            var index = ropSeleccionados.indexOf(parseInt(checkbox.id));
+            if (index > -1) {
+                ropSeleccionados.splice(index, 1);
+            }
+            }
+            
+            var prendasCoincidentes = arrayPrendas.filter(function(prenda) {
+            return ropSeleccionados.includes(prenda.id_subcategoria);
+            });
+            
+            mostrarPrendasTabla(prendasCoincidentes, 'rop');
+        });
+    });
+
+    zapCheckboxList.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+            var idSubcategoria = parseInt(checkbox.id);
+            zapSeleccionados.push(idSubcategoria);
+            } else {
+            var index = zapSeleccionados.indexOf(parseInt(checkbox.id));
+            if (index > -1) {
+                zapSeleccionados.splice(index, 1);
+            }
+            }
+            
+            var prendasCoincidentes = arrayPrendas.filter(function(prenda) {
+            return zapSeleccionados.includes(prenda.id_subcategoria);
+            });
+            
+            mostrarPrendasTabla(prendasCoincidentes, 'zap');
+        });
+    });
+
+    compCheckboxList.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+            var idSubcategoria = parseInt(checkbox.id);
+            compSeleccionados.push(idSubcategoria);
+            } else {
+            var index = compSeleccionados.indexOf(parseInt(checkbox.id));
+            if (index > -1) {
+                compSeleccionados.splice(index, 1);
+            }
+            }
+            
+            var prendasCoincidentes = arrayPrendas.filter(function(prenda) {
+            return compSeleccionados.includes(prenda.id_subcategoria);
+            });
+            
+            mostrarPrendasTabla(prendasCoincidentes, 'comp');
+        });
+    });
+
+    
+    // Objeto para rastrear las prendas seleccionadas
+    var prendasSeleccionadas = [];
+
+    function mostrarPrendasTabla(prendas, categoria) {
+        var tabla = document.getElementById(categoria + '-tabla');
+        var tbody = tabla.getElementsByTagName('tbody')[0];
+        var thead = tabla.getElementsByTagName('thead')[0];
+
+        // Limpiar contenido previo del tbody
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
+
+        if (prendas.length > 0) {
+            // Mostrar el encabezado de la tabla
+            thead.classList.remove('d-none');
+
+            // Agregar filas de prendas al tbody
+            prendas.forEach(function(prenda) {
+            var fila = document.createElement('tr');
+
+            var celdaCheck = document.createElement('td');
+            var inputCheck = document.createElement("input");
+            inputCheck.type = "checkbox";
+            inputCheck.value = prenda.id;
+            celdaCheck.appendChild(inputCheck);
+
+            // Comprobar si el valor está presente en el array prendasSeleccionadas
+            if (prendasSeleccionadas.includes(inputCheck.value)) {
+                inputCheck.checked = true; // Marcar el checkbox si está seleccionado
+            }
+
+            // Agregar evento change al checkbox
+            inputCheck.addEventListener('change', function() {
+                if (inputCheck.checked) {
+                    prendasSeleccionadas.push(inputCheck.value); // Agregar valor al array cuando el checkbox está seleccionado
+                } else {
+                    var index = prendasSeleccionadas.indexOf(inputCheck.value);
+                    if (index > -1) {
+                        prendasSeleccionadas.splice(index, 1); // Eliminar valor del array cuando el checkbox se deselecciona
+                    }
+                }
+                
+                // Actualizar el valor del campo oculto con el array prendasSeleccionadas
+                var prendasSeleccionadasInput = document.getElementById('prendasSeleccionadas');
+                prendasSeleccionadasInput.value = JSON.stringify(prendasSeleccionadas);
+                
+            });
+
+            
+
+            var celdaNombre = document.createElement('td');
+            celdaNombre.textContent = prenda.nombre;
+
+            var celdaMarca = document.createElement('td');
+            celdaMarca.textContent = prenda.marca;
+
+            var celdaImagen = document.createElement('td');
+            var enlaceImagen = document.createElement('a');
+            enlaceImagen.href = "#";
+            enlaceImagen.textContent = "Ver imagen";
+            enlaceImagen.addEventListener('click', function() {
+                var modalImagen = document.getElementById('imagen-modal');
+                var imagen = modalImagen.querySelector('.modal-body img');
+                imagen.src = "<?php echo RUTA_URL?>/img_prendas/" + prenda.id + prenda.imagen + ".png";
+                var bootstrapModal = new bootstrap.Modal(modalImagen);
+                bootstrapModal.show();
+            });
+            celdaImagen.appendChild(enlaceImagen);
+
+            fila.appendChild(celdaCheck);
+            fila.appendChild(celdaNombre);
+            fila.appendChild(celdaMarca);
+            fila.appendChild(celdaImagen);
+            tbody.appendChild(fila);
+            });
+        } else {
+            // Ocultar el encabezado de la tabla si no hay prendas
+            thead.classList.add('d-none');
+        }
+    }
 
 </script>
  

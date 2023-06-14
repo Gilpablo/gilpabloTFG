@@ -186,6 +186,8 @@ class Conjunto extends Controlador{
             
         
             $this->vista("conjuntos/verConjunto",$this->datos);
+
+            
         }
         
 

@@ -108,9 +108,9 @@
                         
                         <?php if (!empty($conjuntosPrenda->imagen_conjunto)) : ?>
 
-                            <img id="imgPrendas" style="height: 400px;" src="<?php echo RUTA_URL?>/img_conjuntos/<?php echo $conjuntosPrenda->id.$conjuntosPrenda->imagen_conjunto ?>.png" class="card-image-top" alt="thumbnail">
+                            <img id="imgPrendas" style="height: 500px;" src="<?php echo RUTA_URL?>/img_conjuntos/<?php echo $conjuntosPrenda->id.$conjuntosPrenda->imagen_conjunto ?>.png" class="card-image-top" alt="thumbnail">
                         <?php else : ?>
-                            <img id="imgPrendas" style="height: 400px;" src="<?php echo RUTA_URL?>/img_conjuntos/maniqui_conjutos.png" class="card-image-top" alt="thumbnail">
+                            <img id="imgPrendas" style="height: 500px;" src="<?php echo RUTA_URL?>/img_conjuntos/maniqui_conjutos.png" class="card-image-top" alt="thumbnail">
 
                         <?php endif ?>
                         <div class="card-body">
