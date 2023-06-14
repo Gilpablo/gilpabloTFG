@@ -183,10 +183,17 @@ class Conjunto extends Controlador{
         
             $this->datos['temporadas'] = $this->conjuntoModelo->getTemporadas();
             $this->datos['temporadaConjunto'] = $this->conjuntoModelo->getTemporadasConjunto($id_conjunto);
-            
-        
+
+
+            $this->datos['prendas'] = $this->conjuntoModelo->getPrendas();
+
+            $this->datos["ropasSubcategorias"] = $this->conjuntoModelo->getRopaSubcategorias();
+            $this->datos["zapatosSubcategorias"] = $this->conjuntoModelo->getZapatosSubcategorias();
+            $this->datos["complementosSubcategorias"] = $this->conjuntoModelo->getComplementosSubcategorias();
             $this->vista("conjuntos/verConjunto",$this->datos);
 
+
+            
             
         }
         
