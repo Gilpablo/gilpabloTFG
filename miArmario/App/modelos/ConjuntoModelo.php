@@ -17,6 +17,27 @@ class ConjuntoModelo {
  
     } 
 
+    public function getIdConjuntosTemporadas($datos) {
+        $conjuntos = array();
+    
+        foreach ($datos as $id) {
+            $this->db->query("SELECT id_conjunto FROM conjuntos_temporadas WHERE id_temporada = :id_temporada");
+            $this->db->bind(':id_temporada', $id);
+            $resultado = $this->db->registros();
+    
+            if (!empty($resultado)) {
+                foreach ($resultado as $fila) {
+                    $conjuntos[] = $fila->id_conjunto;
+                }
+            }
+        }
+        
+        
+        return $conjuntos;
+    }
+    
+    
+
     public function ultimoIdConjunto(){
 
         $this->db->query("SELECT id FROM conjunto ORDER BY id DESC LIMIT 1;");
@@ -27,21 +48,21 @@ class ConjuntoModelo {
 
 
     public function addConjuntos($datos, $img, $id_usuario){ 
-            
+
         // print_r($datos); exit();
+        $nombreImg = str_replace(' ', '_', $datos["nombreConjunto"]);
 
         $this->db->query("INSERT INTO conjunto (nombre, descripcion, fecha_creacion, imagen_conjunto, id_usuario) 
                             VALUES (:nombre_co, :descripcion_co, :fecha_co, :imagen_co, :id_usuario_co)");
 
         //vinculamos los valores
-        $this->db->bind(':nombre_co',trim($datos['nombreConjunto']));
-        $this->db->bind(':descripcion_co',trim($datos['descripcionConjunto']));
-        $this->db->bind(':imagen_co',trim($img));
-        $this->db->bind(':fecha_co',trim($datos['fecha_creacionConjunto']));
-        $this->db->bind(':id_usuario_co',trim($id_usuario));
+        $this->db->bind(':nombre_co', trim($datos['nombreConjunto']));
+        $this->db->bind(':descripcion_co', trim($datos['descripcionConjunto']));
+        $this->db->bind(':imagen_co', empty($img) ? null : trim($nombreImg));
+        $this->db->bind(':fecha_co', trim($datos['fecha_creacionConjunto']));
+        $this->db->bind(':id_usuario_co', trim($id_usuario));
 
         $id_conjunto = $this->db->executeLastId();
-
 
         // Insertar cada valor de $datos['temporadas'] en la tabla conjuntos_temporadas
         foreach ($datos['temporadas'] as $temporada) {
@@ -52,15 +73,28 @@ class ConjuntoModelo {
             $this->db->bind(':id_temporada', trim($temporada));
 
             // Ejecutamos
-            if($this->db->execute()){
+            if (!$this->db->execute()) {
+                return false;
+            }
+        }
 
-            } else {
+        // Insertar cada valor de $datos['prendasSeleccionadas'] en la tabla prendas_conjuntos
+        foreach ($datos['prendasSeleccionadas'] as $prenda) {
+            $this->db->query("INSERT INTO prendas_conjuntos (id_prenda, id_conjunto) 
+                                VALUES (:id_prenda, :id_conjunto)");
+
+            $this->db->bind(':id_conjunto', $id_conjunto);
+            $this->db->bind(':id_prenda', trim($prenda));
+
+            // Ejecutamos
+            if (!$this->db->execute()) {
                 return false;
             }
         }
 
         return true;
     }
+
 
 
     public function getPrendas(){ 
@@ -106,13 +140,8 @@ class ConjuntoModelo {
 
     public function buscarConjuntos($palabra, $id_usuario){
 
-        $this->db->query("SELECT P.* FROM prenda P 
-                            INNER JOIN subcategoria S ON P.id_subcategoria = S.id 
-                                INNER JOIN categoria C ON S.id_categoria = C.id 
-                                    WHERE P.id_usuario = :id_usuario_co AND C.nombre = 'conjuntos' 
-                                        AND (P.nombre LIKE :palabra OR P.descripcion LIKE :palabra 
-                                            OR P.talla LIKE :palabra OR P.color LIKE :palabra 
-                                                OR P.marca LIKE :palabra OR P.imagen LIKE :palabra);");
+        $this->db->query("SELECT * FROM conjunto WHERE id_usuario = :id_usuario_co 
+                            AND (nombre LIKE :palabra OR descripcion LIKE :palabra OR imagen_conjunto LIKE :palabra);");
 
         $this->db->bind(':id_usuario_co', trim($id_usuario));
         $this->db->bind(':palabra', '%' . $palabra . '%');
@@ -120,24 +149,20 @@ class ConjuntoModelo {
         return $this->db->registros();
     }
 
-    public function getConjuntosTemp($datos, $id_usuario){ 
-
-        print_r($datos); exit();
-  
-        $this->db->query("SELECT P.* FROM prenda P 
-                            INNER JOIN subcategoria S ON P.id_subcategoria = S.id 
-                                INNER JOIN categoria C ON S.id_categoria = C.id 
-                                    WHERE P.id_usuario = :id_usuario_co AND C.nombre = 'conjuntos';"); 
- 
-        $this->db->bind(':id_usuario_co',trim($id_usuario)); 
- 
-        return $this->db->registros(); 
- 
+    public function filtrarConjuntos($ids, $id_usuario) {
+        $idsString = implode(',', $ids); // Convertir el array de IDs a una cadena separada por comas
+    
+        $this->db->query("SELECT * FROM conjunto WHERE id_usuario = :id_usuario_co AND id IN ($idsString)");
+    
+        $this->db->bind(':id_usuario_co', trim($id_usuario));
+    
+        return $this->db->registros();
     }
+
 
     public function getConjuntoSolo($id_usuario, $id_conjunto){
 
-        $this->db->query("SELECT * FROM prenda WHERE id_usuario = :id_usuario_co AND id = :id_conjunto_co;"); 
+        $this->db->query("SELECT * FROM conjunto WHERE id_usuario = :id_usuario_co AND id = :id_conjunto_co;"); 
  
         $this->db->bind(':id_usuario_co',trim($id_usuario)); 
         $this->db->bind(':id_conjunto_co',trim($id_conjunto)); 
@@ -148,7 +173,7 @@ class ConjuntoModelo {
 
     public function getTemporadasConjunto($id_conjunto){
 
-        $this->db->query("SELECT * FROM prendas_temporadas WHERE id_prenda = :id_conjunto_co;"); 
+        $this->db->query("SELECT * FROM conjuntos_temporadas WHERE id_conjunto = :id_conjunto_co;"); 
 
         $this->db->bind(':id_conjunto_co',trim($id_conjunto));
  
@@ -160,32 +185,27 @@ class ConjuntoModelo {
 
         if (empty($img)) {
             
-            $this->db->query("UPDATE prenda SET nombre = :nombre_co, descripcion = :descripcion_co, talla = :talla_co, color = :color_co, 
-                                marca = :marca_co, fecha_insercion = :fecha_co, id_subcategoria = :id_subcategoria_co 
+            $this->db->query("UPDATE conjunto SET nombre = :nombre_co, descripcion = :descripcion_co, fecha_creacion = :fecha_co 
                                     WHERE id_usuario = :id_usuario_co AND id = :id_conjunto_co");
 
             $this->db->bind(':nombre_co', trim($datos['nombre']));
             $this->db->bind(':descripcion_co', trim($datos['descripcion']));
-            $this->db->bind(':talla_co', trim($datos['talla']));
-            $this->db->bind(':color_co', trim($datos['color']));
-            $this->db->bind(':marca_co', trim($datos['marca']));
-            $this->db->bind(':fecha_co', trim($datos['fecha_insercion']));
-            $this->db->bind(':id_subcategoria_co', trim($datos['subcategoriaConjunto']));
+            $this->db->bind(':fecha_co', trim($datos['fecha_creacion']));
             $this->db->bind(':id_usuario_co', trim($id_usuario));
             $this->db->bind(':id_conjunto_co', trim($id_conjunto));
 
             // Ejecutar la consulta de actualización
             if ($this->db->execute()) {
-                // Borramos los registros existentes de prendas_temporadas asociados a la prenda actual
-                $this->db->query("DELETE FROM prendas_temporadas WHERE id_prenda = :id_prenda");
-                $this->db->bind(':id_prenda', trim($id_conjunto));
+                // Borramos los registros existentes de conjuntos_temporadas asociados a la prenda actual
+                $this->db->query("DELETE FROM conjuntos_temporadas WHERE id_conjunto = :id_conjunto");
+                $this->db->bind(':id_conjunto', trim($id_conjunto));
                 $this->db->execute();
 
-                // Insertar cada valor de $datos['temporadas'] en la tabla prendas_temporadas
+                // Insertar cada valor de $datos['temporadas'] en la tabla conjuntos_temporadas
                 foreach ($datos['temporadas'] as $temporada) {
-                    $this->db->query("INSERT INTO prendas_temporadas (id_prenda, id_temporada) 
-                                    VALUES (:id_prenda, :id_temporada)");
-                    $this->db->bind(':id_prenda', trim($id_conjunto));
+                    $this->db->query("INSERT INTO conjuntos_temporadas (id_conjunto, id_temporada) 
+                                    VALUES (:id_conjunto, :id_temporada)");
+                    $this->db->bind(':id_conjunto', trim($id_conjunto));
                     $this->db->bind(':id_temporada', trim($temporada));
                     $this->db->execute();
                 }
@@ -199,54 +219,72 @@ class ConjuntoModelo {
         }else {
 
             // Obtener el nombre del archivo de la imagen actual en la base de datos
-            $this->db->query("SELECT imagen FROM prenda WHERE id_usuario = :id_usuario_co AND id = :id_conjunto_co");
+            $this->db->query("SELECT imagen_conjunto FROM conjunto WHERE id_usuario = :id_usuario_co AND id = :id_conjunto_co");
 
             $this->db->bind(':id_usuario_co', trim($id_usuario));
             $this->db->bind(':id_conjunto_co', trim($id_conjunto));
 
-            $imagenAnterior = $this->db->registro()->imagen;
+            $imagenAnterior = $this->db->registro()->imagen_conjunto;
 
             // Actualizar la consulta de actualización
-            $this->db->query("UPDATE prenda SET nombre = :nombre_co, descripcion = :descripcion_co, talla = :talla_co, color = :color_co, 
-                            marca = :marca_co, imagen = :imagen_co, fecha_insercion = :fecha_co, id_subcategoria = :id_subcategoria_co 
-                            WHERE id_usuario = :id_usuario_co AND id = :id_conjunto_co");
+            $this->db->query("UPDATE conjunto SET nombre = :nombre_co, descripcion = :descripcion_co, 
+                                imagen_conjunto = :imagen_co, fecha_creacion = :fecha_co
+                                    WHERE id_usuario = :id_usuario_co AND id = :id_conjunto_co");
 
             // Vincular los valores de actualización
             $this->db->bind(':nombre_co', trim($datos['nombre']));
             $this->db->bind(':descripcion_co', trim($datos['descripcion']));
-            $this->db->bind(':talla_co', trim($datos['talla']));
-            $this->db->bind(':color_co', trim($datos['color']));
-            $this->db->bind(':marca_co', trim($datos['marca']));
             $this->db->bind(':imagen_co', trim($img));
-            $this->db->bind(':fecha_co', trim($datos['fecha_insercion']));
-            $this->db->bind(':id_subcategoria_co', trim($datos['subcategoriaConjunto']));
+            $this->db->bind(':fecha_co', trim($datos['fecha_creacion']));
             $this->db->bind(':id_usuario_co', trim($id_usuario));
             $this->db->bind(':id_conjunto_co', trim($id_conjunto));
 
 
             // Ejecutar la consulta de actualización
             if ($this->db->execute()) {
-                // Eliminar la imagen anterior si existe
-                $rutaImagenAnterior = RUTA_PUBLIC . "/img_prendas/" . $id_conjunto.$imagenAnterior . ".png";
-                if (file_exists($rutaImagenAnterior)) {
-                    unlink($rutaImagenAnterior);
-                }
 
-                // Borramos los registros existentes de prendas_temporadas asociados a la prenda actual
-                $this->db->query("DELETE FROM prendas_temporadas WHERE id_prenda = :id_prenda");
-                $this->db->bind(':id_prenda', trim($id_conjunto));
-                $this->db->execute();
-
-                // Insertar cada valor de $datos['temporadas'] en la tabla prendas_temporadas
-                foreach ($datos['temporadas'] as $temporada) {
-                    $this->db->query("INSERT INTO prendas_temporadas (id_prenda, id_temporada) 
-                                    VALUES (:id_prenda, :id_temporada)");
-                    $this->db->bind(':id_prenda', trim($id_conjunto));
-                    $this->db->bind(':id_temporada', trim($temporada));
+                if (empty($imagenAnterior)) {
+                    
+                    // Borramos los registros existentes de conjuntos_temporadas asociados a la prenda actual
+                    $this->db->query("DELETE FROM conjuntos_temporadas WHERE id_conjunto = :id_conjunto");
+                    $this->db->bind(':id_conjunto', trim($id_conjunto));
                     $this->db->execute();
+
+                    // Insertar cada valor de $datos['temporadas'] en la tabla conjuntos_temporadas
+                    foreach ($datos['temporadas'] as $temporada) {
+                        $this->db->query("INSERT INTO conjuntos_temporadas (id_conjunto, id_temporada) 
+                                        VALUES (:id_conjunto, :id_temporada)");
+                        $this->db->bind(':id_conjunto', trim($id_conjunto));
+                        $this->db->bind(':id_temporada', trim($temporada));
+                        $this->db->execute();
+                    }
+
+                    return true;
+                }else {
+                   
+                    // Eliminar la imagen anterior si existe
+                    $rutaImagenAnterior = RUTA_PUBLIC . "/img_conjuntos/" . $id_conjunto.$imagenAnterior . ".png";
+                    if (file_exists($rutaImagenAnterior)) {
+                        unlink($rutaImagenAnterior);
+                    }
+            
+                    // Borramos los registros existentes de prendas_temporadas asociados a la prenda actual
+                    $this->db->query("DELETE FROM conjuntos_temporadas WHERE id_conjunto = :id_conjunto");
+                    $this->db->bind(':id_conjunto', trim($id_conjunto));
+                    $this->db->execute();
+    
+                    // Insertar cada valor de $datos['temporadas'] en la tabla prendas_temporadas
+                    foreach ($datos['temporadas'] as $temporada) {
+                        $this->db->query("INSERT INTO conjuntos_temporadas (id_conjunto, id_temporada) 
+                                        VALUES (:id_conjunto, :id_temporada)");
+                        $this->db->bind(':id_conjunto', trim($id_conjunto));
+                        $this->db->bind(':id_temporada', trim($temporada));
+                        $this->db->execute();
+                    }
+    
+                    return true;
                 }
 
-                return true;
             } else {
                 return false;
             }
@@ -260,28 +298,33 @@ class ConjuntoModelo {
 
     public function borrarConjunto($id_usuario, $id_conjunto){
         
-        // Eliminar registros relacionados en la tabla prendas_temporadas
-        $this->db->query("DELETE FROM prendas_temporadas WHERE id_prenda = :id_conjunto_co");
+        // Eliminar registros relacionados en la tabla conjuntos_temporadas
+        $this->db->query("DELETE FROM conjuntos_temporadas WHERE id_conjunto = :id_conjunto_co");
+        $this->db->bind(':id_conjunto_co', trim($id_conjunto));
+        $this->db->execute();
+
+        // Eliminar registros relacionados en la tabla prendas_conjuntos
+        $this->db->query("DELETE FROM prendas_conjuntos WHERE id_conjunto = :id_conjunto_co");
         $this->db->bind(':id_conjunto_co', trim($id_conjunto));
         $this->db->execute();
 
         // Obtener el nombre del archivo de la imagen actual en la base de datos
-        $this->db->query("SELECT imagen FROM prenda WHERE id_usuario = :id_usuario_co AND id = :id_conjunto_co");
+        $this->db->query("SELECT imagen_conjunto FROM conjunto WHERE id_usuario = :id_usuario_co AND id = :id_conjunto_co");
 
         $this->db->bind(':id_usuario_co', trim($id_usuario));
         $this->db->bind(':id_conjunto_co', trim($id_conjunto));
 
-        $imagenAnterior = $this->db->registro()->imagen;
+        $imagenAnterior = $this->db->registro()->imagen_conjunto;
 
 
-        $this->db->query("DELETE FROM prenda WHERE id_usuario = :id_usuario_co AND id = :id_conjunto_co");
+        $this->db->query("DELETE FROM conjunto WHERE id_usuario = :id_usuario_co AND id = :id_conjunto_co");
 
         $this->db->bind(':id_usuario_co', trim($id_usuario));
         $this->db->bind(':id_conjunto_co', trim($id_conjunto));
 
         if ($this->db->execute()) {
             // Eliminar la imagen de la ruta
-            $rutaImagenAnterior = RUTA_PUBLIC . "/img_prendas/" . $id_conjunto.$imagenAnterior . ".png";
+            $rutaImagenAnterior = RUTA_PUBLIC . "/img_conjuntos/" . $id_conjunto.$imagenAnterior . ".png";
             if (file_exists($rutaImagenAnterior)) {
                 unlink($rutaImagenAnterior);
             }
@@ -291,5 +334,16 @@ class ConjuntoModelo {
             return false;
         }
     }
+
+    public function obtenerPrendasPorConjunto($id_usuario, $id_conjunto) {
+
+        $this->db->query("SELECT * FROM prenda WHERE id IN (SELECT id_prenda FROM prendas_conjuntos WHERE id_conjunto = :id_conjunto) AND id_usuario = :id_usuario");
+    
+        $this->db->bind(':id_conjunto', $id_conjunto);
+        $this->db->bind(':id_usuario', $id_usuario);
+    
+        return $this->db->registros();
+    }
+    
 
 }

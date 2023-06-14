@@ -33,39 +33,32 @@ class Conjunto extends Controlador{
             
             $this->datos['conjuntosPrenda'] = $this->conjuntoModelo->buscarConjuntos($busqueda, $this->datos['usuarioSesion']->id);
 
-            $this->datos['conjuntosSubcategoria'] = $this->conjuntoModelo->getSubcategoriaConjuntos();
             $this->datos['temporadas'] = $this->conjuntoModelo->getTemporadas();
         
-            $this->vista("conjuntos/index", $this->datos);     
+            $this->vista("conjuntos/index",$this->datos);  
           
         }elseif (isset($_GET['filtros'])) {
         
-            // Obtener los datos de los conjuntos
-            $conjuntos = $this->conjuntoModelo->getConjuntos($this->datos['usuarioSesion']->id);
-
             $filtro = isset($_GET['filtros']) ? $_GET['filtros'] : '';
 
-            $resultados = array();
+            $idConjuntosTemporadas = $this->conjuntoModelo->getIdConjuntosTemporadas($filtro);
+            
 
-            if (!empty($filtro)) {
-                foreach ($conjuntos as $conjunto) {
-                    if (in_array($conjunto->id_subcategoria, (array)$filtro)) {
-                        $resultados[] = $conjunto;
-                    }
-                }
-            } else {
-                $resultados = $conjuntos;
+            if (empty($idConjuntosTemporadas)) {
+
+                $this->datos['conjuntosPrenda'] = $idConjuntosTemporadas;
+
+            }else {
+
+                $this->datos['conjuntosPrenda'] = $this->conjuntoModelo->filtrarConjuntos($idConjuntosTemporadas, $this->datos['usuarioSesion']->id);
             }
-
 
             $this->datos['error'] = $error;
 
-            $this->datos['conjuntosPrenda'] = $resultados;
-        
-            $this->datos['conjuntosSubcategoria'] = $this->conjuntoModelo->getSubcategoriaConjuntos();
             $this->datos['temporadas'] = $this->conjuntoModelo->getTemporadas();
 
-            $this->vista("conjuntos/index",$this->datos);
+            $this->vista("conjuntos/index", $this->datos);
+  
             
         }else{
             
@@ -88,25 +81,34 @@ class Conjunto extends Controlador{
 
             $nuevoConjunto = $_POST;
 
-            print_r($nuevoConjunto); exit();
+            // Convertir los valores a enteros
+            $nuevoConjunto["prendasSeleccionadas"] = array_map('intval', json_decode($nuevoConjunto["prendasSeleccionadas"]));
+
 
             // Obtener el nombre del conjunto sin espacios
             $nombreImg = str_replace(' ', '_', $nuevoConjunto["nombreConjunto"]);
             $ubicacionTemporal = $_FILES['imagenConjunto']['tmp_name'];
+            $nombreArchivo = $_FILES['imagenConjunto']['name'];
 
             // llamamos consulta y comprabamos que devuelva bien los resultados
-            if ($this->conjuntoModelo->addConjuntos($nuevoConjunto, $nombreImg, $this->datos['usuarioSesion']->id)) {
+            if ($this->conjuntoModelo->addConjuntos($nuevoConjunto, $nombreArchivo, $this->datos['usuarioSesion']->id)) {
 
-                $idUltimoConjunto = $this->conjuntoModelo->ultimoIdConjunto()->id;
-                // Mover el archivo a una ubicación deseada
-                $rutaDestino = RUTA_PUBLIC. "/img_conjuntos/". $idUltimoConjunto.$nombreImg . ".png";
-                if (move_uploaded_file($ubicacionTemporal, $rutaDestino)) {
-                    
-                     
+                if ($_FILES['imagenConjunto']['name']) {
+
+                    $idUltimoConjunto = $this->conjuntoModelo->ultimoIdConjunto()->id;
+                    // Mover el archivo a una ubicación deseada
+                    $rutaDestino = RUTA_PUBLIC. "/img_conjuntos/". $idUltimoConjunto.$nombreImg . ".png";
+                    if (move_uploaded_file($ubicacionTemporal, $rutaDestino)) {
+                        
+                        
+                        redireccionar('/conjunto/creado');
+                        
+                    } else {
+                        redireccionar('/conjunto/error_2');
+                    }
+
+                }else {
                     redireccionar('/conjunto/creado');
-                    
-                } else {
-                    redireccionar('/conjunto/error_2');
                 }
             }else {
                 redireccionar('/conjunto/error_1');
@@ -140,15 +142,14 @@ class Conjunto extends Controlador{
                 
                 $ubicacionTemporal = $_FILES['imagen']['tmp_name'];
 
-                // Obtener el nombre del archivo sin la extensión
-                $nombreImg = pathinfo($nombreArchivo, PATHINFO_FILENAME);
+                $nombreImg = str_replace(' ', '_', $editConjunto["nombre"]);
 
 
                 // llamamos consulta y comprabamos que devuelva bien los resultados
                 if ($this->conjuntoModelo->editConjunto($editConjunto, $nombreImg, $this->datos['usuarioSesion']->id, $id_conjunto)) {
 
                     // Mover el archivo a una ubicación deseada
-                    $rutaDestino = RUTA_PUBLIC. "/img_prendas/". $id_conjunto.$nombreImg . ".png";
+                    $rutaDestino = RUTA_PUBLIC. "/img_conjuntos/". $id_conjunto.$nombreImg . ".png";
                     if (move_uploaded_file($ubicacionTemporal, $rutaDestino)) {
                         
                         redireccionar('/conjunto/editado');
@@ -177,6 +178,8 @@ class Conjunto extends Controlador{
         }else{
             
             $this->datos['conjunto'] = $this->conjuntoModelo->getConjuntoSolo($this->datos['usuarioSesion']->id, $id_conjunto);
+
+            $this->datos["prendasConjunto"] = $this->conjuntoModelo->obtenerPrendasPorConjunto($this->datos['usuarioSesion']->id, $id_conjunto);
         
             $this->datos['temporadas'] = $this->conjuntoModelo->getTemporadas();
             $this->datos['temporadaConjunto'] = $this->conjuntoModelo->getTemporadasConjunto($id_conjunto);

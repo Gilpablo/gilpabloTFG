@@ -107,11 +107,6 @@
 
         <?php 
 
-        // if (!empty($_GET['resultados'])) {
-        //     $datos['zapatosPrenda'] = json_decode($_GET['resultados']);
-        // }
-
-
         $totalElementos = count($datos['zapatosPrenda']);
         $elementosPorPagina = 3;
         $totalPaginas = ceil($totalElementos / $elementosPorPagina);
@@ -278,44 +273,6 @@
             subcat.style.display = 'block';
         }
     });
-
-    // var temp = document.getElementById("temp");
-    // var dropTemp = document.getElementById("dropTemp");
-
-    // dropTemp.addEventListener('click', function() {
-    //     if (temp.style.display === 'block') {
-    //         temp.style.display = 'none';
-    //     } else {
-    //         temp.style.display = 'block';
-    //     }
-    // });
-
-    // function realizarBusqueda() {
-        
-    //     // Obtener el valor de búsqueda
-    //     var busqueda = document.getElementById('busqueda').value;
-
-    //     // Obtener los datos de zapatos desde PHP y convertirlos en un array JavaScript
-    //     var arrayDatos = <?php echo json_encode($datos["zapatosPrenda"]); ?>;
-        
-    //     // Realizar la lógica de búsqueda
-    //     var resultados = arrayDatos.filter(function(zapato) {
-    //         // Aplicar los criterios de búsqueda
-    //         return zapato.nombre.toLowerCase().includes(busqueda.toLowerCase())
-    //             || zapato.descripcion.toLowerCase().includes(busqueda.toLowerCase())
-    //             || zapato.talla.toLowerCase().includes(busqueda.toLowerCase())
-    //             || zapato.color.toLowerCase().includes(busqueda.toLowerCase())
-    //             || zapato.marca.toLowerCase().includes(busqueda.toLowerCase())
-    //             || zapato.imagen.toLowerCase().includes(busqueda.toLowerCase());
-    //     });
-        
-    //     // Actualizar el campo oculto con los resultados de búsqueda
-    //     document.getElementById('resultados').value = JSON.stringify(resultados);
-        
-    //     // Enviar el formulario para actualizar el array $datos["zapatosPrenda"]
-    //     document.forms[0].submit();
-    // }
-
 
 </script>
 

@@ -2,6 +2,8 @@
 
 <?php 
     $conjunto = $datos["conjunto"];
+
+    print_r($conjunto);
 ?>
 
 <div class="container">
@@ -15,8 +17,52 @@
 
     <div class="row">
         <div class="col-6">
-            <img id="imagenActual" src="<?php echo RUTA_URL?>/img_prendas/<?php echo $conjunto->id.$conjunto->imagen ?>.png" alt="" class="img-fluid">
+
+            <!-- ++++++++++++++++++++++++++++++++++++++++ carrusel prendas del conjunto ++++++++++++++++++ -->
+            <?php if (!empty($datos["prendasConjunto"])) : ?>
+
+                <div id="carruselPrendas" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <?php if (!empty($conjunto->imagen_conjunto)) : ?>
+
+                                <img id="imagenActual" src="<?php echo RUTA_URL?>/img_conjuntos/<?php echo $conjunto->id.$conjunto->imagen_conjunto ?>.png" class="d-block w-100" alt="<?php echo $conjunto->nombre?>" class="img-fluid">
+                            <?php else : ?>
+                                <img id="imagenActual" src="<?php echo RUTA_URL?>/img_conjuntos/maniqui_conjutos.png" class="d-block w-100" alt="<?php echo $conjunto->nombre?>" class="img-fluid">
+
+                            <?php endif ?>
+                        </div>
+                        <?php foreach ($datos["prendasConjunto"] as $prenda) : ?>
+                            <div class="carousel-item">
+                                <img src="<?php echo RUTA_URL ?>/img_prendas/<?php echo $prenda->id.$prenda->imagen ?>.png" class="d-block w-100" alt="<?php echo $prenda->nombre?>">
+                            </div>
+                        <?php endforeach ?>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carruselPrendas" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carruselPrendas" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+
+            <?php else : ?>
+
+                <?php if (!empty($conjunto->imagen_conjunto)) : ?>
+
+                    <img id="imagenActual" src="<?php echo RUTA_URL?>/img_conjuntos/<?php echo $conjunto->id.$conjunto->imagen_conjunto ?>.png" class="d-block w-100" alt="<?php echo $conjunto->nombre?>" class="img-fluid">
+                <?php else : ?>
+                    <img id="imagenActual" src="<?php echo RUTA_URL?>/img_conjuntos/maniqui_conjutos.png" class="d-block w-100" alt="<?php echo $conjunto->nombre?>" class="img-fluid">
+
+                <?php endif ?>
+
+            <?php endif ?>
+            
+
         </div>
+
         <div class="col-6">
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group mb-3">
@@ -28,20 +74,8 @@
                     <textarea class="form-control" id="descripcion" name="descripcion"><?php echo $conjunto->descripcion ?></textarea>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="talla">Talla:</label>
-                    <input type="text" class="form-control" id="talla" name="talla" value="<?php echo $conjunto->talla ?>">
-                </div>
-                <div class="form-group mb-3">
-                    <label for="color">Color:</label>
-                    <input type="text" class="form-control" id="color" name="color" value="<?php echo $conjunto->color ?>">
-                </div>
-                <div class="form-group mb-3">
-                    <label for="marca">Marca:</label>
-                    <input type="text" class="form-control" id="marca" name="marca" value="<?php echo $conjunto->marca ?>">
-                </div>
-                <div class="form-group mb-3">
-                    <label for="fecha_insercion">Fecha de inserción:</label>
-                    <input type="date" class="form-control" id="fecha_insercion" name="fecha_insercion" value="<?php echo date('Y-m-d', strtotime($conjunto->fecha_insercion)) ?>">
+                    <label for="fecha_creacion">Fecha de inserción:</label>
+                    <input type="date" class="form-control" id="fecha_creacion" name="fecha_creacion" value="<?php echo date('Y-m-d', strtotime($conjunto->fecha_creacion)) ?>">
                 </div>
                 <div class="form-group mb-3">
                     <label for="checkboxes">Elige temporada o temporadas:</label>
@@ -57,25 +91,21 @@
                     <?php endforeach ?>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="subcategoriaConjunto">Subcategorias:</label>
-                    <select name="subcategoriaConjunto" id="subcategoriaConjunto" class="form-control">
-                        <?php foreach ($datos['conjuntosSubcategoria'] as $conjuntosSubcategoria) : ?>
-                            <?php if ($conjuntosSubcategoria->id == $conjunto->id_subcategoria) : ?>
-                                <option value="<?php echo $conjuntosSubcategoria->id ?>" selected><?php echo $conjuntosSubcategoria->nombre ?></option>
-                            <?php else : ?>
-                                <option value="<?php echo $conjuntosSubcategoria->id ?>"><?php echo $conjuntosSubcategoria->nombre ?></option>
-                            <?php endif ?>
-                        <?php endforeach ?> 
-                    </select>
-                </div>
-                <div class="form-group mb-3">
                     <input type="file" class="form-control-file hidden" id="imagen" name="imagen" style="display: none;">
-                    <button type="button" id="btnModificarImagen" class="btn btn-primary">Modificar imagen</button>
+                    <?php if (empty($conjunto->imagen_conjunto)) { ?>
+                        <button type="button" id="btnModificarImagen" class="btn btn-primary">Subir imagen conjunto</button>
+                    <?php } else { ?>
+                        <button type="button" id="btnModificarImagen" class="btn btn-primary">Modificar imagen conjunto</button>
+                    <?php } ?>
+
+                    
                 </div>
                 <button type="submit" class="btn btn-success">Guardar Cambios</button>
                 <button type="button" data-bs-toggle="modal" data-bs-target="#modalBorrarConjunto" class="btn btn-danger">Borrar <?php echo $conjunto->nombre ?></button>
                 
             </form>
+
+            
         </div>
     </div>
 

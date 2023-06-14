@@ -142,7 +142,7 @@
                         <input type="date" class="form-control" id="fecha_creacionConjunto" name="fecha_creacionConjunto">
                     </div>
 
-                    <!-- <input type="hidden" id="prendasSeleccionadas" name="prendasSeleccionadas" value=""> -->
+                    <input type="hidden" id="prendasSeleccionadas" name="prendasSeleccionadas" value="">
 
                     <div class="col-12">
                 
@@ -338,27 +338,32 @@
             var celdaCheck = document.createElement('td');
             var inputCheck = document.createElement("input");
             inputCheck.type = "checkbox";
-            inputCheck.name = "id_prenda";
             inputCheck.value = prenda.id;
-            // Restaurar el estado del checkbox si está seleccionado
-            if (prendasSeleccionadas[prenda.id]) {
-                inputCheck.checked = true;
+            celdaCheck.appendChild(inputCheck);
+
+            // Comprobar si el valor está presente en el array prendasSeleccionadas
+            if (prendasSeleccionadas.includes(inputCheck.value)) {
+                inputCheck.checked = true; // Marcar el checkbox si está seleccionado
             }
+
+            // Agregar evento change al checkbox
             inputCheck.addEventListener('change', function() {
                 if (inputCheck.checked) {
-                // Agregar prenda al objeto de prendas seleccionadas
-                prendasSeleccionadas[prenda.id] = prenda;
+                    prendasSeleccionadas.push(inputCheck.value); // Agregar valor al array cuando el checkbox está seleccionado
                 } else {
-                // Eliminar prenda del objeto de prendas seleccionadas
-                delete prendasSeleccionadas[prenda.id];
+                    var index = prendasSeleccionadas.indexOf(inputCheck.value);
+                    if (index > -1) {
+                        prendasSeleccionadas.splice(index, 1); // Eliminar valor del array cuando el checkbox se deselecciona
+                    }
                 }
-
+                
                 // Actualizar el valor del campo oculto con el array prendasSeleccionadas
-                // var prendasSeleccionadasInput = document.getElementById('prendasSeleccionadas');
-                // prendasSeleccionadasInput.value = prendasSeleccionadas;
-
+                var prendasSeleccionadasInput = document.getElementById('prendasSeleccionadas');
+                prendasSeleccionadasInput.value = JSON.stringify(prendasSeleccionadas);
+                
             });
-            celdaCheck.appendChild(inputCheck);
+
+            
 
             var celdaNombre = document.createElement('td');
             celdaNombre.textContent = prenda.nombre;

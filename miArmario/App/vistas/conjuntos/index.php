@@ -71,11 +71,12 @@
                             <div class="dropdown-menu" id="temp" style="display: none;">
                                 <?php foreach ($datos['temporadas'] as $temporada) : ?>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="<?php echo $temporada->id ?>" name="filtros[]" value="<?php echo $temporada->id ?>">
+                                        <input class="form-check-input" type="checkbox" id="<?php echo $temporada->id ?>" value="<?php echo $temporada->id ?>" 
+                                        name="filtros[]" <?php if (isset($_GET['filtros']) && in_array($temporada->id, $_GET['filtros'])) { echo 'checked'; } ?>>
                                         <label class="form-check-label" for="<?php echo $temporada->id ?>"><?php echo $temporada->nombre ?></label>
-                                    </div>    
+                                    </div>  
                                 <?php endforeach?>
-                                <button class="btn btn-primary" name="temp" type="submit">Filtrar</button>
+                                <button class="btn btn-primary" type="submit">Filtrar</button>
                             </div>
                         </div>
                     </div>
@@ -88,13 +89,8 @@
 
         <?php 
 
-        // if (!empty($_GET['resultados'])) {
-        //     $datos['conjuntosPrenda'] = json_decode($_GET['resultados']);
-        // }
-
-
         $totalElementos = count($datos['conjuntosPrenda']);
-        $elementosPorPagina = 9;
+        $elementosPorPagina = 3;
         $totalPaginas = ceil($totalElementos / $elementosPorPagina);
 
         $paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
@@ -109,7 +105,14 @@
             <div class="col-12 col-md-6 col-lg-4 pt-5">
                 <a href="<?php echo RUTA_URL ?>/conjunto/ver_conjunto/<?php echo $conjuntosPrenda->id ?>" style="text-decoration: none;">
                     <div class="card my-3" style="background-color: #545454;">
-                        <img id="imgPrendas" style="height: 400px;" src="<?php echo RUTA_URL?>/img_conjuntos/<?php echo $conjuntosPrenda->id.$conjuntosPrenda->imagen_conjunto ?>.png" class="card-image-top" alt="thumbnail">
+                        
+                        <?php if (!empty($conjuntosPrenda->imagen_conjunto)) : ?>
+
+                            <img id="imgPrendas" style="height: 400px;" src="<?php echo RUTA_URL?>/img_conjuntos/<?php echo $conjuntosPrenda->id.$conjuntosPrenda->imagen_conjunto ?>.png" class="card-image-top" alt="thumbnail">
+                        <?php else : ?>
+                            <img id="imgPrendas" style="height: 400px;" src="<?php echo RUTA_URL?>/img_conjuntos/maniqui_conjutos.png" class="card-image-top" alt="thumbnail">
+
+                        <?php endif ?>
                         <div class="card-body">
                             <h4 class="card-title" style="color: #A6A6A6;"><?php echo $conjuntosPrenda->nombre ?></h4>
                             
