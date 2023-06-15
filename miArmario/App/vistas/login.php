@@ -17,6 +17,7 @@
             <label for="floatingInput">Contraseña</label>
         </div>
         <input type="submit" class="btn btn-success" value="Login">
+        <a class="btn btn-primary me-md-4" href="<?php echo RUTA_URL ?>/login/add_usuario">Crear cuenta</a>
 
     </form>
 
@@ -30,8 +31,8 @@
         </div>
     <?php endif ?>
 
-    <a class="btn btn-primary me-md-4" href="<?php echo RUTA_URL ?>/login/add_usuario">Crear cuenta</a>
-    <img src="<?php echo RUTA_URL?>/img/fondoLogin.png" alt="">
+    
+    <!-- <img src="<?php echo RUTA_URL?>/img/fondoLogin.png" alt=""> -->
 </div>
 
 
