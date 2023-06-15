@@ -160,6 +160,8 @@ class Complemento extends Controlador{
         }else{
             
             $this->datos['complemento'] = $this->complementoModelo->getComplementoSolo($this->datos['usuarioSesion']->id, $id_complemento);
+
+            $this->datos['conjuntosPrenda'] = $this->complementoModelo->obtenerConjuntosPorPrenda($this->datos['usuarioSesion']->id, $id_complemento);
         
             $this->datos['complementosSubcategoria'] = $this->complementoModelo->getSubcategoriaComplementos();
             $this->datos['temporadas'] = $this->complementoModelo->getTemporadas();

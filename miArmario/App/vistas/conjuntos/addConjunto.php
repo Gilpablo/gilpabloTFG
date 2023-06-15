@@ -373,7 +373,7 @@
 
             var celdaImagen = document.createElement('td');
             var enlaceImagen = document.createElement('a');
-            enlaceImagen.href = "#";
+            enlaceImagen.href = "#"+prenda.nombre;
             enlaceImagen.textContent = "Ver imagen";
             enlaceImagen.addEventListener('click', function() {
                 var modalImagen = document.getElementById('imagen-modal');

@@ -16,6 +16,18 @@
     <div class="row">
         <div class="col-6">
             <img id="imagenActual" src="<?php echo RUTA_URL?>/img_prendas/<?php echo $ropa->id.$ropa->imagen ?>.png" alt="" class="img-fluid">
+            
+            <div class="text-center pt-5">
+
+                <h5>Listado de conjunto con esta prenda</h5>
+                
+                <?php foreach ($datos["conjuntosPrenda"] as $conjunto) : ?>
+                    <div>
+                        <a href="" class="btn btn-outline-primary"><?php echo $conjunto->nombre?></a>
+                    </div>                
+                <?php endforeach ?>
+    
+            </div>
         </div>
         <div class="col-6">
             <form method="post" enctype="multipart/form-data">

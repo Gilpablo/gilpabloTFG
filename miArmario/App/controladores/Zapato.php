@@ -181,6 +181,8 @@ class Zapato extends Controlador{
         }else{
             
             $this->datos['zapato'] = $this->zapatoModelo->getZapatoSolo($this->datos['usuarioSesion']->id, $id_zapato);
+
+            $this->datos['conjuntosPrenda'] = $this->zapatoModelo->obtenerConjuntosPorPrenda($this->datos['usuarioSesion']->id, $id_zapato);
             
             // print_r($this->datos['zapatosPrenda']); exit();
         

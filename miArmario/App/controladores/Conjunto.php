@@ -135,6 +135,9 @@ class Conjunto extends Controlador{
 
             $editConjunto = $_POST;
 
+            // Convertir los valores a enteros
+            $editConjunto["prendasSeleccionadas"] = array_map('intval', json_decode($editConjunto["prendasSeleccionadas"]));
+
             $nombreArchivo = $_FILES['imagen']['name'];
 
 
@@ -146,7 +149,7 @@ class Conjunto extends Controlador{
 
 
                 // llamamos consulta y comprabamos que devuelva bien los resultados
-                if ($this->conjuntoModelo->editConjunto($editConjunto, $nombreImg, $this->datos['usuarioSesion']->id, $id_conjunto)) {
+                if ($this->conjuntoModelo->editConjunto($editConjunto, $nombreArchivo, $this->datos['usuarioSesion']->id, $id_conjunto)) {
 
                     // Mover el archivo a una ubicación deseada
                     $rutaDestino = RUTA_PUBLIC. "/img_conjuntos/". $id_conjunto.$nombreImg . ".png";
@@ -164,7 +167,7 @@ class Conjunto extends Controlador{
             }else {
 
                 // llamamos consulta y comprabamos que devuelva bien los resultados
-                if ($this->conjuntoModelo->editConjunto($editConjunto, $nombreImg, $this->datos['usuarioSesion']->id, $id_conjunto)) {
+                if ($this->conjuntoModelo->editConjunto($editConjunto, $nombreArchivo, $this->datos['usuarioSesion']->id, $id_conjunto)) {
                     
                     redireccionar('/conjunto/editado');
                         

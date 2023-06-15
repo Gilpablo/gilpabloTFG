@@ -189,12 +189,30 @@
 
                     
                 </div>
+
+                <input type="hidden" id="prendasSeleccionadas" name="prendasSeleccionadas" value="">
+
                 <button type="submit" class="btn btn-success">Guardar Cambios</button>
                 <button type="button" data-bs-toggle="modal" data-bs-target="#modalBorrarConjunto" class="btn btn-danger">Borrar <?php echo $conjunto->nombre ?></button>
                 
             </form>
 
             
+        </div>
+    </div>
+
+    <!-- MODAL IMAGEN  -->
+    <div class="modal fade" id="imagen-modal" tabindex="-1" aria-labelledby="imagen-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imagen-modal-label">Imagen de la prenda</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <img src="" alt="Imagen de la prenda" class="img-fluid">
+            </div>
+            </div>
         </div>
     </div>
 
@@ -283,6 +301,7 @@
     var compCheckboxList = document.querySelectorAll('#comp input[type="checkbox"]');
 
     var arrayPrendas = <?php echo json_encode($datos["prendas"]); ?>;
+    var arrayPrendasConjunto = <?php echo json_encode($datos["prendasConjunto"]); ?>;
 
     var ropSeleccionados = [];
     var zapSeleccionados = [];
@@ -352,6 +371,8 @@
     // Objeto para rastrear las prendas seleccionadas
     var prendasSeleccionadas = [];
 
+    var arrayPrendasConjunto = <?php echo json_encode($datos["prendasConjunto"]); ?>;
+
     function mostrarPrendasTabla(prendas, categoria) {
         var tabla = document.getElementById(categoria + '-tabla');
         var tbody = tabla.getElementsByTagName('tbody')[0];
@@ -384,21 +405,19 @@
             // Agregar evento change al checkbox
             inputCheck.addEventListener('change', function() {
                 if (inputCheck.checked) {
-                    prendasSeleccionadas.push(inputCheck.value); // Agregar valor al array cuando el checkbox está seleccionado
+                prendasSeleccionadas.push(inputCheck.value); // Agregar valor al array cuando el checkbox está seleccionado
                 } else {
-                    var index = prendasSeleccionadas.indexOf(inputCheck.value);
-                    if (index > -1) {
-                        prendasSeleccionadas.splice(index, 1); // Eliminar valor del array cuando el checkbox se deselecciona
-                    }
+                var index = prendasSeleccionadas.indexOf(inputCheck.value);
+                if (index > -1) {
+                    prendasSeleccionadas.splice(index, 1); // Eliminar valor del array cuando el checkbox se deselecciona
                 }
-                
+                }
+
                 // Actualizar el valor del campo oculto con el array prendasSeleccionadas
                 var prendasSeleccionadasInput = document.getElementById('prendasSeleccionadas');
                 prendasSeleccionadasInput.value = JSON.stringify(prendasSeleccionadas);
-                
-            });
 
-            
+            });
 
             var celdaNombre = document.createElement('td');
             celdaNombre.textContent = prenda.nombre;
@@ -408,7 +427,7 @@
 
             var celdaImagen = document.createElement('td');
             var enlaceImagen = document.createElement('a');
-            enlaceImagen.href = "#";
+            enlaceImagen.href = "#" + prenda.nombre;
             enlaceImagen.textContent = "Ver imagen";
             enlaceImagen.addEventListener('click', function() {
                 var modalImagen = document.getElementById('imagen-modal');
@@ -430,6 +449,7 @@
             thead.classList.add('d-none');
         }
     }
+    
 
 </script>
  

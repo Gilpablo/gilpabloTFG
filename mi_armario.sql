@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-06-2023 a las 00:18:30
+-- Tiempo de generación: 15-06-2023 a las 02:34:27
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -37,7 +37,7 @@ CREATE TABLE `categoria` (
 --
 
 INSERT INTO `categoria` (`id`, `nombre`) VALUES
-(1, 'Prendas'),
+(1, 'Ropas'),
 (2, 'Zapatos'),
 (3, 'Complementos');
 
@@ -51,6 +51,8 @@ CREATE TABLE `conjunto` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(500) DEFAULT NULL,
+  `fecha_creacion` date NOT NULL,
+  `imagen_conjunto` varchar(100) DEFAULT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -58,9 +60,11 @@ CREATE TABLE `conjunto` (
 -- Volcado de datos para la tabla `conjunto`
 --
 
-INSERT INTO `conjunto` (`id`, `nombre`, `descripcion`, `id_usuario`) VALUES
-(1, 'Conjunto de Verano', 'Conjunto para días calurosos', 2),
-(2, 'Conjunto de Invierno', 'Conjunto para días fríos', 2);
+INSERT INTO `conjunto` (`id`, `nombre`, `descripcion`, `fecha_creacion`, `imagen_conjunto`, `id_usuario`) VALUES
+(1, 'Conjunto de piscina', 'Conjunto para días calurosos', '2023-06-13', '', 2),
+(2, 'Conjunto de Invierno', 'Conjunto para días fríos', '2023-06-13', '', 2),
+(3, 'Conjunto Chandal', 'Conjunto Chandal para dia chill con amigos', '2023-06-13', 'Conjunto_Chandal_', 2),
+(6, 'Conjunto dia normal clase', 'Conjunto dia normal clase', '2023-06-14', 'Conjunto_dia_normal_clase', 2);
 
 -- --------------------------------------------------------
 
@@ -79,7 +83,10 @@ CREATE TABLE `conjuntos_temporadas` (
 
 INSERT INTO `conjuntos_temporadas` (`id_conjunto`, `id_temporada`) VALUES
 (1, 1),
-(2, 2);
+(2, 2),
+(3, 2),
+(3, 3),
+(6, 3);
 
 -- --------------------------------------------------------
 
@@ -126,13 +133,14 @@ CREATE TABLE `prenda` (
 --
 
 INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `talla`, `color`, `marca`, `imagen`, `fecha_insercion`, `id_subcategoria`, `id_usuario`) VALUES
-(1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', '', '', '', '', NULL, 1, 2),
-(2, 'Pantalón Vaquero', 'Pantalón vaquero para uso diario', '', '', '', '', NULL, 2, 2),
-(3, 'Zapatillas Running Pro', 'Zapatillas azules running Pro perfectas para largos recorridos', '', '', '', 'zapatillasAdidasRunningAzules', NULL, 4, 2),
-(4, 'Zapatos Traje', 'Zapatos de traje negros', '', '', '', 'zapatosNegros', NULL, 5, 2),
-(5, 'Sandalias rojas', 'Sandalias rojas perfectas para ir por la playa en verano', '', '', '', 'chanclasRojasAdidas', NULL, 6, 2),
+(1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', 's', 'Blanco', 'Nike', '303ar5004-101', '2023-01-01', 2, 2),
+(2, 'Pantalón Vaquero', 'Pantalón vaquero largo para uso diario', 'M', 'Azul Marino', 'Levis', 'gallery_M154028_1', '2023-06-12', 3, 2),
+(3, 'Zapatillas Running Pro', 'Zapatillas azules running Pro perfectas para largos recorridos', '41', '', 'Adidas', 'zapatillasAdidasRunningAzules', NULL, 4, 2),
+(4, 'Zapatos Traje', 'Zapatos de traje negros', '41', '', 'Louis Vuitton', 'zapatosNegros', NULL, 5, 2),
+(5, 'Sandalias rojas', 'Sandalias rojas perfectas para ir por la playa en verano', '41', '', 'Adidas', 'chanclasRojasAdidas', NULL, 6, 2),
 (7, 'Chanclas Nike', 'Chanclas Nike negras pa veranito', '41', 'negro', 'nike', 'chanclaNikeNengra', '2023-05-29', 6, 2),
-(9, 'air force', 'air force nike blancas', '41', 'blanco', 'nike', 'Nike-air-force-1', '2023-05-29', 4, 2);
+(9, 'air force', 'air force nike blancas', '41', 'blanco', 'nike', 'Nike-air-force-1', '2023-05-29', 4, 2),
+(12, 'bolso sobre', 'de sobre pequeño poco espacio', 's', 'fucsia', 'louis voitton', 'bolsos-de-fiesta-tipo-sobre-fucsias-bugambilias-ideales-para-tu-vestido', '2023-06-12', 33, 2);
 
 -- --------------------------------------------------------
 
@@ -150,10 +158,15 @@ CREATE TABLE `prendas_conjuntos` (
 --
 
 INSERT INTO `prendas_conjuntos` (`id_prenda`, `id_conjunto`) VALUES
-(1, 1),
+(1, 3),
+(1, 6),
 (2, 2),
+(2, 3),
+(2, 6),
+(3, 3),
 (4, 2),
-(5, 1);
+(9, 6),
+(12, 3);
 
 -- --------------------------------------------------------
 
@@ -178,7 +191,9 @@ INSERT INTO `prendas_temporadas` (`id_prenda`, `id_temporada`) VALUES
 (4, 4),
 (5, 1),
 (7, 1),
-(9, 4);
+(9, 4),
+(12, 3),
+(12, 4);
 
 -- --------------------------------------------------------
 
@@ -216,12 +231,16 @@ CREATE TABLE `subcategoria` (
 --
 
 INSERT INTO `subcategoria` (`id`, `nombre`, `id_categoria`) VALUES
-(1, 'Chaquetas', 1),
 (2, 'Camisetas', 1),
 (3, 'Pantalones', 1),
 (4, 'Zapatillas', 2),
 (5, 'Zapatos', 2),
-(6, 'Sandalias', 2);
+(6, 'Sandalias', 2),
+(29, 'Botas', 2),
+(30, 'Zapatos con tacón', 2),
+(31, 'Gorretas', 3),
+(32, 'Gafas', 3),
+(33, 'Bolsos', 3);
 
 -- --------------------------------------------------------
 
@@ -364,7 +383,7 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `conjunto`
 --
 ALTER TABLE `conjunto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `historialuso`
@@ -376,7 +395,7 @@ ALTER TABLE `historialuso`
 -- AUTO_INCREMENT de la tabla `prenda`
 --
 ALTER TABLE `prenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -388,7 +407,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `subcategoria`
 --
 ALTER TABLE `subcategoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `temporada`
@@ -444,6 +463,7 @@ ALTER TABLE `prendas_conjuntos`
 -- Filtros para la tabla `prendas_temporadas`
 --
 ALTER TABLE `prendas_temporadas`
+  ADD CONSTRAINT `fk_prendas_temporadas_prenda` FOREIGN KEY (`id_prenda`) REFERENCES `prenda` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prendas_temporadas_ibfk_1` FOREIGN KEY (`id_prenda`) REFERENCES `prenda` (`id`),
   ADD CONSTRAINT `prendas_temporadas_ibfk_2` FOREIGN KEY (`id_temporada`) REFERENCES `temporada` (`id`);
 

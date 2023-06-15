@@ -149,6 +149,8 @@ class Ropa extends Controlador{
             
             $this->datos['ropa'] = $this->ropaModelo->getRopaSolo($this->datos['usuarioSesion']->id, $id_ropa);
         
+            $this->datos['conjuntosPrenda'] = $this->ropaModelo->obtenerConjuntosPorPrenda($this->datos['usuarioSesion']->id, $id_ropa);
+            
             $this->datos['ropasSubcategoria'] = $this->ropaModelo->getSubcategoriaRopas();
             $this->datos['temporadas'] = $this->ropaModelo->getTemporadas();
             $this->datos['temporadaRopa'] = $this->ropaModelo->getTemporadasRopa($id_ropa);

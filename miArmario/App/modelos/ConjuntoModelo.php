@@ -183,6 +183,8 @@ class ConjuntoModelo {
 
     public function editConjunto($datos, $img, $id_usuario, $id_conjunto){ 
 
+        $nombreImg = str_replace(' ', '_', $datos["nombre"]);
+
         if (empty($img)) {
             
             $this->db->query("UPDATE conjunto SET nombre = :nombre_co, descripcion = :descripcion_co, fecha_creacion = :fecha_co 
@@ -210,6 +212,24 @@ class ConjuntoModelo {
                     $this->db->execute();
                 }
 
+
+                // Borramos los registros existentes de prendas_conjuntos asociados a la prenda actual
+                $this->db->query("DELETE FROM prendas_conjuntos WHERE id_conjunto = :id_conjunto");
+                $this->db->bind(':id_conjunto', trim($id_conjunto));
+                $this->db->execute();
+
+                // Insertar cada valor de $datos['prendasSeleccionadas'] en la tabla prendas_conjuntos
+                foreach ($datos['prendasSeleccionadas'] as $prenda) {
+                    $this->db->query("INSERT INTO prendas_conjuntos (id_prenda, id_conjunto) 
+                                        VALUES (:id_prenda, :id_conjunto)");
+
+                    $this->db->bind(':id_conjunto', $id_conjunto);
+                    $this->db->bind(':id_prenda', trim($prenda));
+
+                    $this->db->execute();
+                   
+                }
+
                 return true;
             } else {
                 return false;
@@ -234,7 +254,7 @@ class ConjuntoModelo {
             // Vincular los valores de actualización
             $this->db->bind(':nombre_co', trim($datos['nombre']));
             $this->db->bind(':descripcion_co', trim($datos['descripcion']));
-            $this->db->bind(':imagen_co', trim($img));
+            $this->db->bind(':imagen_co', trim($nombreImg));
             $this->db->bind(':fecha_co', trim($datos['fecha_creacion']));
             $this->db->bind(':id_usuario_co', trim($id_usuario));
             $this->db->bind(':id_conjunto_co', trim($id_conjunto));
@@ -259,6 +279,23 @@ class ConjuntoModelo {
                         $this->db->execute();
                     }
 
+                    // Borramos los registros existentes de prendas_conjuntos asociados a la prenda actual
+                    $this->db->query("DELETE FROM prendas_conjuntos WHERE id_conjunto = :id_conjunto");
+                    $this->db->bind(':id_prenda', trim($id_conjunto));
+                    $this->db->execute();
+
+                    // Insertar cada valor de $datos['prendasSeleccionadas'] en la tabla prendas_conjuntos
+                    foreach ($datos['prendasSeleccionadas'] as $prenda) {
+                        $this->db->query("INSERT INTO prendas_conjuntos (id_prenda, id_conjunto) 
+                                            VALUES (:id_prenda, :id_conjunto)");
+
+                        $this->db->bind(':id_conjunto', $id_conjunto);
+                        $this->db->bind(':id_prenda', trim($prenda));
+
+                        $this->db->execute();
+                    
+                    }
+
                     return true;
                 }else {
                    
@@ -280,6 +317,23 @@ class ConjuntoModelo {
                         $this->db->bind(':id_conjunto', trim($id_conjunto));
                         $this->db->bind(':id_temporada', trim($temporada));
                         $this->db->execute();
+                    }
+
+                    // Borramos los registros existentes de prendas_conjuntos asociados a la prenda actual
+                    $this->db->query("DELETE FROM prendas_conjuntos WHERE id_conjunto = :id_conjunto");
+                    $this->db->bind(':id_prenda', trim($id_conjunto));
+                    $this->db->execute();
+
+                    // Insertar cada valor de $datos['prendasSeleccionadas'] en la tabla prendas_conjuntos
+                    foreach ($datos['prendasSeleccionadas'] as $prenda) {
+                        $this->db->query("INSERT INTO prendas_conjuntos (id_prenda, id_conjunto) 
+                                            VALUES (:id_prenda, :id_conjunto)");
+
+                        $this->db->bind(':id_conjunto', $id_conjunto);
+                        $this->db->bind(':id_prenda', trim($prenda));
+
+                        $this->db->execute();
+                    
                     }
     
                     return true;

@@ -278,4 +278,14 @@ class ZapatoModelo {
         }
     }
 
+    public function obtenerConjuntosPorPrenda($id_usuario, $id_prenda) {
+
+        $this->db->query("SELECT * FROM conjunto WHERE id IN (SELECT id_conjunto FROM prendas_conjuntos WHERE id_prenda = :id_prenda) AND id_usuario = :id_usuario");
+    
+        $this->db->bind(':id_prenda', $id_prenda);
+        $this->db->bind(':id_usuario', $id_usuario);
+    
+        return $this->db->registros();
+    }
+
 }
