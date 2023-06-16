@@ -15,6 +15,46 @@
     </nav>
 
     <div class="row">
+        <div class="col-12 text-center mb-4">
+            <a href="" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#modalAddHistorial">Añadir un evento de uso para este conjunto</a>
+        </div>
+
+            <!-- ++++++++++++++++++++++++++++++++++++++++ Modal Añadir Historial ++++++++++++++++++ -->
+
+            <div class="modal fade" id="modalAddHistorial" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalAddHistorial">
+                                Añade una fecha de uso para este conjunto: "<?php echo $conjunto->nombre ?>"?
+                            </h5>
+                        </div>
+                        <form method="post" action="<?php echo RUTA_URL ?>/historialUso/add_historial/<?php echo $conjunto->id?>">
+                            <div class="modal-body">
+                                <div class="form-group mb-3">
+                                    <label for="nombreHistorial">Nombre:</label>
+                                    <input type="text" class="form-control" id="nombreHistorial" name="nombreHistorial" placeholder="Ingresa el nombre del evento">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="fecha_historial">Fecha de evento:</label>
+                                    <input type="date" class="form-control" id="fecha_historial" name="fecha_historial">
+                                </div>
+                              
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" 
+                                    data-bs-dismiss="modal">Cancelar
+                                </button>
+                                <button type="submit" class="btn btn-success">
+                                    Añadir
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        
         <div class="col-6">
 
             <!-- ++++++++++++++++++++++++++++++++++++++++ carrusel prendas del conjunto ++++++++++++++++++ -->

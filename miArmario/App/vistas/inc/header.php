@@ -22,6 +22,9 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- <div class="d-flex justify-content-center align-items-center mb-3">
+                    <img src="<?php echo RUTA_URL?>/img/percha.png" alt="Logo" style="width: 200px; height: 200px;">
+                </div> -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <?php if (isset($datos['menuActivo']) && $datos['menuActivo'] == 'ropa' ): ?>

@@ -3,7 +3,7 @@
     class Sesion{
 
         public static function crearSesion($usuarioSesion) {
-            $sessionTime = 180000;                  
+            $sessionTime = 1800;                  
             session_set_cookie_params($sessionTime);
             session_start();
             session_regenerate_id();                            // Para crear un id de sesion distinto al antiguo

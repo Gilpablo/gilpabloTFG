@@ -85,7 +85,7 @@ class Login extends Controlador{
             }
 
             
-
+            $this->vista('add_usuario', $this->datos);
             
         }
     }

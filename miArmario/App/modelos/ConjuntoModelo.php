@@ -97,9 +97,12 @@ class ConjuntoModelo {
 
 
 
-    public function getPrendas(){ 
+    public function getPrendas($id_usuario){ 
   
-        $this->db->query("SELECT * FROM prenda;"); 
+        $this->db->query("SELECT * FROM prenda where id_usuario = :id_usuario;"); 
+
+        
+        $this->db->bind(':id_usuario', trim($id_usuario));
  
         return $this->db->registros(); 
  

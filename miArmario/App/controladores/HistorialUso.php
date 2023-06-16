@@ -10,64 +10,76 @@ class HistorialUso extends Controlador{
         $this->datos["menuActivo"] = "historialUso";
 
         
-        
-        // $this->datos["usuarioSesion"]->roles = $this->asesoriaModelo->getRolesProfesor($this->datos["usuarioSesion"]->id_profesor);
-        // $this->datos["usuarioSesion"]->id_rol = obtenerRol($this->datos["usuarioSesion"]->roles);
-
-        // $this->datos['rolesPermitidos'] = [100,200,300];         // Definimos los roles que tendran acceso
-        //                                                     // Comprobamos si tiene privilegios
-        // if (!tienePrivilegios($this->datos['usuarioSesion']->id_rol,$this->datos['rolesPermitidos'])) {
-        //     echo "No tienes privilegios!!!";
-        //     exit();
-        //     // redireccionar('/');
-        // }
     }
 
     public function index(){
 
-        // $this->datos["asesorias"] = $this->asesoriaModelo->getAsesorias();
-        // foreach($this->datos["asesorias"] as $asesoria){
-        //     $asesoria->acciones = $this->asesoriaModelo->getAccionesAsesoria($asesoria->id_asesoria);
-        // }
+        if  (isset($_GET['busqueda']) && !empty($_GET['busqueda'])) {
+            $busqueda = $_GET['busqueda'];
 
-        $this->vista("historialUsos/index",$this->datos);
+            
+            $this->datos['conjuntosHistorial'] = $this->historialUsoModelo->buscarConjuntosHistorial($busqueda, $this->datos['usuarioSesion']->id);
+
+            $this->datos['temporadas'] = $this->historialUsoModelo->getTemporadas();
+        
+            $this->vista("historialUsos/index",$this->datos);  
+          
+        }elseif (isset($_GET['filtros'])) {
+        
+            $filtro = isset($_GET['filtros']) ? $_GET['filtros'] : '';
+
+            $idConjuntosTemporadas = $this->historialUsoModelo->getIdConjuntosTemporadas($filtro);
+            
+
+            if (empty($idConjuntosTemporadas)) {
+
+                $this->datos['conjuntosHistorial'] = $idConjuntosTemporadas;
+
+            }else {
+
+                $this->datos['conjuntosHistorial'] = $this->historialUsoModelo->filtrarConjuntos($idConjuntosTemporadas, $this->datos['usuarioSesion']->id);
+            }
+
+            $this->datos['temporadas'] = $this->historialUsoModelo->getTemporadas();
+
+            $this->vista("historialUsos/index", $this->datos);
+  
+            
+        }else{
+
+            $this->datos['conjuntosHistorial'] = $this->historialUsoModelo->getConjuntosHistorial($this->datos['usuarioSesion']->id);
+
+            $this->datos['prendas'] = $this->historialUsoModelo->getPrendas($this->datos['usuarioSesion']->id);
+            
+            $this->datos['temporadas'] = $this->historialUsoModelo->getTemporadas();
+
+            $this->vista("historialUsos/index",$this->datos);
+        }
+
     }
 
-    public function filtro(){
-        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            $datos = $_GET;
 
-            if (!isset($datos['fecha_ini']) || empty($datos['fecha_ini'])){     // Si fecha_ini esta vacio, le pongo la fecha de 6 meses atras
-                $datos['fecha_ini'] = hoyMenos6Meses();
+    public function add_historial($id_conjunto){
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $evento = $_POST;
+
+            if ($this->historialUsoModelo->addHistorial($evento, $id_conjunto, $this->datos['usuarioSesion']->id)) {
+
+                redireccionar('/conjunto/ver_conjunto/'.$id_conjunto);
+
             }
 
-            if (!isset($datos['fecha_fin']) || empty($datos['fecha_fin'])){     // Si fecha_fin esta vacio, le pongo fecha de hoy
-                $datos['fecha_fin'] = date("Y-m-d");
-            }
+        }
 
+    }
 
-            $this->datos["estados"] = $this->asesoriaModelo->getEstados($datos);    // Cogemos todos los estados existentes
-            if (!isset($datos['buscar'])){              // con esto vemos que entramos a filtro por primera vez, los selecciono todos
-                $datos['estado'] = array_column($this->datos['estados'], 'id_estado');
-            }
+    public function borrar_historial($id){
 
-            if (!isset($datos['estado'])){              // Inicializo si esta vacio para que no de error
-                $datos['estado'] = [];
-            }
+        if ($this->historialUsoModelo->borrarHistorial($id)){
 
-            if(!isset($datos['buscar'])){   // Si no esta definido buscar, lo defino con la cadena vacia
-                $datos['buscar'] = '';
-            }
-
-            $this->datos["filtro"] = $datos;
-            $this->datos["asesorias"] = $this->asesoriaModelo->getAsesoriasFiltro($datos);
-            foreach($this->datos["asesorias"] as $asesoria){
-                $asesoria->acciones = $this->asesoriaModelo->getAccionesAsesoria($asesoria->id_asesoria);
-            }
-
-            $this->vista("asesorias/index",$this->datos);
-        } else {
-
+            redireccionar('/historialUso');   
         }
     }
 

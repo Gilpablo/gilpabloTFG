@@ -38,7 +38,6 @@
         </div>
     <?php endif ?>
 
-    <img src="<?php echo RUTA_URL?>/img/fondoLogin.png" alt="">
 </div>
 
 

@@ -21,8 +21,8 @@
                 <h5>Listado de conjuntos con esta prenda</h5>
                 
                 <?php foreach ($datos["conjuntosPrenda"] as $conjunto) : ?>
-                    <div>
-                        <a href="" class="btn btn-outline-primary"><?php echo $conjunto->nombre?></a>
+                    <div class="pb-2">
+                        <a href="<?php echo RUTA_URL ?>/conjunto/ver_conjunto/<?php echo $conjunto->id?>" class="btn btn-outline-primary"><?php echo $conjunto->nombre?></a>
                     </div>                
                 <?php endforeach ?>
             </div>

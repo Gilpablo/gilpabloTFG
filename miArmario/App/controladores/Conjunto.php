@@ -116,7 +116,7 @@ class Conjunto extends Controlador{
 
         } else{
 
-            $this->datos['prendas'] = $this->conjuntoModelo->getPrendas();
+            $this->datos['prendas'] = $this->conjuntoModelo->getPrendas($this->datos['usuarioSesion']->id);
 
             $this->datos['temporadas'] = $this->conjuntoModelo->getTemporadas();
 
@@ -188,7 +188,7 @@ class Conjunto extends Controlador{
             $this->datos['temporadaConjunto'] = $this->conjuntoModelo->getTemporadasConjunto($id_conjunto);
 
 
-            $this->datos['prendas'] = $this->conjuntoModelo->getPrendas();
+            $this->datos['prendas'] = $this->conjuntoModelo->getPrendas($this->datos['usuarioSesion']->id, $id_conjunto);
 
             $this->datos["ropasSubcategorias"] = $this->conjuntoModelo->getRopaSubcategorias();
             $this->datos["zapatosSubcategorias"] = $this->conjuntoModelo->getZapatosSubcategorias();
