@@ -61,12 +61,22 @@
                             <a class="nav-link" href="<?php echo RUTA_URL ?>/historialUso">Historial de Uso</a>
                         <?php endif ?>
                     </li>
+                    <?php  if (tienePrivilegios($datos['usuarioSesion']->id, [2,3])):?>
+						<li class="nav-item">
+                        <?php if (isset($datos['menuActivo']) && $datos['menuActivo'] == 'verCliente' ): ?>
+                                <a class="nav-link active" href="<?php echo RUTA_URL ?>/verCliente">Ver Clientes</a>
+                            <?php else: ?>
+                                <a class="nav-link" href="<?php echo RUTA_URL ?>/verCliente">Ver Clientes</a>
+                            <?php endif ?>
+                        </li>
+					<?php endif ?>
                 </ul>
                 
 
                 <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-                    <li class="navbar-text">
-                        <?php echo $datos['usuarioSesion']->username ?>
+                    <li class="nav-item">
+                    <a class="nav-link" aria-current="page" 
+                            href="<?php echo RUTA_URL ?>/inicio/editar_usuario"><?php echo $datos['usuarioSesion']->username ?></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" 
