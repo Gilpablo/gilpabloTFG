@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-06-2023 a las 02:34:27
+-- Tiempo de generación: 20-06-2023 a las 09:57:43
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -63,7 +63,6 @@ CREATE TABLE `conjunto` (
 INSERT INTO `conjunto` (`id`, `nombre`, `descripcion`, `fecha_creacion`, `imagen_conjunto`, `id_usuario`) VALUES
 (1, 'Conjunto de piscina', 'Conjunto para días calurosos', '2023-06-13', '', 2),
 (2, 'Conjunto de Invierno', 'Conjunto para días fríos', '2023-06-13', '', 2),
-(3, 'Conjunto Chandal', 'Conjunto Chandal para dia chill con amigos', '2023-06-13', 'Conjunto_Chandal_', 2),
 (6, 'Conjunto dia normal clase', 'Conjunto dia normal clase', '2023-06-14', 'Conjunto_dia_normal_clase', 2);
 
 -- --------------------------------------------------------
@@ -84,8 +83,6 @@ CREATE TABLE `conjuntos_temporadas` (
 INSERT INTO `conjuntos_temporadas` (`id_conjunto`, `id_temporada`) VALUES
 (1, 1),
 (2, 2),
-(3, 2),
-(3, 3),
 (6, 3);
 
 -- --------------------------------------------------------
@@ -95,9 +92,10 @@ INSERT INTO `conjuntos_temporadas` (`id_conjunto`, `id_temporada`) VALUES
 --
 
 CREATE TABLE `historialuso` (
-  `id` int(11) NOT NULL,
+  `id_historial` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `id_conjunto` int(11) NOT NULL,
+  `evento_dia` varchar(200) NOT NULL,
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -105,9 +103,8 @@ CREATE TABLE `historialuso` (
 -- Volcado de datos para la tabla `historialuso`
 --
 
-INSERT INTO `historialuso` (`id`, `id_usuario`, `id_conjunto`, `fecha`) VALUES
-(1, 2, 1, '2022-07-15'),
-(2, 2, 2, '2022-12-20');
+INSERT INTO `historialuso` (`id_historial`, `id_usuario`, `id_conjunto`, `evento_dia`, `fecha`) VALUES
+(3, 2, 6, 'Para el lunes de clase', '2023-06-19');
 
 -- --------------------------------------------------------
 
@@ -136,7 +133,7 @@ INSERT INTO `prenda` (`id`, `nombre`, `descripcion`, `talla`, `color`, `marca`, 
 (1, 'Camiseta Manga Corta', 'Camiseta de manga corta para verano', 's', 'Blanco', 'Nike', '303ar5004-101', '2023-01-01', 2, 2),
 (2, 'Pantalón Vaquero', 'Pantalón vaquero largo para uso diario', 'M', 'Azul Marino', 'Levis', 'gallery_M154028_1', '2023-06-12', 3, 2),
 (3, 'Zapatillas Running Pro', 'Zapatillas azules running Pro perfectas para largos recorridos', '41', '', 'Adidas', 'zapatillasAdidasRunningAzules', NULL, 4, 2),
-(4, 'Zapatos Traje', 'Zapatos de traje negros', '41', '', 'Louis Vuitton', 'zapatosNegros', NULL, 5, 2),
+(4, 'Zapatos Traje', 'Zapatos de traje negros', '41', 'Negro', 'Louis Vuitton', 'zapatosNegros', '1970-01-01', 5, 2),
 (5, 'Sandalias rojas', 'Sandalias rojas perfectas para ir por la playa en verano', '41', '', 'Adidas', 'chanclasRojasAdidas', NULL, 6, 2),
 (7, 'Chanclas Nike', 'Chanclas Nike negras pa veranito', '41', 'negro', 'nike', 'chanclaNikeNengra', '2023-05-29', 6, 2),
 (9, 'air force', 'air force nike blancas', '41', 'blanco', 'nike', 'Nike-air-force-1', '2023-05-29', 4, 2),
@@ -158,15 +155,11 @@ CREATE TABLE `prendas_conjuntos` (
 --
 
 INSERT INTO `prendas_conjuntos` (`id_prenda`, `id_conjunto`) VALUES
-(1, 3),
 (1, 6),
 (2, 2),
-(2, 3),
 (2, 6),
-(3, 3),
 (4, 2),
-(9, 6),
-(12, 3);
+(9, 6);
 
 -- --------------------------------------------------------
 
@@ -212,7 +205,8 @@ CREATE TABLE `rol` (
 
 INSERT INTO `rol` (`id`, `nombre`) VALUES
 (1, 'Administrador'),
-(2, 'Usuario');
+(2, 'Usuario'),
+(3, 'SuperUser');
 
 -- --------------------------------------------------------
 
@@ -261,7 +255,7 @@ INSERT INTO `temporada` (`id`, `nombre`) VALUES
 (1, 'verano'),
 (2, 'invierno'),
 (3, 'primavera/otono'),
-(4, 'todo');
+(4, 'cualquiera');
 
 -- --------------------------------------------------------
 
@@ -284,10 +278,10 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nombre`, `apellidos`, `correo`, `username`, `password`, `id_rol`) VALUES
-(1, 'Juan', 'Perez', 'juan@example.com', 'juan', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 1),
-(2, 'Gil Pablo', 'Blanco Pérez', 'gilpablo@example.com', 'gilpablo', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 2),
-(4, 'Laura', 'Espinosa Bosque', 'laura@example.com', 'laura', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 2),
-(6, 'Diego', 'Blanco Pérez', 'diego@example.com', 'diego', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 2);
+(1, 'Juan', 'Perez', 'juan@example.com', 'juan', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 3),
+(2, 'Gil Pablo', 'Blanco Pérez', 'gilpablo@example.com', 'gilpablo', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 1),
+(6, 'Diego', 'Blanco Pérez', 'diego@example.com', 'diego', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 2),
+(8, 'prueba', 'pruebasa', 'prueba@example.es', 'prueba', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 3);
 
 --
 -- Índices para tablas volcadas
@@ -317,7 +311,7 @@ ALTER TABLE `conjuntos_temporadas`
 -- Indices de la tabla `historialuso`
 --
 ALTER TABLE `historialuso`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`id_historial`),
   ADD KEY `fk_historialuso1` (`id_usuario`),
   ADD KEY `fk_historialuso2` (`id_conjunto`);
 
@@ -389,25 +383,25 @@ ALTER TABLE `conjunto`
 -- AUTO_INCREMENT de la tabla `historialuso`
 --
 ALTER TABLE `historialuso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `prenda`
 --
 ALTER TABLE `prenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `subcategoria`
 --
 ALTER TABLE `subcategoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `temporada`
@@ -419,7 +413,7 @@ ALTER TABLE `temporada`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas

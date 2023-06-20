@@ -19,6 +19,9 @@
             <div class="col-lg-6">
                 <form class="input-group" method="GET" action="">
                     <div class="input-group pb-2">
+                        <div class="input-group-append">
+                            <a class="btn btn-success btn-lg" href="<?php echo RUTA_URL ?>/verCliente/add_cliente/"><i class="bi bi-plus-square"></i></a>
+                        </div>
                         <input type="text" class="form-control" id="busqueda" name="busqueda" placeholder="Buscar...">
                         <div class="input-group-append">
                             <button class="btn btn-primary btn-lg" type="submit" >Buscar</button>
@@ -68,8 +71,9 @@
                 <td><?php echo $clientes->apellidos ?></td>
                 <td><?php echo $clientes->correo ?></td>
                 <td><?php echo $clientes->username ?></td>
-                <td class="text-center"><a class="btn btn-outline-warning" href="<?php echo RUTA_URL ?>/verCliente/editar_cliente/<?php echo $clientes->id ?>"><i class="bi bi-pencil-square"></i></i></a>
-                <a class="btn btn-outline-danger" href="<?php echo RUTA_URL ?>/verCliente/borrar_cliente/<?php echo $clientes->id?>"><i class="bi bi-trash-fill"></i></a>
+                <td class="text-center">
+                    <a class="btn btn-outline-warning" href="<?php echo RUTA_URL ?>/verCliente/editar_cliente/<?php echo $clientes->id ?>"><i class="bi bi-pencil-square"></i></a>
+                    <a class="btn btn-outline-danger" href="<?php echo RUTA_URL ?>/verCliente/borrar_cliente/<?php echo $clientes->id?>"><i class="bi bi-trash-fill"></i></a>
                 </td>
             </tr>
 

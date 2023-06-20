@@ -93,6 +93,27 @@ class VerClienteModelo {
 
     }
 
+    public function addCliente($datos){
+
+        $this->db->query("INSERT INTO usuario (nombre, apellidos, correo, username, password , id_rol) 
+                            VALUES (:nombre, :apellidos, :correo, :username, sha2(:password,256), :id_rol);" );
+    
+        // Vincular los valores de actualización
+        $this->db->bind(':nombre', trim($datos['nombre']));
+        $this->db->bind(':apellidos', trim($datos['apellidos']));
+        $this->db->bind(':correo', trim($datos['correo']));
+        $this->db->bind(':username', trim($datos['username']));
+        $this->db->bind(':password', trim($datos['contra']));
+        $this->db->bind(':id_rol', trim($datos['rol']));
+
+        if ($this->db->execute()) {
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
     public function borrarCliente($id){
 
         $this->db->query("DELETE FROM usuario WHERE id = :id");

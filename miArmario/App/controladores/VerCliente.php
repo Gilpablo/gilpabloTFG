@@ -67,6 +67,30 @@ class VerCliente extends Controlador{
 
     }
 
+    public function add_cliente(){
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $cliente = $_POST;
+
+            // print_r($nuevosDatos); exit();
+
+            if ($this->verClienteModelo->addCliente($cliente)) {
+
+                redireccionar('/verCliente');
+
+            }
+
+        }else {
+
+            $this->datos['roles'] = $this->verClienteModelo->getRoles();
+
+            $this->vista("verClientes/addCliente",$this->datos);
+
+        }
+
+    }
+
     public function borrar_cliente($id){
 
         if ($this->verClienteModelo->borrarCliente($id)){

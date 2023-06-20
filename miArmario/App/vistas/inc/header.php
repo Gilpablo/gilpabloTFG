@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="<?php echo RUTA_URL?>/css/estilos.css">
     <title><?php echo NOMBRE_SITIO ?></title>
 </head>
-<body style="background-image: url(<?php echo RUTA_URL?>/img/fondo_miArmario.png);">
+<body style="background-color:#F6F0EB;">
 
 
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color:#545454;">

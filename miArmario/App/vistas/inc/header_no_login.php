@@ -13,7 +13,7 @@
     <title><?php echo NOMBRE_SITIO ?></title>
     
 </head>
-<body style="background-image: url(<?php echo RUTA_URL?>/img/fondo_miArmario.png);">
+<body style="background-color:#F6F0EB;">
 
 
 
